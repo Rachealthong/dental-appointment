@@ -4,21 +4,15 @@
 <title>Service Detail Page</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
 <div id="wrapper">
     <header>
+    <div id="navbar"></div>
     </header>
-    <nav>
-        <img src="Assets/logo.jpg" width="60px" alt="Bright Smiles Dental"> &nbsp;
-        <a href="index.html">Home</a> &nbsp;
-        <a href="dentists.html">Dentists</a> &nbsp;
-        <a href="services.html">Services</a> &nbsp;
-        <a href="book_appointment.php">Book Appointment</a> &nbsp;
-        <a href="manage_booking.php">Manage Booking</a> &nbsp;
-        <a href="contact.html">Contact</a>
-        <button id="login">Log In</button>
-    </nav>
     <?php
     $services = [
         'service1' => [
@@ -58,17 +52,15 @@
     ?>
     <!--Make this a nice box-->
     <a href="book_appointment.php">Book Appointment</a>
-<footer>
-        <small>
-            <i>Copyright &copy; 2024 Bright Smiles Dental</i> &nbsp;
-            <a href="index.html">Home</a> &nbsp;
-            <a href="dentists.html">Dentists</a> &nbsp;
-            <a href="services.html">Services</a> &nbsp;
-            <a href="book_appointment.php">Book Appointment</a> &nbsp;
-            <a href="manage_booking.php">Manage Booking</a> &nbsp;
-            <a href="contact.html">Contact</a>
-        </small>
-    </footer>
+    <div id="footer"></div>
 </div>
+<script>
+    fetch('Elements/navbar.html')
+        .then(response => response.text())
+        .then(data => document.getElementById('navbar').innerHTML = data);
+    fetch('Elements/footer.html')
+        .then(response => response.text())
+        .then(data => document.getElementById('footer').innerHTML = data);
+</script>
 </body>
 </html>
