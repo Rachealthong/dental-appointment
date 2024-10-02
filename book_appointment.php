@@ -20,45 +20,54 @@ $is_logged_in = true;
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
+<div id="wrapper">
     <header>
     <div id="navbar"></div>
     </header>
     <main>
         <?php if ($is_logged_in): ?>
-            <h2>Request an Appointment</h2>
-            <form method="post" action="submit_appointment.php">
+            <div id="aboutus">
+                <img id="aboutus_img" class="img_filter" src="Assets/requestappointment.webp">
+                <div class="bottom_centered"><h1>Request an Appointment</h1></div>
+            </div> 
+            <div id="appointment_form">
+            <form id="appointment" method="post" action="submit_appointment.php">
                 <label for="dentist">Request an Appointment with: </label>
                 <select id="dentist" name="dentist" required>
                     <option value="eunice_seng">Dr Eunice Seng</option>
                     <option value="thong_peiyu">Dr Thong Peiyu</option>
                     <option value="ali_abu">Dr Ali Abu Bin Akau</option>
                 </select>
-                <br><br>
+                <br>
                 <label for="service">Choose a Service: </label>
                 <select id="service" name="service" required>
                     <option value="service1">Service 1</option>
                     <option value="service2">Service 2</option>
                     <option value="service3">Service 3</option>
                 </select>
-                <br><br>
+                <br>
                 <label for="date">Preferred Date:</label>
                 <input type="date" id="date" name="date" required>
-                <br><br>
+                <br>
                 <label for="time">Preferred Time:</label>
                 <input type="time" id="time" name="time" required>
-                <br><br>
+                <br>
                 <label for="remarks">Remarks:</label>
                 <textarea id="remarks" name="remarks" rows="4" cols="50"></textarea>
-                <br><br>
-                <button type="reset">Clear</button>
-                <button type="submit">Submit</button>
+                <br>
+                <div id="reset_submit">
+                    <button type="reset">Clear</button>
+                    <button type="submit">Submit</button>
+                </div>
             </form>
+            </div>
         <?php else: ?>
             <h2>Please Log In</h2>
             <p>You need to log in to book an appointment. <a href="login.php">Log in here</a>.</p>
         <?php endif; ?>
     </main>
     <div id="footer"></div>
+</div>
 </div>
 <script>
     fetch('Elements/navbar.html')

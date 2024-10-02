@@ -1,6 +1,9 @@
 body {
   margin:0px;
-  width: 100%;
+  width: 100%; 
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  display: flex;
 }
 
 a {
@@ -162,6 +165,80 @@ footer a {
   display: flex; /* Optional: if you want to control map alignment further */
   justify-content: center; /* Center the iframe if needed */
   align-items: center; /* Center vertically if height is constrained */
+}
+
+#appointment_form {
+  margin:10px 50px;
+  margin-left: auto;
+  margin-right: auto;
+  width:60%;
+  padding: 10px 5px 10px 5px;
+  display: flex;
+  flex:1;
+  flex-direction: column;
+  align-items: center;
+}
+
+#appointment {
+	 width:50%;
+    padding: 10px; 
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+#appointment label {
+	    width: 300px; 
+	    text-align: left; 
+	    padding-right: 10px;
+	    margin-top: 10px;
+      display: block; 
+}
+
+#appointment select, input, textarea { 
+    margin-top: 10px; 
+    display: block;
+    padding: 5px;
+    }
+
+#reset_submit button {
+  justify-content: center;
+  padding:5px 15px 5px 15px;
+  margin-right: 20px;
+  border-radius: 2px;
+  border: none;
+  font-family: "Poppins";
+  font-size: 15px;
+}
+
+#login_form {
+  margin: auto;
+  width: 300px;
+  display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center;
+    padding: 50px; 
+    border: 1px solid #ccc; /* Optional: Add a border */
+    border-radius: 5px; /* Optional: Rounded corners */
+    background-color: #f9f9f9; /* Optional: Background color */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#login input, textarea { 
+  margin-top: 10px; 
+  display: block;
+  padding: 5px;
+  }
+
+#login button {
+  justify-content: center;
+  padding:5px 15px 5px 15px;
+  margin-right: 20px;
+  border-radius: 2px;
+  border: none;
+  font-family: "Poppins";
+  font-size: 15px;
 }
 
 .poppins-thin {
