@@ -1,10 +1,17 @@
 <html>
 <head>
     <title>Registration Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h2>Create an Account</h2>
-    <form method="post" action="register.php">
+    <div id="create_account">
+    
+    <form id="create_account_form" method="post" action="register.php">
+        <h2>Create an Account</h2>
+        <br>
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
         <br>
@@ -36,6 +43,8 @@
         <label for="dob">Date of Birth:</label>
         <input type="date" id="dob" name="dob" required>
         <br>
-        <button type="submit">Register</button>
+        <button id="register" type="submit">Register</button>
     </form>
+    
+    </div>
 </html>
