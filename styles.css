@@ -223,7 +223,7 @@ footer a {
   
   width: 300px;
   display: flex; /* Use flexbox for centering */
-    justify-content: center; Center horizontally 
+    justify-content: center; /*Center horizontally */
     align-items: center; 
     padding: 50px; 
     border: 1px solid #ccc; /* Optional: Add a border */

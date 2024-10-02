@@ -24,17 +24,6 @@
                 Our aim is to provide the highest quality dental care to every generation of our patients. 
                 Our clinic is fully equipped with modern facilities, complemented with dedicated staffs and dental clinicians who will strive to deliver the best 
                 value and dental care to our patients. 
-                <!--
-                <br><br>
-                Our clinic is highly accessible as it is conveniently located inside Nanyang Technological University, 
-                which is right in front of University Health Service bus stop. 
-                <br><br>
-                We are open daily except Saturday, Sunday and Public Holiday.
-                <br><br>
-                We specialise in a wide array of dental services such as, but not limited to Ceramic Braces Treatment, 
-                Cosmetic Dentistry, Dental Implants Treatment, Metal Braces Treatment, Orthodontics Treatment, 
-                Root Canal Treatment & Wisdom Teeth Removal. Do get an appointment with our resident dentists today!
-                -->
             </p>
         </div>
     </div>
@@ -42,18 +31,15 @@
     <!-- make these 3 boxes next to each other -->
     <div class="container">
         <div class="box">
-            <img src="Assets/temp.png" width="200px" alt="temp">
-            <a href="services.html"><h3>Services</h3></a>
+            <a href="services.html"><img src="Assets/temp.png" width="200px" alt="temp"><h3>Services</h3></a>
             <p>There are many services in the bright smiles dental clinic.</p>
         </div>
         <div class="box">
-            <img src="Assets/temp.png" width="200px" alt="temp">
-            <a href="dentists.html"><h3>Dentists</h3></a>
+            <a href="dentists.html"><img src="Assets/temp.png" width="200px" alt="temp"><h3>Dentists</h3></a>
             <p>There are 3 Dentists in the bright smiles dental clinic.</p>
         </div>
         <div class="box">
-            <img src="Assets/temp.png" width="200px" alt="temp">
-            <a href="book_appointment.html"><h3>Book An Appointment</h3></a>
+            <a href="book_appointment.html"><img src="Assets/temp.png" width="200px" alt="temp"><h3>Book An Appointment</h3></a>
             <p>Book an appointment with the dentists in the bright smiles dental clinic.
             </p>
         </div>
@@ -61,7 +47,7 @@
     <div id="footer"></div>
 </div>
 <script>
-    fetch('Elements/navbar.html')
+    fetch('Elements/navbar.php')
         .then(response => response.text())
         .then(data => document.getElementById('navbar').innerHTML = data);
     fetch('Elements/footer.html')

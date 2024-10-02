@@ -1,7 +1,10 @@
+<?php
+session_start();
+?>
+
 <nav>
     <img src="Assets/Minimalist Dental Teeth Medical Clinic Logo (1).png" height="80px" alt="Bright Smiles Dental">
     <ul>
-        
         <li><a href="index.html">Home</a></li>
         <li><a href="dentists.html">Dentists</a></li>
         <li><a href="services.html">Services</a></li>
@@ -9,7 +12,18 @@
         <li><a href="manage_booking.php">Manage Booking</a></li>
         <li><a href="contact.html">Contact</a></li>
     </ul> 
-    <div id="login_nav">
-    <a href="login.php">Log In</a>
-    </div>
+    <?php 
+    if (isset($_SESSION['patient_id'])){
+        $email = $_SESSION['email'];
+        echo "$email &nbsp;"; 
+        echo "<div id='login_nav'>
+            <a href='logout.php'>Log Out</a>
+            </div>";
+    }
+    else{
+        echo "<div id='login_nav'>
+            <a href='login.html'>Log In</a>
+            </div>";
+    }
+    ?>
 </nav>
