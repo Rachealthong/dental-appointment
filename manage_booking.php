@@ -1,11 +1,8 @@
 <?php
-//session_start();
+session_start();
 
 // Check if the user is logged in
-//$is_logged_in = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true; 
-
-//because havent set up the login system yet, so we will hardcode it to true
-$is_logged_in = true;
+$is_logged_in = isset($_SESSION['patient_id']);
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +32,7 @@ $is_logged_in = true;
             </p>
         <?php else: ?>
             <h2>Please Log In</h2>
-            <p>You need to log in to book an appointment. <a href="login.php">Log in here</a>.</p>
+            <p>You need to log in to manage booked appointments. <a href="login.html">Log in here</a>.</p>
         <?php endif; ?>
     </main>
     <div id="footer"></div>
