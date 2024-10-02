@@ -69,7 +69,7 @@ nav a {text-decoration: none;
 
 }
 
-#login {
+#login_nav {
 float:right;
 justify-content: center;
 padding:5px 15px 5px 15px;
@@ -78,6 +78,11 @@ border-radius: 2px;
 border: none;
 font-family: "Poppins";
 font-size: 15px;
+background-color: #386da1;
+}
+
+#login_nav a {
+  color:#FFFFFF;
 }
 
 #aboutus_img {
@@ -214,10 +219,12 @@ footer a {
 
 #login_form {
   margin: auto;
+  margin-top: 80px;
+  
   width: 300px;
   display: flex; /* Use flexbox for centering */
-    justify-content: center; /* Center horizontally */
-    align-items: center;
+    justify-content: center; Center horizontally 
+    align-items: center; 
     padding: 50px; 
     border: 1px solid #ccc; /* Optional: Add a border */
     border-radius: 5px; /* Optional: Rounded corners */
@@ -229,6 +236,7 @@ footer a {
   margin-top: 10px; 
   display: block;
   padding: 5px;
+  width: 200px;
   }
 
 #login button {
