@@ -37,21 +37,28 @@
     $service = $services[$service_id] ?? null;
 
     if ($service) {
-        echo "<div>";
+        echo "<div class='container_service'>";
+
+        echo "<div id='service_image'>";
         echo "<!--image of the service on top-->";
         echo "<img src='{$service['image']}' width='200px' alt='temp'><br>";
         echo "</div>";
 
-        echo "<div>";
+        echo "<div id='service_detail'>";
         echo "<h1>{$service['name']}</h1>";
         echo "<p>{$service['description']}</p>";
+        echo "<br><br>";
+        echo "<div id='book_appointment'>";
+        echo "<a href='book_appointment.php'>Book Appointment</a>";
+        echo "</div>";
+        echo "</div>";
+
         echo "</div>";
     } else {
         echo "<p>Service not found.</p>";
     }
     ?>
-    <!--Make this a nice box-->
-    <a href="book_appointment.php">Book Appointment</a>
+
     <div id="footer"></div>
 </div>
 <script>

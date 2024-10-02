@@ -40,21 +40,28 @@
     $dentist = $dentists[$dentist_id] ?? null;
 
     if ($dentist) {
-        echo "<div>";
+        echo "<div class='container_service'>";
+
+        echo "<div id='service_image'>";
         echo "<!--image of the dentist on the left-->";
         echo "<img src='{$dentist['image']}' width='200px' alt='temp'><br>";
         echo "</div>";
 
-        echo "<div>";
+        echo "<div id='service_detail'>";
         echo "<h1>{$dentist['name']}</h1>";
         echo "<p>{$dentist['bio']}</p>";
+        echo "<br><br>";
+
+        echo "<div id='book_appointment'>";
+        echo "<a href='book_appointment.php'>Book Appointment</a>";
+        echo "</div>";
+
+        echo "</div>";
         echo "</div>";
     } else {
         echo "<p>Dentist not found.</p>";
     }
     ?>
-    <!--Make this a nice box-->
-    <a href="book_appointment.php">Book Appointment</a>
     <div id="footer"></div>
 </div>
 <script>

@@ -241,6 +241,42 @@ footer a {
   font-size: 15px;
 }
 
+#service_image {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+#service_image img {
+  width: 80%;
+  height:auto;
+}
+
+#service_detail {
+  padding:10px;
+  width: 50%;
+}
+
+#book_appointment {
+  padding:20px;
+  background-color: #386da1;
+  width: 200px;
+  text-align: center;
+}
+
+#book_appointment a {
+  color:#FFFFFF;
+}
+
+.container_service {
+  padding : 20px;
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  margin: auto;
+  align-items: center;
+}
+
 .poppins-thin {
     font-family: "Poppins", sans-serif;
     font-weight: 100;
