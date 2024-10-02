@@ -46,7 +46,7 @@
         <button id="register" type="submit">Register</button>
     </form>
     <script type = "text/javascript">
-        document.getElementById("registrationForm").onsubmit = validateForm;
+        document.getElementById("create_account_form").onsubmit = validateForm;
     </script>
 </html>
 
