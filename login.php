@@ -1,25 +1,3 @@
-<?php
-//ignore first
-session_start();
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    // Dummy credentials for demonstration
-    $valid_username = 'user';
-    $valid_password = 'password';
-
-    if ($username == $valid_username && $password == $valid_password) {
-        $_SESSION['loggedin'] = true;
-        header('Location: book_appointment.php');
-        exit;
-    } else {
-        $error = 'Invalid username or password';
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,8 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2>Login</h2>
         <br>
         <?php if (isset($error)) echo "<p>$error</p>"; ?>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
         <br>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
@@ -48,3 +26,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </body>
 </html>
+
+<?php
+include 'dbconnect.php';
+session_start();
+
+if (isset($_POST['email']) && isset($_POST['password'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $password = md5($password);
+    $sql = "SELECT * FROM Patients WHERE patient_email = '$email' AND patient_password = '$password'";
+    
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $_SESSION['patient_id'] = $row['patient_id'];
+        header('Location: book_appointment.php');
+        exit;
+    } else {
+        echo "<script type='text/javascript'>
+        alert('Login failed.');
+        </script>";
+    }
+}
