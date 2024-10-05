@@ -34,7 +34,7 @@ $result = $conn->query($sql);
 if ($result) {
     echo "<script type='text/javascript'>
         alert('Welcome, " . $name . "! You are now registered.');
-        window.location.href = 'login.php';
+        window.location.href = 'login.html';
     </script>";
 } else {
     echo "<script type='text/javascript'>
