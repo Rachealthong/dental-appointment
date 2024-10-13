@@ -2,8 +2,9 @@ body {
   margin:0px;
   width: 100%; 
   font-family: 'Poppins', sans-serif;
-  min-height: 160vh;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 a {
@@ -15,7 +16,7 @@ h2 {
   margin-block-end: 0.2em;
 }
 #wrapper { background-color:#FFFFFF; 
-    margin: auto;
+    
     min-width:850px;
     width: 100%;
     font-family: "Poppins";
@@ -207,6 +208,7 @@ footer a {
     padding: 5px;
     }
 
+
 #reset_submit button {
   justify-content: center;
   padding:5px 15px 5px 15px;
@@ -327,6 +329,17 @@ footer a {
   background-color: #386da1;
   color: #FFFFFF;
   margin:auto;
+}
+
+#booking_confirmation {
+margin:0px;
+
+padding: 10px 5px 10px 5px;
+display: flex;
+flex:1;
+flex-direction: column;
+align-items: center;
+background-color: #ded9c4;
 }
 
 .poppins-thin {

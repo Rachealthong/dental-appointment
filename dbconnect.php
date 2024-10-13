@@ -1,10 +1,9 @@
 <?php
 
 $servername = "localhost";
-$username = "root"; // Replace with your MySQL username
-$password = ""; // Replace with your MySQL password
-$dbname = "DentalClinic"; // Replace with your MySQL database name
-
+$username = "root";
+$password = ""; 
+$dbname = "DentalClinic";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
