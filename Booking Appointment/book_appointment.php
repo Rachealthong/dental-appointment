@@ -91,7 +91,7 @@ if ($conn->connect_error) {
             </div>
         <?php else: ?>
             <h2>Please Log In</h2>
-            <p>You need to log in to book an appointment. <a href="login.html">Log in here</a>.</p>
+            <p>You need to log in to book an appointment. <a href="../login.html">Log in here</a>.</p>
         <?php endif; ?>
     </main>
     <div id="footer"></div>
