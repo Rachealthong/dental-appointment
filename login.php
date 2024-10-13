@@ -16,7 +16,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         $_SESSION['patient_id'] = $row['patient_id'];
         $email_parts = explode('@', $email);
         $_SESSION['email'] = $email_parts[0];
-        header('Location: book_appointment.php');
+        header('Location: ../Booking Appointment/book_appointment.php');
         exit;
     } else {
         echo "<script type='text/javascript'>
