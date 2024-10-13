@@ -17,12 +17,12 @@ session_start();
         $email = $_SESSION['email'];
         echo "$email &nbsp;"; 
         echo "<div id='login_nav'>
-            <a href='logout.php'>Log Out</a>
+            <a href='../logout.php'>Log Out</a>
             </div>";
     }
     else{
         echo "<div id='login_nav'>
-            <a href='login.html'>Log In</a>
+            <a href='../login.html'>Log In</a>
             </div>";
     }
     ?>
