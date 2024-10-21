@@ -1,5 +1,5 @@
 <?php
-include 'dbconnect.php';
+include '../dbconnect.php';
 if (isset($_POST['submit'])) {
     if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['password']) 
     || empty($_POST['confirmpw']) || empty($_POST['phoneno']) || empty($_POST['gender'])

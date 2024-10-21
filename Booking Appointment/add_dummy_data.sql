@@ -7,7 +7,7 @@ VALUES
 INSERT INTO services (service_type) 
 VALUES 
 ('General Dentistry'),
-('Dental Braces',),
+('Dental Braces'),
 ('Scaling and Polishing');
 
 INSERT INTO schedule (dentist_id, available_date, available_time, availability_status)

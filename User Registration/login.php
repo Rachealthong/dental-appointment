@@ -1,5 +1,5 @@
 <?php
-include 'dbconnect.php';
+include '../dbconnect.php';
 session_start();
 
 if (isset($_POST['email']) && isset($_POST['password'])) {

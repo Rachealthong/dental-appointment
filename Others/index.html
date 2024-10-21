@@ -3,7 +3,7 @@
 <head>
 <title>Main Page</title>
 <meta charset="utf-8">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
     </header>
     <div style="clear: both;"></div>
     <div id="aboutus">
-        <img id=aboutus_img src="Assets/dental_background (1).jpg">
+        <img id=aboutus_img src="../Assets/dental_background (1).jpg">
         <div id="aboutus_text">
             <h1>About Us</h1>
             <p>
@@ -31,15 +31,15 @@
     <!-- make these 3 boxes next to each other -->
     <div class="container">
         <div class="box">
-            <a href="services.html"><img src="Assets/temp.png" width="200px" alt="temp"><h3>Services</h3></a>
+            <a href="../Services/services.html"><img src="../Assets/temp.png" width="200px" alt="temp"><h3>Services</h3></a>
             <p>There are many services in the bright smiles dental clinic.</p>
         </div>
         <div class="box">
-            <a href="dentists.html"><img src="Assets/temp.png" width="200px" alt="temp"><h3>Dentists</h3></a>
+            <a href="../Dentists/dentists.html"><img src="../Assets/temp.png" width="200px" alt="temp"><h3>Dentists</h3></a>
             <p>There are 3 Dentists in the bright smiles dental clinic.</p>
         </div>
         <div class="box">
-            <a href="book_appointment.html"><img src="Assets/temp.png" width="200px" alt="temp"><h3>Book An Appointment</h3></a>
+            <a href="../Booking Appointment/book_appointment.php"><img src="../Assets/temp.png" width="200px" alt="temp"><h3>Book An Appointment</h3></a>
             <p>Book an appointment with the dentists in the bright smiles dental clinic.
             </p>
         </div>
@@ -47,10 +47,10 @@
     <div id="footer"></div>
 </div>
 <script>
-    fetch('Elements/navbar.php')
+    fetch('../Elements/navbar.php')
         .then(response => response.text())
         .then(data => document.getElementById('navbar').innerHTML = data);
-    fetch('Elements/footer.html')
+    fetch('../Elements/footer.html')
     .then(response => response.text())
     .then(data => document.getElementById('footer').innerHTML = data);
 </script>
