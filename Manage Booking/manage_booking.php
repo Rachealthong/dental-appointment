@@ -5,7 +5,6 @@ $is_logged_in = isset($_SESSION['patient_id']);
 $patient_id = $_SESSION['patient_id'];  // Assuming patient ID is stored in session
 
 // Prepare the SQL query to fetch appointment data
-// Prepare the SQL query to fetch appointment data
 $sql = "SELECT a.appointment_id, d.dentist_name, s.service_type, 
                sch.available_date, sch.available_time, a.remarks 
         FROM appointments a
@@ -26,7 +25,22 @@ $result = $stmt->get_result();
 // Fetch the data
 $appointment = $result->fetch_assoc();
 
+// Prepare the SQL query to fetch past appointments
+$sql_past = "SELECT a.appointment_id, d.dentist_name, s.service_type, 
+                     sch.available_date, sch.available_time, a.remarks 
+              FROM appointments a
+              JOIN schedule sch ON a.schedule_id = sch.schedule_id
+              JOIN dentists d ON sch.dentist_id = d.dentist_id
+              JOIN services s ON a.service_id = s.service_id
+              WHERE a.patient_id = ? AND a.cancelled = 0 AND a.rescheduled = 0
+              AND sch.available_date < CURDATE()  -- Ensure we get past appointments
+              ORDER BY sch.available_date DESC, sch.available_time DESC";  // Order by date and time
 
+// Prepare and execute the statement for past appointments
+$stmt_past = $conn->prepare($sql_past);
+$stmt_past->bind_param("i", $patient_id);  // Bind the patient ID to the query
+$stmt_past->execute();
+$result_past = $stmt_past->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -51,11 +65,13 @@ $appointment = $result->fetch_assoc();
                 <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
                 <div class="bottom_centered"><h1>Manage Booking</h1></div>
             </div>
-            <div>
+            <div id="all_booking">
+            <h2>Upcoming Appointment</h2>
+            <div class="edit_booking">
             <?php if ($appointment): ?>
                 <form id="reschedule" method="post">
-                <h2>Upcoming Booking</h2>
-                <ul>
+                
+                <ul style="list-style-type: none; padding: 0; ">
                     <li>Appointment ID: <?php echo htmlspecialchars($appointment['appointment_id']); ?></li>
                     <li>Dentist:<?php echo htmlspecialchars($appointment['dentist_name']); ?></li>
                     <li>Service: <?php echo htmlspecialchars($appointment['service_type']); ?></li>
@@ -70,6 +86,35 @@ $appointment = $result->fetch_assoc();
                 <?php else: ?>
                     <h2>No Upcoming Booking</h2>
                 <?php endif; ?>
+            </div>
+            <div id="past_booking">
+                <h2>Past Appointments</h2>
+                    
+                    <?php
+                    if ($result_past->num_rows > 0) {
+                        // Loop through and display each past appointment
+                        while ($appointment = $result_past->fetch_assoc()) {
+                            ?>
+                            <div class="edit_booking">
+                            <ul style="list-style-type: none; padding: 0; ">
+                            <li>
+                                <strong>Appointment ID:</strong> <?php echo htmlspecialchars($appointment['appointment_id']); ?><br>
+                                <strong>Dentist:</strong> <?php echo htmlspecialchars($appointment['dentist_name']); ?><br>
+                                <strong>Service:</strong> <?php echo htmlspecialchars($appointment['service_type']); ?><br>
+                                <strong>Date:</strong> <?php echo htmlspecialchars($appointment['available_date']); ?><br>
+                                <strong>Time:</strong> <?php echo htmlspecialchars($appointment['available_time']); ?><br>
+                                <strong>Remarks:</strong> <?php echo htmlspecialchars($appointment['remarks']); ?><br>
+                            </li>
+                            </ul>
+                            </div>
+                            <?php
+                        }
+                    } else {
+                        echo "<p>No past appointments found.</p>";
+                    }
+                    ?>
+                   
+                </div>
             </div>
         <?php else: ?>
             <h2>Please Log In</h2>
