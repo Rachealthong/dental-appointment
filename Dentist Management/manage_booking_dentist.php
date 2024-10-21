@@ -23,20 +23,24 @@ session_start();
 
         // Retrieve appointments for the logged-in dentist
         $sql = "SELECT 
+                    a.appointment_id,
                     p.patient_name, 
-                    s.available_date, 
-                    s.available_time, 
+                    s.service_type,
+                    sch.available_date, 
+                    sch.available_time, 
                     a.remarks
                 FROM 
                     appointments a
                 JOIN 
                     Patients p ON a.patient_id = p.patient_id
+                JOIN
+                    Services s ON a.service_id = s.service_id
                 JOIN 
-                    Schedule s ON a.schedule_id = s.schedule_id
+                    Schedule sch ON a.schedule_id = sch.schedule_id
                 WHERE 
                     a.dentist_id = ?
                 ORDER BY 
-                    s.available_date, s.available_time";
+                    sch.available_date, sch.available_time";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $dentist_id);
         $stmt->execute();
@@ -47,11 +51,14 @@ session_start();
             <div class="bottom_centered"><h1>Manage Booking</h1></div>
         </div>
         <?php if ($result->num_rows > 0): ?>
+            <form id="reschedule_form" method="post" action="reschedule_dentist.php">
             <table>
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Patient ID</th>
+                        <th>Select</th>
+                        <th>Patient's Name</th>
+                        <th>Service</th>
                         <th>Appointment Date</th>
                         <th>Appointment Time</th>
                         <th>Remarks</th>
@@ -62,7 +69,9 @@ session_start();
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
                             <td><?php echo $counter++; ?></td>
+                            <td><input type="radio" name="selected_appointment" value="<?php echo htmlspecialchars($row['appointment_id']); ?>" required></td>
                             <td><?php echo htmlspecialchars($row['patient_name']); ?></td>
+                            <td><?php echo htmlspecialchars($row['service_type']); ?></td>
                             <td><?php echo htmlspecialchars($row['available_date']); ?></td>
                             <td><?php echo htmlspecialchars($row['available_time']); ?></td>
                             <td><?php echo htmlspecialchars($row['remarks']); ?></td>
@@ -70,6 +79,8 @@ session_start();
                     <?php endwhile; ?>
                 </tbody>
             </table>
+            <button type="submit">Reschedule</button>
+            </form>
         <?php else: ?>
             <p>No appointments found.</p>
         <?php endif; ?>

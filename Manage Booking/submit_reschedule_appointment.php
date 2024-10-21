@@ -2,11 +2,11 @@
 session_start();
 
 // Check if the user is logged in
-if (!isset($_SESSION['patient_id'])) {
+if (!isset($_SESSION['patient_id']) && !isset($_SESSION['dentist_id'])) {
     die("You must be logged in to submit an appointment.");
 }
 
-$patient_id = $_SESSION['patient_id']; // Get the logged-in patient's ID
+#$patient_id = $_SESSION['patient_id']; // Get the logged-in patient's ID
 
 $servername = "localhost"; // with your server details
 $username = "root"; // Your database username
@@ -23,11 +23,24 @@ if ($conn->connect_error) {
 
 // Get form data
 $appointment_id = $_POST['appointment_id'];
+$patient_name = $_POST['patient'];
 $dentist_name = $_POST['dentist'];
 $service_type = $_POST['service'];
 $preferred_date = $_POST['date'];
 $preferred_time = $_POST['time'];
 $remarks = $_POST['remarks'];
+
+// Fetch patient_id
+$stmt = $conn->prepare("SELECT patient_id FROM patients WHERE patient_name = ?");
+$stmt->bind_param("s", $patient_name);
+$stmt->execute();
+$stmt->bind_result($patient_id);
+$stmt->fetch();
+$stmt->close();
+
+if (!$patient_id) {
+    die("Patient not found.");
+}
 
 // Fetch dentist_id
 $stmt = $conn->prepare("SELECT dentist_id FROM dentists WHERE dentist_name = ?");
