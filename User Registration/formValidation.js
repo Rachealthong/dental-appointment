@@ -22,17 +22,13 @@ function validateForm() {
 
     // Password validation
     var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-    if (password.length < 8) {
-        alert("Password should be at least 8 characters.");
-        return false;
-    }
-    else if (!passwordPattern.test(password)) {
-        alert("Password should contain one of the special characters !@#$%^&*, one lowercase letter, one uppercase letter, and one digit.");
+    if (!passwordPattern.test(password)) {
+        alert("Password should be at least 8 characters long and contain one of the special characters !@#$%^&*, one lowercase letter, one uppercase letter, and one digit.");
         return false;
     } 
 
     // Confirm Password validation
-    if (password != confirmPassword) {
+    if (password !== confirmPassword) {
         alert("Passwords do not match.");
         return false;
     }

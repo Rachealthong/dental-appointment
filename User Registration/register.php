@@ -4,7 +4,9 @@ if (isset($_POST['submit'])) {
     if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['password']) 
     || empty($_POST['confirmpw']) || empty($_POST['phoneno']) || empty($_POST['gender'])
     || empty($_POST['nationality']) || empty($_POST['dob'])) {
-        echo "Please fill in all fields.";
+        echo "<script type='text/javascript'>
+        alert('Please fill in all fields.');
+        </script>";
         exit;
     }
 }
@@ -19,7 +21,9 @@ $nationality = $_POST['nationality'];
 $dob = $_POST['dob'];
 
 if ($password != $confirmpw) {
-    echo "Passwords do not match.";
+    echo "<script type='text/javascript'>
+    alert('Passwords do not match.');
+    </script>";
     exit;
 }
 
