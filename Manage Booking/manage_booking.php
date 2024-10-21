@@ -39,10 +39,10 @@ $is_logged_in = isset($_SESSION['patient_id']);
 </div>
 
 <script>
-    fetch('Elements/navbar.php')
+    fetch('../Elements/navbar.php')
         .then(response => response.text())
         .then(data => document.getElementById('navbar').innerHTML = data);
-    fetch('Elements/footer.html')
+    fetch('../Elements/footer.html')
         .then(response => response.text())
         .then(data => document.getElementById('footer').innerHTML = data);
 </script>
