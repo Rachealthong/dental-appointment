@@ -26,7 +26,22 @@ $result = $stmt->get_result();
 // Fetch the data
 $appointment = $result->fetch_assoc();
 
+// Prepare the SQL query to fetch past appointments
+$sql_past = "SELECT a.appointment_id, d.dentist_name, s.service_type, 
+                     sch.available_date, sch.available_time, a.remarks 
+              FROM appointments a
+              JOIN schedule sch ON a.schedule_id = sch.schedule_id
+              JOIN dentists d ON sch.dentist_id = d.dentist_id
+              JOIN services s ON a.service_id = s.service_id
+              WHERE a.patient_id = ? AND a.cancelled = 0 AND a.rescheduled = 0
+              AND sch.available_date < CURDATE()  -- Ensure we get past appointments
+              ORDER BY sch.available_date DESC, sch.available_time DESC";  // Order by date and time
 
+// Prepare and execute the statement for past appointments
+$stmt_past = $conn->prepare($sql_past);
+$stmt_past->bind_param("i", $patient_id);  // Bind the patient ID to the query
+$stmt_past->execute();
+$result_past = $stmt_past->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -71,6 +86,31 @@ $appointment = $result->fetch_assoc();
                     <h2>No Upcoming Booking</h2>
                 <?php endif; ?>
             </div>
+            <div>
+                <h2>Past Appointments</h2>
+                    <ul>
+                    <?php
+                    if ($result_past->num_rows > 0) {
+                        // Loop through and display each past appointment
+                        while ($appointment = $result_past->fetch_assoc()) {
+                            ?>
+                            <li>
+                                <strong>Appointment ID:</strong> <?php echo htmlspecialchars($appointment['appointment_id']); ?><br>
+                                <strong>Dentist:</strong> <?php echo htmlspecialchars($appointment['dentist_name']); ?><br>
+                                <strong>Service:</strong> <?php echo htmlspecialchars($appointment['service_type']); ?><br>
+                                <strong>Date:</strong> <?php echo htmlspecialchars($appointment['available_date']); ?><br>
+                                <strong>Time:</strong> <?php echo htmlspecialchars($appointment['available_time']); ?><br>
+                                <strong>Remarks:</strong> <?php echo htmlspecialchars($appointment['remarks']); ?><br>
+                            </li>
+                            <hr>
+                            <?php
+                        }
+                    } else {
+                        echo "<li>No past appointments found.</li>";
+                    }
+                    ?>
+                    </ul>
+                </div>
         <?php else: ?>
             <h2>Please Log In</h2>
             <p>You need to log in to manage booked appointments. <a href="../User Registration/login.html">Log in here</a>.</p>
