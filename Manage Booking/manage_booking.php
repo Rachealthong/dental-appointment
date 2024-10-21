@@ -1,9 +1,11 @@
 <?php
 session_start();
 include '..\dbconnect.php';
-$is_logged_in = isset($_SESSION['patient_id']);
-$patient_id = $_SESSION['patient_id'];  // Assuming patient ID is stored in session
 
+$is_logged_in = isset($_SESSION['patient_id']);
+
+if ($is_logged_in) {
+    $patient_id = $_SESSION['patient_id'];
 // Prepare the SQL query to fetch appointment data
 $sql = "SELECT a.appointment_id, d.dentist_name, s.service_type, 
                sch.available_date, sch.available_time, a.remarks 
@@ -41,6 +43,8 @@ $stmt_past = $conn->prepare($sql_past);
 $stmt_past->bind_param("i", $patient_id);  // Bind the patient ID to the query
 $stmt_past->execute();
 $result_past = $stmt_past->get_result();
+
+}
 ?>
 
 <!DOCTYPE html>
