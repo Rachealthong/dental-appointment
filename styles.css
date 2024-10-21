@@ -342,6 +342,23 @@ align-items: center;
 background-color: #ded9c4;
 }
 
+.edit_booking {
+  border: 1px solid #ccc;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding:20px;
+  display: flex;
+}
+
+#all_booking {
+  padding: 20px;
+  margin: 20px auto; 
+  width: 50%;
+  justify-items: center;
+  display: block;
+}
 .poppins-thin {
     font-family: "Poppins", sans-serif;
     font-weight: 100;

@@ -5,7 +5,6 @@ $is_logged_in = isset($_SESSION['patient_id']);
 $patient_id = $_SESSION['patient_id'];  // Assuming patient ID is stored in session
 
 // Prepare the SQL query to fetch appointment data
-// Prepare the SQL query to fetch appointment data
 $sql = "SELECT a.appointment_id, d.dentist_name, s.service_type, 
                sch.available_date, sch.available_time, a.remarks 
         FROM appointments a
@@ -66,11 +65,13 @@ $result_past = $stmt_past->get_result();
                 <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
                 <div class="bottom_centered"><h1>Manage Booking</h1></div>
             </div>
-            <div>
+            <div id="all_booking">
+            <h2>Upcoming Appointment</h2>
+            <div class="edit_booking">
             <?php if ($appointment): ?>
                 <form id="reschedule" method="post">
-                <h2>Upcoming Booking</h2>
-                <ul>
+                
+                <ul style="list-style-type: none; padding: 0; ">
                     <li>Appointment ID: <?php echo htmlspecialchars($appointment['appointment_id']); ?></li>
                     <li>Dentist:<?php echo htmlspecialchars($appointment['dentist_name']); ?></li>
                     <li>Service: <?php echo htmlspecialchars($appointment['service_type']); ?></li>
@@ -86,14 +87,16 @@ $result_past = $stmt_past->get_result();
                     <h2>No Upcoming Booking</h2>
                 <?php endif; ?>
             </div>
-            <div>
+            <div id="past_booking">
                 <h2>Past Appointments</h2>
-                    <ul>
+                    
                     <?php
                     if ($result_past->num_rows > 0) {
                         // Loop through and display each past appointment
                         while ($appointment = $result_past->fetch_assoc()) {
                             ?>
+                            <div class="edit_booking">
+                            <ul style="list-style-type: none; padding: 0; ">
                             <li>
                                 <strong>Appointment ID:</strong> <?php echo htmlspecialchars($appointment['appointment_id']); ?><br>
                                 <strong>Dentist:</strong> <?php echo htmlspecialchars($appointment['dentist_name']); ?><br>
@@ -102,15 +105,17 @@ $result_past = $stmt_past->get_result();
                                 <strong>Time:</strong> <?php echo htmlspecialchars($appointment['available_time']); ?><br>
                                 <strong>Remarks:</strong> <?php echo htmlspecialchars($appointment['remarks']); ?><br>
                             </li>
-                            <hr>
+                            </ul>
+                            </div>
                             <?php
                         }
                     } else {
-                        echo "<li>No past appointments found.</li>";
+                        echo "<p>No past appointments found.</p>";
                     }
                     ?>
-                    </ul>
+                   
                 </div>
+            </div>
         <?php else: ?>
             <h2>Please Log In</h2>
             <p>You need to log in to manage booked appointments. <a href="../User Registration/login.html">Log in here</a>.</p>
