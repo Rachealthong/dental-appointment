@@ -56,7 +56,7 @@ $sql = "
     FROM schedule
     WHERE dentist_id = ? 
     AND availability_status = TRUE 
-    AND available_date >= CURDATE()
+    AND available_date >= CURDATE()+INTERVAL 1 DAY
     ORDER BY available_date, available_time
 ";
 
