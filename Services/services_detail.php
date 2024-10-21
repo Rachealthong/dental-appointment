@@ -22,7 +22,8 @@
         ],
         'service2' => [
             'name' => 'Service 2',
-            'description../Assets/temp.png'
+            'description' => 'Service 2 is a dental service that provides xxxx. Our team of experienced dentists will ensure that you receive the best care possible. We use the latest technology and techniques to provide you with the best possible results.',
+            'image' => '../Assets/temp.png'
         ],
         'service3' => [
             'name' => 'Service 3',
