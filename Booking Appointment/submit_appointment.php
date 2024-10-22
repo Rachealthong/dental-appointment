@@ -1,5 +1,6 @@
 <?php
 session_start();
+include '../dbconnect.php';
 
 // Check if the user is logged in
 if (!isset($_SESSION['patient_id'])) {
@@ -7,19 +8,6 @@ if (!isset($_SESSION['patient_id'])) {
 }
 
 $patient_id = $_SESSION['patient_id']; // Get the logged-in patient's ID
-
-$servername = "localhost"; // Update with your server details
-$username = "root"; // Your database username
-$password = ""; // Your database password
-$dbname = "dentalclinic"; // Your database name
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Get form data
 $dentist_name = $_POST['dentist'];

@@ -28,7 +28,9 @@ session_start();
                     s.service_type,
                     sch.available_date, 
                     sch.available_time, 
-                    a.remarks
+                    a.remarks,
+                    a.cancelled,
+                    a.rescheduled
                 FROM 
                     appointments a
                 JOIN 
@@ -38,7 +40,7 @@ session_start();
                 JOIN 
                     Schedule sch ON a.schedule_id = sch.schedule_id
                 WHERE 
-                    a.dentist_id = ?
+                    a.dentist_id = ? AND a.cancelled = 0 AND sch.available_date > NOW()
                 ORDER BY 
                     sch.available_date, sch.available_time";
         $stmt = $conn->prepare($sql);
@@ -62,6 +64,8 @@ session_start();
                         <th>Appointment Date</th>
                         <th>Appointment Time</th>
                         <th>Remarks</th>
+                        <th>Cancelled</th>
+                        <th>Rescheduled</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,6 +79,8 @@ session_start();
                             <td><?php echo htmlspecialchars($row['available_date']); ?></td>
                             <td><?php echo htmlspecialchars($row['available_time']); ?></td>
                             <td><?php echo htmlspecialchars($row['remarks']); ?></td>
+                            <td><?php echo $row['cancelled'] ? 'Yes' : 'No'; ?></td>
+                            <td><?php echo $row['rescheduled'] ? 'Yes' : 'No'; ?></td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>

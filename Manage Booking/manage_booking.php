@@ -13,9 +13,8 @@ $sql = "SELECT a.appointment_id, d.dentist_name, s.service_type,
         JOIN schedule sch ON a.schedule_id = sch.schedule_id
         JOIN dentists d ON sch.dentist_id = d.dentist_id
         JOIN services s ON a.service_id = s.service_id
-        WHERE a.patient_id = ? AND a.cancelled = 0 AND a.rescheduled = 0  AND sch.available_date > NOW()
-        ORDER BY sch.available_date DESC, sch.available_time DESC
-        ";  
+        WHERE a.patient_id = ? AND a.cancelled = 0 AND sch.available_date > NOW()
+        ORDER BY sch.available_date DESC, sch.available_time DESC";  
 
 
 // Prepare and execute the statement
@@ -34,8 +33,7 @@ $sql_past = "SELECT a.appointment_id, d.dentist_name, s.service_type,
               JOIN schedule sch ON a.schedule_id = sch.schedule_id
               JOIN dentists d ON sch.dentist_id = d.dentist_id
               JOIN services s ON a.service_id = s.service_id
-              WHERE a.patient_id = ? AND a.cancelled = 0 AND a.rescheduled = 0
-              AND sch.available_date < CURDATE()  -- Ensure we get past appointments
+              WHERE a.patient_id = ? AND a.cancelled = 0 AND sch.available_date < NOW()  -- Ensure we get past appointments
               ORDER BY sch.available_date DESC, sch.available_time DESC";  // Order by date and time
 
 // Prepare and execute the statement for past appointments
