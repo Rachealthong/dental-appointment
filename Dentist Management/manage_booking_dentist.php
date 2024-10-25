@@ -24,6 +24,7 @@ session_start();
         // Retrieve appointments for the logged-in dentist
         $sql = "SELECT 
                     a.appointment_id,
+                    p.patient_id,
                     p.patient_name, 
                     s.service_type,
                     sch.available_date, 
@@ -47,6 +48,34 @@ session_start();
         $stmt->bind_param("i", $dentist_id);
         $stmt->execute();
         $result = $stmt->get_result();
+
+        // Retrieve appointments for the logged-in dentist
+        $sql = "SELECT 
+                    a.appointment_id,
+                    p.patient_id,
+                    p.patient_name, 
+                    s.service_type,
+                    sch.available_date, 
+                    sch.available_time, 
+                    a.remarks,
+                    a.cancelled,
+                    a.rescheduled
+                FROM 
+                    appointments a
+                JOIN 
+                    Patients p ON a.patient_id = p.patient_id
+                JOIN
+                    Services s ON a.service_id = s.service_id
+                JOIN 
+                    Schedule sch ON a.schedule_id = sch.schedule_id
+                WHERE 
+                    a.dentist_id = ? AND a.cancelled = 0 AND sch.available_date < NOW()
+                ORDER BY 
+                    sch.available_date, sch.available_time";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $dentist_id);
+        $stmt->execute();
+        $result_past = $stmt->get_result();
         ?>
         <div id="aboutus">
             <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
@@ -55,6 +84,7 @@ session_start();
         <?php if ($result->num_rows > 0): ?>
             <form id="reschedule_form" method="post" action="reschedule_dentist.php">
             <table>
+                <caption>Upcoming Appointments</caption>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -74,7 +104,7 @@ session_start();
                         <tr>
                             <td><?php echo $counter++; ?></td>
                             <td><input type="radio" name="selected_appointment" value="<?php echo htmlspecialchars($row['appointment_id']); ?>" required></td>
-                            <td><?php echo htmlspecialchars($row['patient_name']); ?></td>
+                            <td><a href="patient_bio.php?patient_id=<?php echo htmlspecialchars($row['patient_id']); ?>"><?php echo htmlspecialchars($row['patient_name']); ?></td>
                             <td><?php echo htmlspecialchars($row['service_type']); ?></td>
                             <td><?php echo htmlspecialchars($row['available_date']); ?></td>
                             <td><?php echo htmlspecialchars($row['available_time']); ?></td>
@@ -87,6 +117,37 @@ session_start();
             </table>
             <button type="submit">Reschedule</button>
             </form>
+
+            <table>
+                <caption>Past Appointments</caption>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Patient's Name</th>
+                        <th>Service</th>
+                        <th>Appointment Date</th>
+                        <th>Appointment Time</th>
+                        <th>Remarks</th>
+                        <th>Cancelled</th>
+                        <th>Rescheduled</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $counter = 1; ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo $counter++; ?></td>
+                            <td><a href="patient_bio.php?patient_id=<?php echo htmlspecialchars($row['patient_id']); ?>"><?php echo htmlspecialchars($row['patient_name']); ?></td>
+                            <td><?php echo htmlspecialchars($row['service_type']); ?></td>
+                            <td><?php echo htmlspecialchars($row['available_date']); ?></td>
+                            <td><?php echo htmlspecialchars($row['available_time']); ?></td>
+                            <td><?php echo htmlspecialchars($row['remarks']); ?></td>
+                            <td><?php echo $row['cancelled'] ? 'Yes' : 'No'; ?></td>
+                            <td><?php echo $row['rescheduled'] ? 'Yes' : 'No'; ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
         <?php else: ?>
             <p>No appointments found.</p>
         <?php endif; ?>
