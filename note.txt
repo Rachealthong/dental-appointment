@@ -15,7 +15,7 @@ patient_bio.php also done and can be clicked when clicking on patient's name, ne
 Patient: 
 1. Booking Appointment: Change the Date Selection into Calendar style
 For fetching available slots, though not much of a big difference, should we use dentist_id instead of dentist name as identifier since it is unique? 
-(i did it with dentist_id in fetch_available_slots.php in Dentist Management) and service is not needed to fetch available slots
+Also note that we cant store info in JSON as prof doesnt allow. chatgpt suggested another workaround that i implemented in fetch_available_slots.php in Dentist Management
 
 2. Manage Booking: Just realised that patient may possibly make multiple upcoming bookings for different services so need to allow display of multiple upcoming bookings.
 For rescheduling, I still think it is better to keep the old booking (and make rescheduled = 1 and free up the slot) and add a new row with the new booking.
