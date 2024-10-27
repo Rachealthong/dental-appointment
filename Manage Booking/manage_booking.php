@@ -69,27 +69,36 @@ $result_past = $stmt_past->get_result();
             </div>
             <div id="all_booking">
             <h2>Upcoming Appointment</h2>
-            <div class="edit_booking">
-            <?php if ($appointment): ?>
-                <form id="reschedule" method="post">
-                
-                <ul style="list-style-type: none; padding: 0; ">
-                    <li>Appointment ID: <?php echo htmlspecialchars($appointment['appointment_id']); ?></li>
-                    <li>Dentist:<?php echo htmlspecialchars($appointment['dentist_name']); ?></li>
-                    <li>Service: <?php echo htmlspecialchars($appointment['service_type']); ?></li>
-                    <li>Date:<?php echo htmlspecialchars($appointment['available_date']); ?></li>
-                    <li>Time:<?php echo htmlspecialchars($appointment['available_time']); ?></li>
-                    <li>Remarks:<?php echo htmlspecialchars($appointment['remarks']); ?></li>
-                </ul>
-                <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']); ?>">
-                <button type="submit" name="action" value="cancel" onclick="setFormAction('cancel.php')">Cancel Appointment </button>
-                <button type="submit" name="action" value="reschedule" onclick="setFormAction('reschedule.php')">Reschedule Appointment</button>
-                </form>
-                <?php else: ?>
-                    <h2>No Upcoming Booking</h2>
-                <?php endif; ?>
-            </div>
-            <div id="past_booking">
+           
+                <?php
+                    if ($result_past->num_rows > 0) {
+                        while ($appointment = $result->fetch_assoc()) { // Corrected $result_past instead of $result
+                            ?>
+                             <div class="edit_booking">
+                            <form id="reschedule" method="post">
+                            
+                            <ul style="list-style-type: none; padding: 0;">
+                                <li>Appointment ID: <?php echo htmlspecialchars($appointment['appointment_id']); ?></li>
+                                <li>Dentist: <?php echo htmlspecialchars($appointment['dentist_name']); ?></li>
+                                <li>Service: <?php echo htmlspecialchars($appointment['service_type']); ?></li>
+                                <li>Date: <?php echo htmlspecialchars($appointment['available_date']); ?></li>
+                                <li>Time: <?php echo htmlspecialchars($appointment['available_time']); ?></li>
+                                <li>Remarks: <?php echo htmlspecialchars($appointment['remarks']); ?></li>
+                            </ul>
+                            <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']); ?>">
+                            <button type="submit" name="action" value="cancel" onclick="setFormAction('cancel.php')">Cancel Appointment</button>
+                            <button type="submit" name="action" value="reschedule" onclick="setFormAction('reschedule.php')">Reschedule Appointment</button>
+                            </form>
+                            </div>
+                            <?php 
+                            
+                        } // Corrected PHP closing for the while loop
+                    } else {
+                        echo "<p>No Upcoming Booking</p>";
+                    }
+                ?>
+            
+      
                 <h2>Past Appointments</h2>
                     
                     <?php
@@ -115,9 +124,9 @@ $result_past = $stmt_past->get_result();
                         echo "<p>No past appointments found.</p>";
                     }
                     ?>
-                   
-                </div>
-            </div>
+             </div>    
+              
+           
         <?php else: ?>
             <h2>Please Log In</h2>
             <p>You need to log in to manage booked appointments. <a href="../User Registration/login.html">Log in here</a>.</p>

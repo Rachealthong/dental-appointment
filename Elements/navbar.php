@@ -15,7 +15,9 @@ session_start();
     <?php 
     if (isset($_SESSION['patient_id'])){
         $email = $_SESSION['email'];
-        echo "$email &nbsp;"; 
+        echo "<div>
+            <a href='../User Profile/userprofile.php'>$email &nbsp;</a>
+            </div>";
         echo "<div id='login_nav'>
             <a href='../User Registration/logout.php'>Log Out</a>
             </div>";

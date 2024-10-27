@@ -60,9 +60,11 @@ $is_logged_in = isset($_SESSION['patient_id']);
                 </select>
                 <br>
                 <label for="date">Preferred Date:</label>
-                <select id="date" name="date" required>
-                    <option value="" disabled selected>Select a date</option>
-                </select>
+                <?php
+                $minDate = date('Y-m-d', strtotime('+1 day'));
+                $maxDate = date('Y-m-d', strtotime('+14 days')); // two weeks from today
+                ?>
+                <input type="date" id="date" name="date" min="<?php echo $minDate; ?>" max="<?php echo $maxDate; ?>" required>
                 <br>
                 <label for="time">Preferred Time:</label>
                 <select id="time" name="time" required>
@@ -101,7 +103,7 @@ $is_logged_in = isset($_SESSION['patient_id']);
     if (service) {
         fetchAvailableSlots(dentist, service);
     }
-});
+ });
 
     document.getElementById('service').addEventListener('change', function() {
         const service = this.value;
@@ -112,52 +114,64 @@ $is_logged_in = isset($_SESSION['patient_id']);
         }
     });
 
-    function fetchAvailableSlots(dentist, service) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", `fetch_available_slots.php?dentist=${encodeURIComponent(dentist)}&service=${encodeURIComponent(service)}`, true);
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                const slots = JSON.parse(xhr.responseText);
-                updateDateAndTimeSelects(slots);
-            }
-        };
-        xhr.send();
+    document.getElementById('date').addEventListener('change', function() {
+    const selectedDate = new Date(this.value);
+    const dayOfWeek = selectedDate.getUTCDay();
+
+    // If the day is Saturday (6) or Sunday (0), clear the date input
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+        alert("Weekends are not available. Please choose a weekday.");
+        this.value = ''; // Clear the input value
     }
+});
 
-    function updateDateAndTimeSelects(slots) {
-        // Get the date and time select elements
-        const dateSelect = document.getElementById('date');
-        const timeSelect = document.getElementById('time');
 
-        // Clear previous options
-        dateSelect.innerHTML = '<option value="" disabled selected>Select a date</option>';
+    function fetchAvailableSlots(dentist, service) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `fetch_available_slots.php?dentist=${encodeURIComponent(dentist)}&service=${encodeURIComponent(service)}`, true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            const response = xhr.responseText;
+            if (response.startsWith('error:')) {
+                console.error(response.substring(6));
+                return;
+            }
+            const slots = response.split(';');
+            updateDateAndTimeSelects(slots);
+        }
+    };
+    xhr.send();
+ }
+
+ function updateDateAndTimeSelects(slots) {
+    const dateInput = document.getElementById('date');
+    const timeSelect = document.getElementById('time');
+
+    // Clear previous options
+    timeSelect.innerHTML = '<option value="" disabled selected>Select a time</option>';
+
+    const timeMap = {};
+
+    slots.forEach(slot => {
+        const [date, time] = slot.split(',');
+        if (!timeMap[date]) {
+            timeMap[date] = [];
+        }
+        timeMap[date].push(time);
+    });
+
+    // Update available time slots when a date is selected
+    dateInput.addEventListener('change', function() {
+        const selectedDate = this.value;
         timeSelect.innerHTML = '<option value="" disabled selected>Select a time</option>';
-
-        // Create a map to store available times for each date
-        const timeMap = {};
-
-        // Populate the date and time selects based on the fetched slots
-        slots.forEach(slot => {
-            // Add available date if not already added
-            if (!timeMap[slot.available_date]) {
-                timeMap[slot.available_date] = [];
-                dateSelect.innerHTML += `<option value="${slot.available_date}">${slot.available_date}</option>`;
-            }
-            // Add available time for the corresponding date
-            timeMap[slot.available_date].push(slot.available_time);
-        });
-
-        // Update time slots when the user selects a date
-        dateSelect.addEventListener('change', function() {
-            const selectedDate = this.value;
-            timeSelect.innerHTML = '<option value="" disabled selected>Select a time</option>'; // Clear previous times
-            if (timeMap[selectedDate]) {
-                timeMap[selectedDate].forEach(time => {
-                    timeSelect.innerHTML += `<option value="${time}">${time}</option>`;
-                });
-            }
-        });
+        if (timeMap[selectedDate]) {
+            timeMap[selectedDate].forEach(time => {
+                timeSelect.innerHTML += `<option value="${time}">${time}</option>`;
+            });
+        }
+    });
 }
+
 
 </script>
 

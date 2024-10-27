@@ -57,14 +57,13 @@ $result = $stmt->get_result();
 $available_slots = [];
 
 while ($row = $result->fetch_assoc()) {
-    $available_slots[] = [
-        'available_date' => $row['available_date'],
-        'available_time' => $row['available_time']
-    ];
+    $available_slots[] = $row['available_date'] . ',' . $row['available_time'];
 }
 
 $stmt->close();
 
-header('Content-Type: application/json');
-echo json_encode($available_slots);
+header('Content-Type: text/plain');
+echo implode(';', $available_slots);
 ?>
+
+

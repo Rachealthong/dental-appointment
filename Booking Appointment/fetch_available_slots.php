@@ -7,7 +7,7 @@ $service = $_GET['service'] ?? null;
 
 if (!$dentist || !$service) {
     http_response_code(400);
-    echo json_encode(['error' => 'Dentist and service are required.']);
+    echo 'error:Dentist and service are required';
     exit;
 }
 
@@ -21,7 +21,7 @@ $stmt->close();
 
 if (!$dentist_id) {
     http_response_code(404);
-    echo json_encode(['error' => 'Dentist not found.']);
+    echo 'error:Dentist not found';
     exit;
 }
 
@@ -35,7 +35,7 @@ $stmt->close();
 
 if (!$service_id) {
     http_response_code(404);
-    echo json_encode(['error' => 'Service not found.']);
+    echo 'error:Service not found';
     exit;
 }
 
@@ -57,14 +57,11 @@ $result = $stmt->get_result();
 $available_slots = [];
 
 while ($row = $result->fetch_assoc()) {
-    $available_slots[] = [
-        'available_date' => $row['available_date'],
-        'available_time' => $row['available_time']
-    ];
+    $available_slots[] = $row['available_date'] . ',' . $row['available_time'];
 }
 
 $stmt->close();
 
-header('Content-Type: application/json');
-echo json_encode($available_slots);
+header('Content-Type: text/plain');
+echo implode(';', $available_slots);
 ?>
