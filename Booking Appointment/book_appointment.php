@@ -81,8 +81,10 @@ $is_logged_in = isset($_SESSION['patient_id']);
             </form>
             </div>
         <?php else: ?>
+            <div class="plslogin">
             <h2>Please Log In</h2>
             <p>You need to log in to book an appointment. <a href="../User Registration/login.html">Log in here</a>.</p>
+            </div>
         <?php endif; ?>
     </main>
     <div id="footer"></div>

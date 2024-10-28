@@ -30,8 +30,8 @@ nav {
   align-items: center;
   padding: 2px;
   margin: auto;
-
-  border-bottom: 1px solid #ccc;
+  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 nav img {
@@ -443,8 +443,15 @@ background-color: #ded9c4;
    margin-top: 10px; 
    display: block;
    padding: 5px;
-   }
+}
    
+.plslogin
+{
+  padding: 20px;
+  margin: 20px auto; 
+  width: 50%;
+  display: block;
+}
 
 .search-container {
   margin-bottom: 20px;

@@ -126,8 +126,10 @@ $result_past = $stmt_past->get_result();
               
            
         <?php else: ?>
+            <div class="plslogin">
             <h2>Please Log In</h2>
             <p>You need to log in to manage booked appointments. <a href="../User Registration/login.html">Log in here</a>.</p>
+            </div>
         <?php endif; ?>
     </main>
     <div id="footer"></div>
