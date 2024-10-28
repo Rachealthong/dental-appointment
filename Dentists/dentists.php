@@ -32,7 +32,7 @@
             while ($row = $result->fetch_assoc()) {
                 echo '<div class="box">';
                 echo '<a href="dentist_bio.php?dentist_id=' . htmlspecialchars($row['dentist_id']) . '">';
-                echo '<img src="../Assets/' . htmlspecialchars($row['dentist_image']) . '" width="200px" alt="' . htmlspecialchars($row['dentist_name']) . '"><br>';
+                echo '<img src="../Assets/' . htmlspecialchars($row['dentist_image']) . '" width="300px" alt="' . htmlspecialchars($row['dentist_name']) . '"><br>';
                 echo '<h2>' . htmlspecialchars($row['dentist_name']) . '</h2>';
                 echo '</a>';
                 echo '</div>';

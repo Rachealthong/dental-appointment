@@ -13,3 +13,11 @@ DEFAULT 'Service X is a dental service that provides xxxx. Our team of experienc
 ALTER TABLE services
 ADD COLUMN service_image VARCHAR(64)
 DEFAULT 'temp.png';
+
+UPDATE dentists
+SET dentist_image = CASE dentist_name
+    WHEN 'Dr Eunice Seng' THEN 'dr_eunice_seng.png'
+    WHEN 'Dr Thong Peiyu' THEN 'dr_thongpeiyu.png'
+    WHEN 'Dr Ali Abu bin Akau' THEN 'dr_aliabubinakau.png'
+    END
+WHERE dentist_name IN ('Dr Eunice Seng', 'Dr Thong Peiyu', 'Dr Ali Abu bin Akau');
