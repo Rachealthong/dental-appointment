@@ -2,29 +2,17 @@ Note from Eunice:
 
 Dentist Management: 
 
-1. Manage Booking: Basic function done ✅, need to 
+1. Manage Booking: 
 - manage_booking_dentist.php: add CSS 
 - patient_bio.php: - add CSS
 
-2. Update Availability: Basic function done ✅
-- probably need to do the reverse - enable dentist to choose unavailable time slot and make it available 
-(provided that there is no booking.) 
-(Then in this case need to distinguish between unavailable time slot due to booking and unavailable time slot due to dentist's update)
-
-
-
 Patient:
 1. Manage Booking: 
-- patient may possibly make multiple upcoming bookings for different services so need to allow display of multiple upcoming bookings.✅
 - For rescheduling, I still think it is better to keep the old booking (and make rescheduled = 1 and free up the slot) and add a new row with the new booking.
 
-2. Edit Profile: Pending 
-- Add the ability for user to edit their profile details✅
-- enabled in dentist domain too
-
-
-
-More add-ons: Store the data to be displayed in service and dentist page in database and fetch from database instead of hardcoding in the file.
+More add-ons: 
+- Store the data to be displayed in service and dentist page in database and fetch from database instead of hardcoding in the file.
+- Enable dentists to edit service and dentist details
 
 
 Then do a final check and touch up and it should be done!

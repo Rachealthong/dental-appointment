@@ -17,12 +17,16 @@ CREATE TABLE Dentists (
     dentist_id INT PRIMARY KEY AUTO_INCREMENT,
     dentist_name VARCHAR(64),
     dentist_email VARCHAR(64),
-    dentist_password VARCHAR(64)
+    dentist_password VARCHAR(64),
+    dentist_description TEXT,
+    dentist_image VARCHAR(64)
 ); 
 
 CREATE TABLE Services (
     service_id INT PRIMARY KEY AUTO_INCREMENT,
     service_type VARCHAR(64)
+    service_description TEXT,
+    service_image VARCHAR(64)
 );
 
 CREATE TABLE Schedule (

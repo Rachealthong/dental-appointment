@@ -19,18 +19,28 @@
     </div>
     <!-- make these 3 boxes next to each other -->
     <div class="container">
-        <div class="box">
-            <a href="services_detail.php?service=service1"><img src="../Assets/temp.png" width="200px" alt="temp"><br>
-                <h2>Service 1</h2></a>
-        </div>
-        <div class="box">
-            <a href="services_detail.php?service=service2"><img src="../Assets/temp.png" width="200px" alt="temp"><br>
-                <h2>Service 2</h2></a>
-        </div>
-        <div class="box">
-            <a href="services_detail.php?service=service3"><img src="../Assets/temp.png" width="200px" alt="temp"><br>
-                <h2>Service 3</h2></a>
-        </div>
+        <?php
+        include '../dbconnect.php'; // Ensure this path is correct
+
+        // Fetch services from the database
+        $sql = "SELECT service_id, service_type, service_image FROM services";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo '<div class="box">';
+                echo '<a href="services_detail.php?service_id=' . htmlspecialchars($row['service_id']) . '">';
+                echo '<img src="../Assets/' . htmlspecialchars($row['service_image']) . '" width="200px" alt="' . htmlspecialchars($row['service_type']) . '"><br>';
+                echo '<h2>' . htmlspecialchars($row['service_type']) . '</h2>';
+                echo '</a>';
+                echo '</div>';
+            }
+        } else {
+            echo '<p>No services found.</p>';
+        }
+
+        $conn->close();
+        ?>
     </div>
     <div id="footer"></div>
 </div>

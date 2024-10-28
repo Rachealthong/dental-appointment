@@ -14,42 +14,32 @@
     <div id="navbar"></div>
     </header>
     <?php
-    // Sample data for dentists
-    $dentists = [
-        'eunice_seng' => [
-            'name' => 'Dr Eunice Seng',
-            'bio' => 'Dr Eunice Seng is an experienced dentist specializing in xxxx. She received her dental degree from the National University of Singapore in 2000. She has been practicing dentistry for 20 years and is a member of the Singapore Dental Association.',
-            'image' => '../Assets/temp.png'
-        ],
-        'thong_peiyu' => [
-            'name' => 'Dr Thong Peiyu',
-            'bio' => 'Dr Thong Peiyu is an experienced dentist specializing in xxxx. She received her dental degree from the National University of Singapore in 2000. She has been practicing dentistry for 20 years and is a member of the Singapore Dental Association.',
-            'image' => '../Assets/temp.png'
-        ],
-        'ali_abu' => [
-            'name' => 'Dr Ali Abu Bin Akau',
-            'bio' => 'Dr Ali Abu Bin Akau is an experienced dentist specializing in xxxx. She received her dental degree from the National University of Singapore in 2000. She has been practicing dentistry for 20 years and is a member of the Singapore Dental Association.',
-            'image' => '../Assets/temp.png'
-        ]
-    ];
+    include '../dbconnect.php';
 
     // Get the dentist identifier from the query parameter
-    $dentist_id = $_GET['dentist'] ?? '';
+    $dentist_id = $_GET['dentist_id'] ?? '';
 
-    // Fetch the dentist data
-    $dentist = $dentists[$dentist_id] ?? null;
+    // Fetch dentists from the database
+    $sql = "SELECT dentist_name, dentist_description, dentist_image FROM dentists where dentist_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $dentist_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $dentist = $result->fetch_assoc();
+    $stmt->close();
+    $conn->close();
 
     if ($dentist) {
         echo "<div class='container_service'>";
 
         echo "<div id='service_image'>";
         echo "<!--image of the dentist on the left-->";
-        echo "<img src='{$dentist['image']}' width='200px' alt='temp'><br>";
+        echo "<img src='../Assets/{$dentist['dentist_image']}' width='200px' alt='temp'><br>";
         echo "</div>";
 
         echo "<div id='service_detail'>";
-        echo "<h1>{$dentist['name']}</h1>";
-        echo "<p>{$dentist['bio']}</p>";
+        echo "<h1>{$dentist['dentist_name']}</h1>";
+        echo "<p>{$dentist['dentist_description']}</p>";
         echo "<br><br>";
 
         echo "<div id='book_appointment'>";
