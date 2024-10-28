@@ -99,7 +99,7 @@ try {
     // Insert a new appointment with the new schedule_id
     $insert_appointment_sql = "INSERT INTO appointments (schedule_id, dentist_id, service_id, patient_id, remarks, cancelled, rescheduled) VALUES (?, ?, ?, ?, ?, 0, 0)";
     $insert_stmt = $conn->prepare($insert_appointment_sql);
-    $insert_stmt->bind_param("iiisi", $schedule_id, $dentist_id, $service_id, $patient_id, $remarks);
+    $insert_stmt->bind_param("iiiis", $schedule_id, $dentist_id, $service_id, $patient_id, $remarks);
     $insert_stmt->execute();
     $insert_stmt->close();
 

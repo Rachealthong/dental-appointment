@@ -44,73 +44,86 @@ $appointment = $result->fetch_assoc();
                 <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
                 <div class="bottom_centered"><h1>Reschedule an Appointment</h1></div>
             </div> 
-            <div id="appointment_details">
+            <div id="oldnew_appointment">
+                <div id="old_appointment_details">
+                <form class="rescheduleform">
                 <h3>Original Appointment Details</h3>
-                <p><strong>Dentist:</strong> <?php echo htmlspecialchars($appointment['dentist_name']); ?></p>
-                <p><strong>Service:</strong> <?php echo htmlspecialchars($appointment['service_type']); ?></p>
-                <p><strong>Date:</strong> <?php echo htmlspecialchars($appointment['available_date']); ?></p>
-                <p><strong>Time:</strong> <?php echo htmlspecialchars($appointment['available_time']); ?></p>
-                <p><strong>Remarks:</strong> <?php echo htmlspecialchars($appointment['remarks']); ?></p>
-            </div>
-            <div>
-            <form id="reschedule2" method="post" action="submit_reschedule_appointment.php">
-            <h3>New Appointment Details</h3>
-                <label for="dentist">Request an Appointment with: </label>
-                <select id="dentist" name="dentist" required>
-                <option value="" disabled selected>Select a dentist</option>
-                    <?php
-                    // Fetch dentists from the database
-                    $sql = "SELECT dentist_name FROM dentists";
-                    $result = $conn->query($sql);
+                    <label for="dentist">Dentist:</label>
+                    <input type="text" value="<?php echo htmlspecialchars($appointment['dentist_name']); ?>" readonly><br>
 
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<option value='" . htmlspecialchars($row['dentist_name']) . "'>" . htmlspecialchars($row['dentist_name']) . "</option>";
-                    }
-                    ?>
-                </select>
+                    <label for="service">Service:</label>
+                    <input type="text"  value="<?php echo htmlspecialchars($appointment['service_type']); ?>" readonly><br>
 
-                <br>
-                <label for="service">Choose a Service: </label>
-                <select id="service" name="service" required>
-                <option value="" disabled selected>Select a service</option>
-                    <?php
-                    // Fetch services from the database
-                    $sql = "SELECT service_type FROM services";
-                    $result = $conn->query($sql);
+                    <label for="date">Date:</label>
+                    <input type="text" value="<?php echo htmlspecialchars($appointment['available_date']); ?>" readonly><br>
 
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<option value='" . htmlspecialchars($row['service_type']) . "'>" . htmlspecialchars($row['service_type']) . "</option>";
-                    }
-                    ?>
-                </select>
-                <br>
-                <label for="time">Preferred Date:</label>
-                <?php
-                $minDate = date('Y-m-d', strtotime('+1 day'));
-                $maxDate = date('Y-m-d', strtotime('+14 days')); // two weeks from today
-                ?>
-                <input type="date" id="date" name="date" min="<?php echo $minDate; ?>" max="<?php echo $maxDate; ?>" required>
-                <br>
-                
-                <label for="time">Preferred Time:</label>
-                <select id="time" name="time" required>
-                    <option value="" disabled selected>Select a time</option>
-                </select>
-                <br>
-                <label for="remarks">Remarks:</label>
-                <textarea id="remarks" name="remarks" rows="4" cols="50" style="width: 100%;"></textarea>
-                <br>
-                <div id="reset_submit">
-                <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']); ?>">
-                    <button type="reset">Clear</button>
-                    <button type="submit">Submit</button>
+                    <label for="time">Time:</label>
+                    <input type="text" value="<?php echo htmlspecialchars($appointment['available_time']); ?>" readonly><br>
+
+                    <label for="remarks">Remarks:</label>
+                    <textarea rows="4" cols="50" style="width: 100%;" readonly><?php echo htmlspecialchars($appointment['remarks']); ?></textarea>
+                </form>
                 </div>
-            </form>
+                <div id="new_appointment_details">
+                <form class="rescheduleform" id="reschedule2" method="post" action="submit_reschedule_appointment.php">
+                <h3>New Appointment Details</h3>
+                    <label for="dentist">Request an Appointment with: </label>
+                    <select id="dentist" name="dentist" required>
+                    <option value="" disabled selected>Select a dentist</option>
+                        <?php
+                        // Fetch dentists from the database
+                        $sql = "SELECT dentist_name FROM dentists";
+                        $result = $conn->query($sql);
+
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<option value='" . htmlspecialchars($row['dentist_name']) . "'>" . htmlspecialchars($row['dentist_name']) . "</option>";
+                        }
+                        ?>
+                    </select>
+
+                    <br>
+                    <label for="service">Choose a Service: </label>
+                    <select id="service" name="service" required>
+                    <option value="" disabled selected>Select a service</option>
+                        <?php
+                        // Fetch services from the database
+                        $sql = "SELECT service_type FROM services";
+                        $result = $conn->query($sql);
+
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<option value='" . htmlspecialchars($row['service_type']) . "'>" . htmlspecialchars($row['service_type']) . "</option>";
+                        }
+                        ?>
+                    </select>
+                    <br>
+                    <label for="time">Preferred Date:</label>
+                    <?php
+                    $minDate = date('Y-m-d', strtotime('+1 day'));
+                    $maxDate = date('Y-m-d', strtotime('+14 days')); // two weeks from today
+                    ?>
+                    <input type="date" id="date" name="date" min="<?php echo $minDate; ?>" max="<?php echo $maxDate; ?>" required>
+                    <br>
+                    
+                    <label for="time">Preferred Time:</label>
+                    <select id="time" name="time" required>
+                        <option value="" disabled selected>Select a time</option>
+                    </select>
+                    <br>
+                    <label for="remarks">Remarks:</label>
+                    <textarea id="remarks" name="remarks" rows="4" cols="50" style="width: 100%;"></textarea>
+                    <br>
+                    <div id="reset_submit">
+                    <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']); ?>">
+                        <button type="reset">Clear</button>
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+                </div>
             </div>
-        <?php else: ?>
-            <h2>Please Log In</h2>
-            <p>You need to log in to book an appointment. <a href="../User Registration/login.html">Log in here</a>.</p>
-        <?php endif; ?>
+            <?php else: ?>
+                <h2>Please Log In</h2>
+                <p>You need to log in to book an appointment. <a href="../User Registration/login.html">Log in here</a>.</p>
+            <?php endif; ?>
     </main>
     <div id="footer"></div>
 </div>

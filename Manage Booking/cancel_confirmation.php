@@ -50,10 +50,22 @@ mail($to, $subject, $message, $headers);
         <header>
             <div id="navbar"></div>
         </header>
-        <main>
+        <div id="booking_confirmation">
             <h2>Appointment Cancelled Successfully</h2>
-            <p>An email confirmation has been sent to your registered email address.</p>
-        </main>
+            <p>An email confirmation has been sent to your registered email address.The details of cancelled appointment is listed below:</p>
+            <?php if ($appointment): ?>
+                <div class="appointment_details">
+                    <ul style="list-style-type: none; padding: 0;">
+                        <li><strong>Appointment ID:</strong> <?php echo htmlspecialchars($appointment['appointment_id']); ?></li>
+                        <li><strong>Dentist:</strong> <?php echo htmlspecialchars($appointment['dentist_name']); ?></li>
+                        <li><strong>Service:</strong> <?php echo htmlspecialchars($appointment['service_type']); ?></li>
+                        <li><strong>Date:</strong> <?php echo htmlspecialchars($appointment['available_date']); ?></li>
+                        <li><strong>Time:</strong> <?php echo htmlspecialchars($appointment['available_time']); ?></li>
+                        <li><strong>Remarks:</strong> <?php echo htmlspecialchars($appointment['remarks']); ?></li>
+                    </ul>
+                </div>
+            <?php endif; ?>
+        </div>
         <div id="footer"></div>
     </div>
 
