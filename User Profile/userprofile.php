@@ -15,7 +15,7 @@ if (!$is_logged_in) {
 // Fetch patient data
 $patient_data = null;
 if ($patient_id) {
-    $stmt = $conn->prepare("SELECT patient_name, patient_phoneno, patient_gender, patient_nationality, patient_dob FROM patients WHERE patient_id = ?");
+    $stmt = $conn->prepare("SELECT patient_name, patient_email, patient_password, patient_phoneno, patient_gender, patient_nationality, patient_dob FROM patients WHERE patient_id = ?");
     $stmt->bind_param("i", $patient_id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -23,16 +23,20 @@ if ($patient_id) {
     $stmt->close();
 }
 
+$password = md5($password);
+
 // Update patient data
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $patient_id) {
     $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
     $phone_no = $_POST['phone_no'];
     $gender = $_POST['gender'];
     $nationality = $_POST['nationality'];
     $dob = $_POST['dob'];
 
-    $stmt = $conn->prepare("UPDATE patients SET patient_name = ?, patient_phoneno = ?, patient_gender = ?, patient_nationality = ?, patient_dob = ? WHERE patient_id = ?");
-    $stmt->bind_param("sssssi", $name, $phone_no, $gender, $nationality, $dob, $patient_id);
+    $stmt = $conn->prepare("UPDATE patients SET patient_name = ?, patient_email = ?, patient_password = ?, patient_phoneno = ?, patient_gender = ?, patient_nationality = ?, patient_dob = ? WHERE patient_id = ?");
+    $stmt->bind_param("sssssssi", $name, $email, $password, $phone_no, $gender, $nationality, $dob, $patient_id);
     $stmt->execute();
     $stmt->close();
 
@@ -54,6 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $patient_id) {
     <script>
         let originalData = {
             name: "<?php echo htmlspecialchars($patient_data['patient_name']); ?>",
+            email: "<?php echo htmlspecialchars($patient_data['patient_email']); ?>",
+            password: "<?php echo htmlspecialchars($patient_data['patient_password']); ?>",
             phone_no: "<?php echo htmlspecialchars($patient_data['patient_phoneno']); ?>",
             gender: "<?php echo htmlspecialchars($patient_data['patient_gender']); ?>",
             nationality: "<?php echo htmlspecialchars($patient_data['patient_nationality']); ?>",
@@ -62,13 +68,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $patient_id) {
 
         function handleSubmit(event) {
             const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById("confirmpw").value;
             const phone_no = document.getElementById('phone_no').value;
             const gender = document.getElementById('gender').value;
             const nationality = document.getElementById('nationality').value;
             const dob = document.getElementById('dob').value;
 
+            var namePattern = /^[A-Za-z\s]+$/;
+            if (!namePattern.test(name)) {
+                alert("Name must contain only alphabet characters and spaces.");
+                return false;
+            }
+
+            var emailPattern =  /^[\w.-]+@([\w-]+\.)+[A-Za-z]{2,}$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+
+             // Password validation
+            var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+            if (!passwordPattern.test(password)) {
+                alert("Password should be at least 8 characters long and contain one of the special characters !@#$%^&*, one lowercase letter, one uppercase letter, and one digit.");
+                return false;
+            } 
+
+            // Confirm Password validation
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return false;
+            }
+
+            var phonePattern = /^\d{8}$/;
+            if (!phonePattern.test(phone_no)) {
+                alert("Phone number should be 8 digits long.");
+                return false;
+            }
+
+            var today = new Date();
+            var selectedDate = new Date(dob);
+            if (selectedDate >= today) {
+                alert("Date of Birth cannot be today or in the future.");
+                return false;
+            }
+
             // Check if any value has changed
-            if (name !== originalData.name || phone_no !== originalData.phone_no ||
+            if (name !== originalData.name || email !== originalData.email || password !== originalData.password || phone_no !== originalData.phone_no || 
                 gender !== originalData.gender || nationality !== originalData.nationality ||
                 dob !== originalData.dob) {
                 alert('Profile updated!');
@@ -77,6 +124,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $patient_id) {
                 event.preventDefault();
                 alert('No changes made to the profile.');
             }
+
+            return true;
         }
     </script>
 </head>
@@ -96,6 +145,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $patient_id) {
                 </div>
 
                 <div class="userprofile_row">
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" name="email" value="<?php echo htmlspecialchars($patient_data['patient_email']); ?>" required>
+                </div>
+
+                <div class="userprofile_row">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" value="<?php echo htmlspecialchars($patient_data['patient_password']); ?>" required>
+                </div>
+
+                <div class="userprofile_row">
+                <label for="confirmpw">Confirm Password:</label>
+                 <input type="password" id="confirmpw" name="confirmpw" value="<?php echo htmlspecialchars($patient_data['patient_password']); ?>"required>
+                </div>
+
+                <div class="userprofile_row">
                     <label for="phone_no">Phone Number:</label>
                     <input type="text" id="phone_no" name="phone_no" value="<?php echo htmlspecialchars($patient_data['patient_phoneno']); ?>" required>
                 </div>
@@ -110,8 +174,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $patient_id) {
                 </div>
 
                 <div class="userprofile_row">
-                    <label for="nationality">Nationality:</label>
-                    <input type="text" id="nationality" name="nationality" value="<?php echo htmlspecialchars($patient_data['patient_nationality']); ?>" required>
+                <label for="nationality">Nationality:</label>
+                <select id="nationality" name="nationality" required>
+                    <option value="Singaporean" <?php echo ($patient_data['patient_nationality'] === 'Singaporean') ? 'selected' : ''; ?>>Singaporean</option>
+                    <option value="Singapore PR" <?php echo ($patient_data['patient_nationality'] === 'Singapore PR') ? 'selected' : ''; ?>>Singapore PR</option>
+                    <option value="Foreigner" <?php echo ($patient_data['patient_nationality'] === 'Foreigner') ? 'selected' : ''; ?>>Foreigner</option>
+                </select>
                 </div>
 
                 <div class="userprofile_row">
