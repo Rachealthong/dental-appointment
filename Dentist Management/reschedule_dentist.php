@@ -68,9 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <br>
             <label for="date">Select New Date:</label>
             <p><strong>Original Date:</strong> <?php echo htmlspecialchars($appointment['available_date']); ?></p>
-            <select id="date" name="date" required>
-                <option value="" disabled selected>Select a date</option>
-            </select>
+            <?php
+            $minDate = date('Y-m-d', strtotime('+1 day'));
+            $maxDate = date('Y-m-d', strtotime('+14 days')); // two weeks from today
+            ?>
+            <input type="date" id="date" name="date" min="<?php echo $minDate; ?>" max="<?php echo $maxDate; ?>" required>
             <br>
             <label for="time">Select New Time:</label>
             <p><strong>Original Time:</strong> <?php echo htmlspecialchars($appointment['available_time']); ?></p>
@@ -78,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <option value="" disabled selected>Select a time</option>
             </select>
             <br>
+
             <label for="remarks">Remarks:</label>
             <textarea id="remarks" name="remarks" rows="4" cols="50" style="width: 100%;"><?php echo htmlspecialchars($appointment['remarks']); ?></textarea>
             <br>
@@ -114,7 +117,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         xhr.open("GET", `../Manage Booking/fetch_available_slots.php?dentist=${encodeURIComponent(dentist)}&service=${encodeURIComponent(service)}`, true);
         xhr.onload = function() {
             if (xhr.status === 200) {
-                const slots = JSON.parse(xhr.responseText);
+                const response = xhr.responseText;
+                if (response.startsWith('error:')) {
+                    console.error(response.substring(6));
+                    return;
+                }
+                const slots = response.split(';');
                 updateDateAndTimeSelects(slots);
             }
         };
@@ -122,7 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     function updateDateAndTimeSelects(slots) {
-        // Get the date and time select elements
         const dateSelect = document.getElementById('date');
         const timeSelect = document.getElementById('time');
 
@@ -130,24 +137,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         dateSelect.innerHTML = '<option value="" disabled selected>Select a date</option>';
         timeSelect.innerHTML = '<option value="" disabled selected>Select a time</option>';
 
-        // Create a map to store available times for each date
         const timeMap = {};
 
-        // Populate the date and time selects based on the fetched slots
         slots.forEach(slot => {
-            // Add available date if not already added
-            if (!timeMap[slot.available_date]) {
-                timeMap[slot.available_date] = [];
-                dateSelect.innerHTML += `<option value="${slot.available_date}">${slot.available_date}</option>`;
+            const [date, time] = slot.split(',');
+            if (!timeMap[date]) {
+                timeMap[date] = [];
+                dateSelect.innerHTML += `<option value="${date}">${date}</option>`;
             }
-            // Add available time for the corresponding date
-            timeMap[slot.available_date].push(slot.available_time);
+            timeMap[date].push(time);
         });
 
-        // Update time slots when the user selects a date
         dateSelect.addEventListener('change', function() {
             const selectedDate = this.value;
-            timeSelect.innerHTML = '<option value="" disabled selected>Select a time</option>'; // Clear previous times
+            timeSelect.innerHTML = '<option value="" disabled selected>Select a time</option>';
             if (timeMap[selectedDate]) {
                 timeMap[selectedDate].forEach(time => {
                     timeSelect.innerHTML += `<option value="${time}">${time}</option>`;
@@ -155,6 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         });
     }
+
 </script>
 </body>
 </html>
