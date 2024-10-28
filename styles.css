@@ -177,7 +177,7 @@ background-color: #386da1;
   display: flex; /* Fallback for other browsers */
   -webkit-box-orient: vertical; /* For WebKit */
   overflow: hidden; /* Hide overflow */
-  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  line-clamp: 3; /* Limit to 3 lines */
   max-height: 4.5em; /* Ensure enough height for 3 lines */
   text-overflow: ellipsis; /* Add ellipsis at the end */
   margin: 15px 20px; /* Space between title and description */
@@ -527,13 +527,17 @@ background-color: #ded9c4;
 }
 
 .search-container {
-  margin-bottom: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
 }
-.search-container input {
-  padding: 10px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+
+.search-container label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
 #calendar {
@@ -553,6 +557,25 @@ background-color: #ded9c4;
 
 .button:hover {
   background-color: #0056b3;
+}
+
+.search-input {
+  margin-right: 10px;
+  width: 90%; /* Adjust the width as needed */
+}
+
+table {
+  width: 100%;
+  table-layout: fixed; /* Ensures columns are evenly spaced */
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+th {
+  background-color: #f2f2f2;
 }
 
 .poppins-thin {

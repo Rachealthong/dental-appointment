@@ -41,7 +41,7 @@ session_start();
                 JOIN 
                     Schedule sch ON a.schedule_id = sch.schedule_id
                 WHERE 
-                    a.dentist_id = ? AND a.cancelled = 0 AND sch.available_date > NOW()
+                    a.dentist_id = ? 
                 ORDER BY 
                     sch.available_date, sch.available_time";
         $stmt = $conn->prepare($sql);
@@ -53,6 +53,15 @@ session_start();
             <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
             <div class="bottom_centered"><h1>Manage Booking</h1></div>
         </div>
+        <div class="search-container">
+            <div>
+                Select type of appointment to view: <br>
+                <label><input type="radio" name="filter" value="upcoming" checked> Upcoming</label>
+                <label><input type="radio" name="filter" value="past"> Past</label>
+                <label><input type="radio" name="filter" value="cancelled-rescheduled"> Cancelled/Rescheduled</label>
+            </div>
+        </div>
+        <div class="container">
         <?php if ($result->num_rows > 0): ?>
             <form id="reschedule_form" method="post" action="reschedule_dentist.php">
             <table id="appointmentsTable">
@@ -64,8 +73,7 @@ session_start();
                         <th>Appointment Date</th>
                         <th>Appointment Time</th>
                         <th>Remarks</th>
-                        <th>Cancelled</th>
-                        <th>Rescheduled</th>
+                        <th>Cancelled or Rescheduled</th>
                     </tr>
                     <tr>
                         <th></th>
@@ -74,8 +82,7 @@ session_start();
                         <th><input type="text" class="search-input" placeholder="Search Date"></th>
                         <th><input type="text" class="search-input" placeholder="Search Time"></th>
                         <th><input type="text" class="search-input" placeholder="Search Remarks"></th>
-                        <th><input type="text" class="search-input" placeholder="Search Cancelled"></th>
-                        <th><input type="text" class="search-input" placeholder="Search Rescheduled"></th>
+                        <th><input type="text" class="search-input" placeholder="Search Cancelled/Rescheduled"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,26 +90,26 @@ session_start();
                     $current_date = date('Y-m-d');
                     while ($row = $result->fetch_assoc()): 
                         $is_upcoming = $row['available_date'] >= $current_date;
+                        $is_cancelled_or_rescheduled = $row['cancelled'] || $row['rescheduled'];
                         $is_selectable = $is_upcoming && !$row['cancelled'] && !$row['rescheduled'];
                 ?>
-                    <tr class="<?php echo $is_upcoming ? 'upcoming' : 'past'; ?>">
-                        <td>
-                            <?php if ($is_selectable): ?>
-                                <input type="radio" name="selected_appointment" value="<?php echo htmlspecialchars($row['appointment_id']); ?>" required>
-                            <?php endif; ?>
-                        </td>
-                        <td><a href="patient_bio.php?patient_id=<?php echo htmlspecialchars($row['patient_id']); ?>"><?php echo htmlspecialchars($row['patient_name']); ?></td>
-                        <td><?php echo htmlspecialchars($row['service_type']); ?></td>
-                        <td><?php echo htmlspecialchars($row['available_date']); ?></td>
-                        <td><?php echo htmlspecialchars($row['available_time']); ?></td>
-                        <td><?php echo htmlspecialchars($row['remarks']); ?></td>
-                        <td><?php echo $row['cancelled'] ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo $row['rescheduled'] ? 'Yes' : 'No'; ?></td>
-                    </tr>
+                <tr class="<?php echo $is_cancelled_or_rescheduled ? 'cancelled-rescheduled' : ($is_upcoming ? 'upcoming' : 'past'); ?>">
+                    <td>
+                        <?php if ($is_selectable): ?>
+                            <input type="radio" name="selected_appointment" value="<?php echo htmlspecialchars($row['appointment_id']); ?>" required>
+                        <?php endif; ?>
+                    </td>
+                    <td><a href="patient_bio.php?patient_id=<?php echo htmlspecialchars($row['patient_id']); ?>"><?php echo htmlspecialchars($row['patient_name']); ?></td>
+                    <td><?php echo htmlspecialchars($row['service_type']); ?></td>
+                    <td><?php echo htmlspecialchars($row['available_date']); ?></td>
+                    <td><?php echo htmlspecialchars($row['available_time']); ?></td>
+                    <td><?php echo htmlspecialchars($row['remarks']); ?></td>
+                    <td><?php echo $is_cancelled_or_rescheduled ? ($row['cancelled'] ? 'Cancelled' : 'Rescheduled') : ''; ?></td>
+                </tr>
                 <?php endwhile; ?>
                 </tbody>
             </table>
-            <button type="submit">Reschedule</button>
+            <button class='button' type="submit">Reschedule</button>
             </form>
         <?php else: ?>
             <p>No appointments found.</p>
@@ -111,6 +118,7 @@ session_start();
         <h2>Please Log In using Dentist Credentials</h2>
         <p>You need to log in as Dentist to manage dental appointments. <a href="../User Registration/login.html">Log in here</a>.</p>
     <?php endif; ?>
+    </div>
     <div id="footer"></div>
 </div>
 <script>
@@ -135,19 +143,27 @@ session_start();
         });
     });
 
-    document.getElementById('togglePastBookings').addEventListener('change', function() {
-        const showPast = this.checked;
-        const rows = document.querySelectorAll('#appointmentsTable tbody tr');
+    document.querySelectorAll('input[name="filter"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const filter = this.value;
+            const rows = document.querySelectorAll('#appointmentsTable tbody tr');
 
-        rows.forEach(row => {
-            if (row.classList.contains('past')) {
-                row.style.display = showPast ? '' : 'none';
-            }
+            rows.forEach(row => {
+                if (filter === 'upcoming' && row.classList.contains('upcoming')) {
+                    row.style.display = '';
+                } else if (filter === 'past' && row.classList.contains('past')) {
+                    row.style.display = '';
+                } else if (filter === 'cancelled-rescheduled' && row.classList.contains('cancelled-rescheduled')) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
         });
     });
 
-    // Initially hide past bookings
-    document.getElementById('togglePastBookings').dispatchEvent(new Event('change'));
+    // Trigger the change event on page load to apply the default filter
+    document.querySelector('input[name="filter"]:checked').dispatchEvent(new Event('change'));
 </script>
 </body>
 </html>

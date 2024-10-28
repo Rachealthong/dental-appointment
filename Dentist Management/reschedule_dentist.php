@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
             <div class="bottom_centered"><h1>Reschedule an Appointment</h1></div>
         </div>
+        <div class="container">
         <?php if ($appointment): ?> 
             <form id="reschedule_form" method="post" action="../Manage Booking/submit_reschedule_appointment.php">
             <label for="patient">Patient's Name: </label>
@@ -93,6 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php else: ?>
             <p>No appointments found.</p>
         <?php endif; ?>
+        </div>
     <div id="footer"></div>
 </div>
 <script>
