@@ -12,9 +12,9 @@ patient_bio.php also done and can be clicked when clicking on patient's name, ne
 
 
 
-Patient: 
-1. Booking Appointment: 
-Change the Date Selection into Calendar style ✅
+Patient:Appointment: 
+Change the  
+1. Booking Date Selection into Calendar style ✅
 For fetching available slots, though not much of a big difference, should we use dentist_id instead of dentist name as identifier since it is unique? 
 Also note that we cant store info in JSON as prof doesnt allow. chatgpt suggested another workaround that i implemented in fetch_available_slots.php in Dentist Management✅
 
