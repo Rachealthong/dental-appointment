@@ -15,24 +15,6 @@ $dentist_id = $_SESSION['dentist_id'];
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-    <style>
-        #calendar {
-            max-width: 900px;
-            margin: 40px auto;
-        }
-        .button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
 <body>
 <div id="wrapper">

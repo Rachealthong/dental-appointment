@@ -5,6 +5,7 @@ function validateForm() {
     var confirmPassword = document.getElementById("confirmpw").value;
     var phoneNo = document.getElementById("phoneno").value;
     var dob = document.getElementById("dob").value;
+    var consent = document.getElementById('consent').checked;
 
     // Name validation: alphabet characters and spaces
     var namePattern = /^[A-Za-z\s]+$/;
@@ -45,6 +46,11 @@ function validateForm() {
     var selectedDate = new Date(dob);
     if (selectedDate >= today) {
         alert("Date of Birth cannot be today or in the future.");
+        return false;
+    }
+
+    if (!consent) {
+        alert("You must agree to the consent to register.");
         return false;
     }
 

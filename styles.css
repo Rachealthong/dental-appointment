@@ -412,7 +412,34 @@ background-color: #ded9c4;
   margin-right: 10px; /* Add space between buttons */
 }
 
+.search-container {
+  margin-bottom: 20px;
+}
+.search-container input {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
+#calendar {
+  max-width: 900px;
+  margin: 40px auto;
+}
+
+.button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
 
 .poppins-thin {
     font-family: "Poppins", sans-serif;
