@@ -412,6 +412,40 @@ background-color: #ded9c4;
   margin-right: 10px; /* Add space between buttons */
 }
 
+#oldnew_appointment
+{
+  padding: 20px;
+  margin: 20px auto; 
+  width: 50%;
+  display:flex;
+}
+
+
+.rescheduleform
+{
+  padding: 20px;
+  margin: 20px auto; 
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.rescheduleform label {
+     width: 300px; 
+     text-align: left; 
+     padding-right: 10px;
+     margin-top: 10px;
+     display: block; 
+}
+
+.rescheduleform select, input, textarea { 
+   margin-top: 10px; 
+   display: block;
+   padding: 5px;
+   }
+   
+
 .search-container {
   margin-bottom: 20px;
 }
