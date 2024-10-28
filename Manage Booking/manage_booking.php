@@ -23,9 +23,6 @@ $stmt->bind_param("i", $patient_id);  // Bind the patient ID to the query
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Fetch the data
-$appointment = $result->fetch_assoc();
-
 // Prepare the SQL query to fetch past appointments
 $sql_past = "SELECT a.appointment_id, d.dentist_name, s.service_type, 
                      sch.available_date, sch.available_time, a.remarks 
@@ -71,8 +68,8 @@ $result_past = $stmt_past->get_result();
             <h2>Upcoming Appointment</h2>
            
                 <?php
-                    if ($result_past->num_rows > 0) {
-                        while ($appointment = $result->fetch_assoc()) { // Corrected $result_past instead of $result
+                    if ($result->num_rows > 0) {
+                        while ($appointment = $result->fetch_assoc()) { 
                             ?>
                              <div class="edit_booking">
                             <form id="reschedule" method="post">
@@ -94,7 +91,7 @@ $result_past = $stmt_past->get_result();
                             
                         } // Corrected PHP closing for the while loop
                     } else {
-                        echo "<p>No Upcoming Booking</p>";
+                        echo "<p>No upcoming booking.</p>";
                     }
                 ?>
             
