@@ -25,15 +25,16 @@
         include '../dbconnect.php'; // Ensure this path is correct
 
         // Fetch services from the database
-        $sql = "SELECT dentist_id, dentist_name, dentist_image FROM dentists";
+        $sql = "SELECT dentist_id, dentist_name, dentist_image, dentist_description FROM dentists";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 echo '<div class="box">';
                 echo '<a href="dentist_bio.php?dentist_id=' . htmlspecialchars($row['dentist_id']) . '">';
-                echo '<img src="../Assets/' . htmlspecialchars($row['dentist_image']) . '" width="300px" alt="' . htmlspecialchars($row['dentist_name']) . '"><br>';
+                echo '<img src="../Assets/' . htmlspecialchars($row['dentist_image']) . '" width="400px" alt="' . htmlspecialchars($row['dentist_name']) . '"><br>';
                 echo '<h2>' . htmlspecialchars($row['dentist_name']) . '</h2>';
+                echo '<p class="service-description">' . htmlspecialchars($row['dentist_description']) . '</p>'; 
                 echo '</a>';
                 echo '</div>';
             }

@@ -104,23 +104,49 @@ background-color: #386da1;
 }
 
 .container {
-  padding : 20px;
+  padding: 20px;
   display: flex;
-  justify-content: stretch;
-  width: 80%;
+  flex-wrap: wrap; /* Allows wrapping of boxes to the next line */
+  width: 90%;
   margin: auto;
-  align-items: center;
+  align-items: flex-start; /* Aligns items to the top of the container */
 }
+
 .box {
   padding: 5px;
-  margin: 5px;
+  margin: 20px 5px;
+  overflow: hidden;
   text-align: center;
-  width: 30%;
+  width: calc(33.33% - 10px); /* Adjust width to fit 3 boxes per row, accounting for margin */
+  box-sizing: border-box; /* Ensures padding and margin are included in the width calculation */
+  height: 460px;
+  display:block;
+  
 }
 
 .box a {
   text-decoration: none;
   color: #001F3F;
+}
+
+.box h2 {
+  margin: 20px;
+  text-align: left;
+}
+
+
+.service-description {
+  
+  display: -webkit-box; /* For WebKit browsers (Chrome, Safari) */
+  display: flex; /* Fallback for other browsers */
+  -webkit-box-orient: vertical; /* For WebKit */
+  overflow: hidden; /* Hide overflow */
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  max-height: 4.5em; /* Ensure enough height for 3 lines */
+  text-overflow: ellipsis; /* Add ellipsis at the end */
+  margin: 15px 20px; /* Space between title and description */
+  color: #555; /* Change text color */
+  text-align: left; /* Align text to the left */
 }
 
 footer {

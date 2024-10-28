@@ -23,15 +23,16 @@
         include '../dbconnect.php'; // Ensure this path is correct
 
         // Fetch services from the database
-        $sql = "SELECT service_id, service_type, service_image FROM services";
+        $sql = "SELECT service_id, service_type, service_image, service_description FROM services";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 echo '<div class="box">';
                 echo '<a href="services_detail.php?service_id=' . htmlspecialchars($row['service_id']) . '">';
-                echo '<img src="../Assets/' . htmlspecialchars($row['service_image']) . '" width="200px" alt="' . htmlspecialchars($row['service_type']) . '"><br>';
+                echo '<img src="../Assets/' . htmlspecialchars($row['service_image']) . '" width="400px" alt="' . htmlspecialchars($row['service_type']) . '"><br>';
                 echo '<h2>' . htmlspecialchars($row['service_type']) . '</h2>';
+                echo '<p class="service-description">' . htmlspecialchars($row['service_description']) . '</p>'; // Add the service description
                 echo '</a>';
                 echo '</div>';
             }
