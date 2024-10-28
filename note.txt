@@ -2,5 +2,6 @@
 
 2. Flush schedule to infinite date (a few months date) with duration of 30 minutes. 
 Slight modification needed for update_availability.php (dentist)
+Allow patients to book appointment 1 month in advance (instead of two weeks)
 
 3. Then do a final check and touch up and it should be done!
