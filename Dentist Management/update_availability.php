@@ -64,7 +64,7 @@ $dentist_id = $_SESSION['dentist_id'];
                     fetchAvailableSlots(dentist_id, successCallback, failureCallback);
                 },
                 eventClick: function (info) {
-                    if (info.event.backgroundColor === 'green') {
+                    if (info.event.backgroundColor === 'green' || info.event.backgroundColor === 'yellow') {
                         toggleSlotAvailability(info.event);
                     } else {
                         alert('This slot is unavailable and cannot be toggled.');
@@ -119,10 +119,12 @@ $dentist_id = $_SESSION['dentist_id'];
                 const { start, backgroundColor } = event;
                 const [date, time] = start.toISOString().split('T');
                 const slotIndex = selectedSlots.findIndex(slot => slot.date === date && slot.time === time.slice(0, 5));
-
                 if (backgroundColor === 'green') {
-                    event.setProp('backgroundColor', 'red');
+                    event.setProp('backgroundColor', 'yellow');
                     if (slotIndex === -1) selectedSlots.push({ date, time: time.slice(0, 5) });
+                } else if (backgroundColor === 'yellow') {
+                    event.setProp('backgroundColor', 'green');
+                    if (slotIndex !== -1) selectedSlots.splice(slotIndex, 1);
                 }
             }
 

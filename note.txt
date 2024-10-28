@@ -1,8 +1,10 @@
-Dentist Management: 
-1. Manage Booking: 
-- manage_booking_dentist.php: add CSS 
-- patient_bio.php: - add CSS
+1. Add CSS for
+- manage_booking_dentist.php
+- patient_bio.php
 
-Update dentists and services details
+2. Update dentists and services details.
 
-Then do a final check and touch up and it should be done!
+3. Flush schedule to infinite date (a few months date) with duration of 30 minutes. 
+Slight modification needed for update_availability.php (dentist)
+
+4. Then do a final check and touch up and it should be done!
