@@ -2,9 +2,12 @@
 - manage_booking_dentist.php
 - patient_bio.php
 
-2. Update dentists and services details.
+2. Update dentists and services details. 
+add service_short_description to show before clicking into it
 
 3. Flush schedule to infinite date (a few months date) with duration of 30 minutes. 
 Slight modification needed for update_availability.php (dentist)
 
-4. Then do a final check and touch up and it should be done!
+4. add more stuff under book appointment and manage appointment (without patient_login)
+
+Then do a final check and touch up and it should be done!

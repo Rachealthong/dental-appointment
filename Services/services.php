@@ -14,7 +14,7 @@
     </header>
     <div id="navbar"></div>
     <div id="services">
-        <img class="img_filter" src="../Assets/ourservices.jpg">
+        <img class="img_filter" src="../Assets/ourservices.png" height="450px">
         <div class="bottom_centered"><h1>OUR SERVICES</h1></div>
     </div>
     <!-- make these 3 boxes next to each other -->
@@ -32,7 +32,7 @@
                 echo '<a href="services_detail.php?service_id=' . htmlspecialchars($row['service_id']) . '">';
                 echo '<img src="../Assets/' . htmlspecialchars($row['service_image']) . '" width="400px" alt="' . htmlspecialchars($row['service_type']) . '"><br>';
                 echo '<h2>' . htmlspecialchars($row['service_type']) . '</h2>';
-                echo '<p class="service-description">' . htmlspecialchars($row['service_description']) . '</p>'; // Add the service description
+                echo '<p class="service-description">' . htmlspecialchars(explode('.', $row['service_description'])[0] . '.') . '</p>';
                 echo '</a>';
                 echo '</div>';
             }

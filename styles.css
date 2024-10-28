@@ -60,8 +60,10 @@ nav ul li a {
 
 
 nav a {text-decoration: none;  
-
 }
+
+
+
 
 #login_nav {
 float:right;
@@ -130,9 +132,43 @@ background-color: #386da1;
 }
 
 .box h2 {
-  margin: 20px;
+  margin: 10px;
   text-align: left;
 }
+
+.box p {
+  margin: 10px;
+  text-align: justify;
+}
+
+.box img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px; 
+}
+
+.box img:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Shadow deepens on hover */
+  transform: translateY(-5px); /* Lift effect on hover */
+}
+
+#details_header {
+  background-color: #9fa8c0;
+  color: rgb(3, 20, 36);
+  text-align: center;
+  width: 100%;
+  padding-top: 50px;
+}
+
+
+.container_details {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping of boxes to the next line */
+  width: 100%;
+  margin: auto;
+  align-items: flex-start; /* Aligns items to the top of the container */
+}
+
 
 
 .service-description {
@@ -145,7 +181,7 @@ background-color: #386da1;
   max-height: 4.5em; /* Ensure enough height for 3 lines */
   text-overflow: ellipsis; /* Add ellipsis at the end */
   margin: 15px 20px; /* Space between title and description */
-  color: #555; /* Change text color */
+  color: #000000; /* Change text color */
   text-align: left; /* Align text to the left */
 }
 
@@ -167,7 +203,7 @@ footer a {
 
 .img_filter {
   width:100%;
-  filter: brightness(80%);
+  filter: brightness(60%);
 }
 
 .bottom_centered {
@@ -277,19 +313,25 @@ footer a {
 }
 
 #service_image {
-  width: 50%;
+  width: 60%;
+  justify-content: center; /* Center the image inside the div */
   display: flex;
-  justify-content: center;
+  justify-content: left;
 }
 
 #service_image img {
+  height: auto;
   width: 80%;
-  height:auto;
+  border-radius: 10px; 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Deeper shadow */
+  
+
 }
 
 #service_detail {
   padding:10px;
   width: 50%;
+  margin-bottom: 20px;
 }
 
 #book_appointment {

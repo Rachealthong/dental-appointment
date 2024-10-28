@@ -14,45 +14,80 @@
     <div id="navbar"></div>
     </header>
     <?php
-    include '../dbconnect.php';
+        include '../dbconnect.php';
 
-    $service_id = $_GET['service_id'] ?? '';
+        $service_id = $_GET['service_id'] ?? '';
 
-    // Fetch dentists from the database
-    $sql = "SELECT service_type, service_description, service_image FROM services WHERE service_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $service_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $service = $result->fetch_assoc();
-    $stmt->close();
-    $conn->close();
+        // Fetch main service from the database
+        $sql = "SELECT service_type, service_description, service_image FROM services WHERE service_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $service_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $service = $result->fetch_assoc();
+        $stmt->close();
 
-    if ($service) {
-        echo "<div class='container_service'>";
+        if ($service) {
+            echo "<div class='container_service'>";
 
-        echo "<div id='service_image'>";
-        echo "<!--image of the service on top-->";
-        echo "<img src='../Assets/{$service['service_image']}' width='200px' alt='temp'><br>";
-        echo "</div>";
+            echo "<div id='service_image'>";
+            echo "<!--image of the service on top-->";
+            echo "<img src='../Assets/{$service['service_image']}' width='400px' alt='temp'><br>";
+            echo "</div>";
 
-        echo "<div id='service_detail'>";
-        echo "<h1>{$service['service_type']}</h1>";
-        echo "<p>{$service['service_description']}</p>";
-        echo "<br><br>";
-        echo "<div id='book_appointment'>";
-        echo "<a href='../Booking Appointment/book_appointment.php'>Book Appointment</a>";
-        echo "</div>";
-        echo "</div>";
+            echo "<div id='service_detail'>";
+            echo "<h1>{$service['service_type']}</h1>";
+            echo "<p>{$service['service_description']}</p>";
+            echo "<br><br>";
+            echo "<div id='book_appointment'>";
+            echo "<a href='../Booking Appointment/book_appointment.php'>Book Appointment</a>";
+            echo "</div>";
+            echo "</div>";
 
-        echo "</div>";
-    } else {
-        echo "<p>Service not found.</p>";
-    }
+            echo "</div>";
+
+            // Fetch other services
+            $sql = "SELECT service_id, service_type, service_image, service_description FROM services WHERE service_id != ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $service_id);
+            $stmt->execute();
+            $other_services = $stmt->get_result();
+
+            echo "<div class='container_details'>";
+
+            echo "<div id='details_header'><h2>Other Services</h2>";
+
+            if ($other_services->num_rows > 0) {
+                echo "<div class='container'>";
+
+                while ($other_service = $other_services->fetch_assoc()) {
+                    echo "<div class='box'>";
+                    echo "<a href='?service_id={$other_service['service_id']}'>";
+                    echo "<img src='../Assets/{$other_service['service_image']}' width='400px' alt='service'>";
+                    echo "<h2>{$other_service['service_type']}</h2>";
+                    echo '<p class="service-description">' . htmlspecialchars(explode('.', $other_service['service_description'])[0] . '.') . '</p>';
+                    echo "</a>";
+                    echo "</div>";
+                }
+
+                echo "</div>"; // Closing div for .other_services
+            }
+
+            echo "</div>"; // Closing div for <div><h2>Other Services</h2>...</div>
+            echo "</div>"; // Closing div for .container
+
+            $stmt->close();
+
+        } else {
+            echo "<p>Service not found.</p>";
+        }
+
+        $conn->close();
     ?>
-
     <div id="footer"></div>
 </div>
+
+
 <script>
     fetch('../Elements/navbar.php')
         .then(response => response.text())

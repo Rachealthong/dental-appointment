@@ -42,3 +42,27 @@ SET service_image = CASE service_id
 UPDATE services
 SET service_type = 'Root Canal Treatment'
 WHERE service_id = 5;
+
+UPDATE `services` SET `service_description` = 'Our general dentistry services include fillings, tooth extraction and custom-fitted mouth guards.\r\n\r\n<h3>Fillings</h3>\r\nFillings can help to replace tooth structure that has been lost to decay or damage. For example, if a small piece of your tooth is chipped, fillings can repair and restore it to a normal function and appearance and stop further decay by providing a barrier against bacteria.\r\n\r\n<h3>Extraction</h3>\r\nIf your teeth are affected by advanced gum disease, deep cracks, or are deeply decayed, it is likely that other treatments cannot preserve your teeth, and we may recommend having them extracted instead.\r\n\r\n' WHERE `services`.`service_id` = 1;
+UPDATE services SET service_description = "Braces are an effective orthodontic solution with metal brackets, wires, and modules. In addition to improving oral health, they also function as a cosmetic dentistry procedure by correcting issues such as crooked teeth and improving oral health. <h3>Fees</h3> Braces treatment begins at $4,033, varying with your case’s complexity. A fee of $239.80 (includes GST) will be charged for the initial consultation package where we will collect diagnostic records for an in-depth assessment of your teeth condition. <br><br> The consultation package includes: <ul> <li>Consultations</li> <li>Diagnostics records (4 X-rays, iTero scans, study models, and photos)</li> </ul> Bright Smile Dental provides 4 types of retainers – Vivera, Hawley, clear, and permanent retainers, with our dentists recommending the best type for you." WHERE service_id = 2;
+UPDATE services 
+SET service_description = "
+Scaling and polishing are critical parts of dental cleaning that help maintain oral hygiene by removing stains, plaque, and tartar unreachable by regular brushing. During scaling, specialised dental instruments loosen and remove plaque and tartar. This is followed by polishing, where a spinning brush or rubber cup smooths the teeth’s surface, making it more difficult for plaque to adhere. Regular sessions help detect and manage potential dental issues like gum disease or cavities early, preventing more serious problems.
+<br><br>
+At Bright Smile Dental, scaling and polishing services start at $65.40, depending on the specific needs of your treatment."
+
+WHERE service_id = 3;
+
+UPDATE services SET service_description = "Restorative dentistry encompasses dental procedures that are focused on repairing or replacing damaged and missing teeth. This can occur due to trauma, decay, cavities and many other dental conditions. <h3>Benefits</h3> Through restorative dentistry, the function of these teeth can be restored and your overall dental health can be improved. It can reduce the likelihood of infections due to damaged teeth and encourage better oral hygiene by preventing the buildup of plaque. By addressing current oral conditions promptly, restorative dentistry can help to prevent further dental diseases or issues from occurring" WHERE service_id = 4;
+update services
+set service_description = "A root canal treatment is an endodontic procedure used to repair and save a severely infected or badly decayed tooth. It helps to relieve pain and make the tooth healthy.
+<br><br>
+During a root canal procedure, the infected pulp tissues are removed. After which, the inside of a tooth is disinfected and cleaned before it gets sealed with a filling.
+<br><br>
+With treatment, the tooth can recover and revert to its normal functions. Otherwise, the tooth may have to be extracted.
+
+"
+WHERE service_id = 5;
+
+update services set service_description = "Bruxism is a condition in which you grind, gnash or clench your teeth. If you have bruxism, you may unconsciously clench your teeth when you're awake (awake bruxism) or clench or grind them during sleep (sleep bruxism). <br><br> Sleep bruxism is considered a sleep-related movement disorder. People who clench or grind their teeth (brux) during sleep are more likely to have other sleep disorders, such as snoring and pauses in breathing (sleep apnea). <br><br> Mild bruxism may not require treatment. However, in some people, bruxism can be frequent and severe enough to lead to jaw disorders, headaches, damaged teeth and other problems. <br><br> Because you may have sleep bruxism and be unaware of it until complications develop, it's important to know the signs and symptoms of bruxism and to seek regular dental care." where service_id = 6;
+update services set service_description = "Dental implants serve as a durable replacement for lost teeth due to periodontal disease, injury, or other causes. These artificial tooth roots are surgically placed into the jawbone to securely hold dental crown, dental bridge or dentures. <br><br> At Bright Smile Dental, our dental implant solutions range from single tooth replacements to implant-supported bridges and dentures, including metal-free options. Prices range from $3,815 to $7,085 per tooth, tailored to meet your specific dental needs. <h3>Benefits</h3> <ul> <li>Enhances ability to chew</li> <li>Enhances speeches</li> <li>Prevent jawbone loss</li> <li>Comfortable and natural</li> </ul> " where service_id = 7;
