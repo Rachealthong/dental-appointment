@@ -18,9 +18,11 @@ include '../dbconnect.php';
     <header>
     <div id="navbar"></div>
     </header>
-    
+    <div class="container">
+    <h1>Patient's Profile</h1>
+    </div>
+    <div class="container">
     <?php if (isset($_SESSION['dentist_id'])): 
-        #$dentist_id = $_SESSION['dentist_id'];
         $patient_id = $_GET['patient_id'] ?? '';
 
         // Retrieve appointments for the logged-in dentist
@@ -39,7 +41,8 @@ include '../dbconnect.php';
         Gender: <?php echo $patient_data['patient_gender']; ?><br>
         Nationality: <?php echo $patient_data['patient_nationality']; ?><br>
         Date of Birth: <?php echo $patient_data['patient_dob']; ?><br>
-
+    </div>
+    <div class="container">
     <?php
     $sql = "SELECT a.appointment_id, d.dentist_name, s.service_type, 
             sch.available_date, sch.available_time, a.remarks, a.cancelled, a.rescheduled
@@ -58,8 +61,8 @@ include '../dbconnect.php';
     $result = $stmt->get_result();
     ?>
 
+    <h2>Appointment Booking History</h2>
     <table>
-        <caption>Appointment Booking History</caption>
         <thead>
             <tr>
                 <th>#</th>
@@ -97,7 +100,7 @@ include '../dbconnect.php';
         <h2>Please Log In using Dentist Credentials</h2>
         <p>You need to log in as Dentist to manage dental appointments. <a href="../User Registration/login.html">Log in here</a>.</p>
     <?php endif; ?>
-
+    </div>
     <div id="footer"></div>
 </div>
 <script>
