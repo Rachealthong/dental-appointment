@@ -5,7 +5,7 @@ include '..\dbconnect.php';
 $patient_id = $_SESSION['patient_id'];  // Assuming patient ID is stored in session
 $appointment_id = $_POST['appointment_id'];
 
-$action = $_POST['action'];
+$action = $_POST['action'] ?? '';
 // Fetch original appointment details
 $sql = "SELECT a.appointment_id, d.dentist_name, s.service_type, 
 sch.available_date, sch.available_time, a.remarks 
@@ -84,6 +84,7 @@ $appointment = $result->fetch_assoc();
                     ?>
                 </select>
                 <br>
+                <label for="time">Preferred Date:</label>
                 <?php
                 $minDate = date('Y-m-d', strtotime('+1 day'));
                 $maxDate = date('Y-m-d', strtotime('+14 days')); // two weeks from today

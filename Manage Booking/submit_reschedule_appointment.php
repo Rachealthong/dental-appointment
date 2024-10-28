@@ -16,6 +16,7 @@ $preferred_date = $_POST['date'];
 $preferred_time = $_POST['time'];
 $remarks = $_POST['remarks'];
 
+
 // Fetch patient_id
 $stmt = $conn->prepare("SELECT patient_id FROM patients WHERE patient_id= ?");
 $stmt->bind_param("s", $patient_id);
@@ -52,7 +53,19 @@ if (!$service_id) {
     die("Service not found.");
 }
 
-// Fetch schedule_id
+//Fetch original schedule_id from the existing appointment
+$stmt = $conn->prepare("SELECT schedule_id FROM appointments WHERE appointment_id = ?");
+$stmt->bind_param("i", $appointment_id);
+$stmt->execute();
+$stmt->bind_result($original_schedule_id);
+$stmt->fetch();
+$stmt->close();
+
+if (!$original_schedule_id) {
+    die("Original schedule not found.");
+}
+
+// Fetch new schedule_id
 $stmt = $conn->prepare("SELECT schedule_id FROM schedule WHERE dentist_id = ? AND available_date = ? AND available_time = ?");
 $stmt->bind_param("iss", $dentist_id, $preferred_date, $preferred_time);
 $stmt->execute();
@@ -64,20 +77,43 @@ if (!$schedule_id) {
     die("Schedule slot not available.");
 }
 
-// Update the appointment in the 'appointments' table
-$sql = "UPDATE appointments SET schedule_id = ?, dentist_id = ?, service_id = ?, remarks = ?, rescheduled = 1 WHERE appointment_id = ? AND patient_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("iiisii", $schedule_id, $dentist_id, $service_id, $remarks, $appointment_id, $patient_id);
+// Begin transaction
+$conn->begin_transaction();
 
-if ($stmt->execute()) {
-    // Update the availability_status in the 'schedule' table
-    $update_sql = "UPDATE schedule SET availability_status = 0 WHERE schedule_id = ?";
-    $update_stmt = $conn->prepare($update_sql);
-    $update_stmt->bind_param("i", $schedule_id);
+
+try {
+    // Set availability of the original schedule_id to 1
+    $update_original_sql = "UPDATE schedule SET availability_status = 1 WHERE schedule_id = ?";
+    $update_stmt = $conn->prepare($update_original_sql);
+    $update_stmt->bind_param("i", $original_schedule_id);
     $update_stmt->execute();
     $update_stmt->close();
 
-    // Fetch patient email
+    // Update the original appointment to be marked as rescheduled
+    $update_appointment_sql = "UPDATE appointments SET rescheduled = 1 WHERE appointment_id = ? AND patient_id = ?";
+    $stmt = $conn->prepare($update_appointment_sql);
+    $stmt->bind_param("ii", $appointment_id, $patient_id);
+    $stmt->execute();
+    $stmt->close();
+
+    // Insert a new appointment with the new schedule_id
+    $insert_appointment_sql = "INSERT INTO appointments (schedule_id, dentist_id, service_id, patient_id, remarks, cancelled, rescheduled) VALUES (?, ?, ?, ?, ?, 0, 0)";
+    $insert_stmt = $conn->prepare($insert_appointment_sql);
+    $insert_stmt->bind_param("iiisi", $schedule_id, $dentist_id, $service_id, $patient_id, $remarks);
+    $insert_stmt->execute();
+    $insert_stmt->close();
+
+    // Set availability of the new schedule_id to 0
+    $update_new_sql = "UPDATE schedule SET availability_status = 0 WHERE schedule_id = ?";
+    $new_schedule_stmt = $conn->prepare($update_new_sql);
+    $new_schedule_stmt->bind_param("i", $schedule_id);
+    $new_schedule_stmt->execute();
+    $new_schedule_stmt->close();
+
+    // Commit the transaction
+    $conn->commit();
+
+    // Fetch patient email for confirmation
     $stmt = $conn->prepare("SELECT patient_email FROM patients WHERE patient_id = ?");
     $stmt->bind_param("i", $patient_id);
     $stmt->execute();
@@ -86,7 +122,7 @@ if ($stmt->execute()) {
     $stmt->close();
 
     // Prepare the confirmation email
-    $to ='f32ee@localhost';// Change to patient_email
+    $to = $patient_email;
     $subject = "Appointment Reschedule Confirmation";
     $message = "Your appointment has been rescheduled successfully!\n\n" .
                "Dentist: $dentist_name\n" .
@@ -107,8 +143,10 @@ if ($stmt->execute()) {
            "&date=" . urlencode($preferred_date) . 
            "&time=" . urlencode($preferred_time));
     exit();
-} else {
-    echo "Error: " . $stmt->error;
+} catch (Exception $e) {
+    // Rollback the transaction on error
+    $conn->rollback();
+    echo "Error: " . $e->getMessage();
 }
 
 $stmt->close();

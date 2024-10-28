@@ -67,32 +67,33 @@ $result_past = $stmt_past->get_result();
             <div id="all_booking">
             <h2>Upcoming Appointment</h2>
            
-                <?php
-                    if ($result->num_rows > 0) {
-                        while ($appointment = $result->fetch_assoc()) { 
-                            ?>
-                             <div class="edit_booking">
-                            <form id="reschedule" method="post">
-                            
-                            <ul style="list-style-type: none; padding: 0;">
-                                <li>Appointment ID: <?php echo htmlspecialchars($appointment['appointment_id']); ?></li>
-                                <li>Dentist: <?php echo htmlspecialchars($appointment['dentist_name']); ?></li>
-                                <li>Service: <?php echo htmlspecialchars($appointment['service_type']); ?></li>
-                                <li>Date: <?php echo htmlspecialchars($appointment['available_date']); ?></li>
-                                <li>Time: <?php echo htmlspecialchars($appointment['available_time']); ?></li>
-                                <li>Remarks: <?php echo htmlspecialchars($appointment['remarks']); ?></li>
-                            </ul>
-                            <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']); ?>">
-                            <button type="submit" name="action" value="cancel" onclick="setFormAction('cancel.php')">Cancel Appointment</button>
-                            <button type="submit" name="action" value="reschedule" onclick="setFormAction('reschedule.php')">Reschedule Appointment</button>
+            <?php
+                if ($result->num_rows > 0) {
+                    while ($appointment = $result->fetch_assoc()) { 
+                        ?>
+                        <div class="edit_booking">
+                        
+                            <form id="appointment_<?php echo htmlspecialchars($appointment['appointment_id']); ?>" method="post">
+                                <ul style="list-style-type: none; padding: 0;">
+                                    <li>Appointment ID: <?php echo htmlspecialchars($appointment['appointment_id']); ?></li>
+                                    <li>Dentist: <?php echo htmlspecialchars($appointment['dentist_name']); ?></li>
+                                    <li>Service: <?php echo htmlspecialchars($appointment['service_type']); ?></li>
+                                    <li>Date: <?php echo htmlspecialchars($appointment['available_date']); ?></li>
+                                    <li>Time: <?php echo htmlspecialchars($appointment['available_time']); ?></li>
+                                    <li>Remarks: <?php echo htmlspecialchars($appointment['remarks']); ?></li>
+                                </ul>
+                                <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']); ?>">
+                                
+                                <!-- Use JavaScript to dynamically set the form's action -->
+                                <button type="button" onclick="setFormAction('cancel.php', <?php echo htmlspecialchars($appointment['appointment_id']); ?>)">Cancel Appointment</button>
+                                <button type="button" onclick="setFormAction('reschedule.php', <?php echo htmlspecialchars($appointment['appointment_id']); ?>)">Reschedule Appointment</button>
                             </form>
-                            </div>
-                            <?php 
-                            
-                        } // Corrected PHP closing for the while loop
-                    } else {
-                        echo "<p>No upcoming booking.</p>";
+                        </div>
+                        <?php 
                     }
+                } else {
+                    echo "<p>No upcoming booking.</p>";
+                }
                 ?>
             
       
@@ -132,19 +133,6 @@ $result_past = $stmt_past->get_result();
     <div id="footer"></div>
 </div>
 
-<script>
-    fetch('../Elements/navbar.php')
-        .then(response => response.text())
-        .then(data => document.getElementById('navbar').innerHTML = data);
-    fetch('../Elements/footer.html')
-        .then(response => response.text())
-        .then(data => document.getElementById('footer').innerHTML = data);
-
-      
-    function setFormAction(action) {
-        document.getElementById('reschedule').action = action;
-    }
-</script>
-
+<script src="manage_booking.js"></script>
 </body>
 </html>
