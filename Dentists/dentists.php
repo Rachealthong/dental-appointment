@@ -21,19 +21,29 @@
         </div>
         <!-- make these 3 boxes next to each other -->
         <div class="container">
-            <div class="box">
-                <a href="dentist_bio.php?dentist=eunice_seng"><img src="../Assets/temp.png" width="200px" alt="temp"><br>
-                    <h3>Dr Eunice Seng</h3></a>
-            </div>
-            <div class="box">
-                <a href="dentist_bio.php?dentist=thong_peiyu"><img src="../Assets/temp.png" width="200px" alt="temp"><br>
-                    <h3>Dr Thong Peiyu</h3></a>
-            </div>
-            <div class="box">
-                <a href="dentist_bio.php?dentist=ali_abu"><img src="../Assets/temp.png" width="200px" alt="temp"><br>
-                    <h3>Dr Ali Abu Bin Akau</h3></a>
-            </div>
-        </div>
+        <?php
+        include '../dbconnect.php'; // Ensure this path is correct
+
+        // Fetch services from the database
+        $sql = "SELECT dentist_id, dentist_name, dentist_image FROM dentists";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo '<div class="box">';
+                echo '<a href="dentist_bio.php?dentist_id=' . htmlspecialchars($row['dentist_id']) . '">';
+                echo '<img src="../Assets/' . htmlspecialchars($row['dentist_image']) . '" width="200px" alt="' . htmlspecialchars($row['dentist_name']) . '"><br>';
+                echo '<h2>' . htmlspecialchars($row['dentist_name']) . '</h2>';
+                echo '</a>';
+                echo '</div>';
+            }
+        } else {
+            echo '<p>No services found.</p>';
+        }
+
+        $conn->close();
+        ?>
+    </div>
     </div>
     <div id="footer"></div>
 </div>

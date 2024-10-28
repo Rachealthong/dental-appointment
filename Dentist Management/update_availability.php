@@ -75,7 +75,13 @@ $dentist_id = $_SESSION['dentist_id'];
                     daysOfWeek: [1, 2, 3, 4, 5],
                     startTime: '09:00',
                     endTime: '18:00',
-                }
+                },
+                minTime: '09:00:00', 
+                maxTime: '18:00:00',
+                slotMinTime: '09:00:00', 
+                slotMaxTime: '18:00:00',
+                height: 'auto',
+                contentHeight: 600,
             });
 
             calendar.render();

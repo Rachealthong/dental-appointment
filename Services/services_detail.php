@@ -14,39 +14,31 @@
     <div id="navbar"></div>
     </header>
     <?php
-    $services = [
-        'service1' => [
-            'name' => 'Service 1',
-            'description' => 'Service 1 is a dental service that provides xxxx. Our team of experienced dentists will ensure that you receive the best care possible. We use the latest technology and techniques to provide you with the best possible results.',
-            'image' => '../Assets/temp.png'
-        ],
-        'service2' => [
-            'name' => 'Service 2',
-            'description' => 'Service 2 is a dental service that provides xxxx. Our team of experienced dentists will ensure that you receive the best care possible. We use the latest technology and techniques to provide you with the best possible results.',
-            'image' => '../Assets/temp.png'
-        ],
-        'service3' => [
-            'name' => 'Service 3',
-            'description' => 'Service 3 is a dental service that provides xxxx. Our team of experienced dentists will ensure that you receive the best care possible. We use the latest technology and techniques to provide you with the best possible results.',
-            'image' => '../Assets/temp.png'
-        ]
-    ];
+    include '../dbconnect.php';
 
-    $service_id = $_GET['service'] ?? '';
+    $service_id = $_GET['service_id'] ?? '';
 
-    $service = $services[$service_id] ?? null;
+    // Fetch dentists from the database
+    $sql = "SELECT service_type, service_description, service_image FROM services WHERE service_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $service_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $service = $result->fetch_assoc();
+    $stmt->close();
+    $conn->close();
 
     if ($service) {
         echo "<div class='container_service'>";
 
         echo "<div id='service_image'>";
         echo "<!--image of the service on top-->";
-        echo "<img src='{$service['image']}' width='200px' alt='temp'><br>";
+        echo "<img src='../Assets/{$service['service_image']}' width='200px' alt='temp'><br>";
         echo "</div>";
 
         echo "<div id='service_detail'>";
-        echo "<h1>{$service['name']}</h1>";
-        echo "<p>{$service['description']}</p>";
+        echo "<h1>{$service['service_type']}</h1>";
+        echo "<p>{$service['service_description']}</p>";
         echo "<br><br>";
         echo "<div id='book_appointment'>";
         echo "<a href='../Booking Appointment/book_appointment.php'>Book Appointment</a>";

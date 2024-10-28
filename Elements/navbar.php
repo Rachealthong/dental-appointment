@@ -6,8 +6,8 @@ session_start();
     <img src="../Assets/Minimalist Dental Teeth Medical Clinic Logo (1).png" height="80px" alt="Bright Smiles Dental">
     <ul>
         <li><a href="../Others/index.html">Home</a></li>
-        <li><a href="../Dentists/dentists.html">Dentists</a></li>
-        <li><a href="../Services/services.html">Services</a></li>
+        <li><a href="../Dentists/dentists.php">Dentists</a></li>
+        <li><a href="../Services/services.php">Services</a></li>
         <li><a href="../Booking Appointment/book_appointment.php">Book Appointment</a></li>
         <li><a href="../Manage Booking/manage_booking.php">Manage Booking</a></li>
         <li><a href="../Others/contact.html">Contact</a></li>
