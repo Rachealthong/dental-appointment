@@ -11,7 +11,9 @@ session_start();
     <?php 
     if (isset($_SESSION['dentist_id'])){
         $email = $_SESSION['email'];
-        echo "$email &nbsp;"; 
+        echo "<div>
+            <a href='../Dentist Management/userprofile.php'>$email &nbsp;</a>
+            </div>";
         echo "<div id='login_nav'>
             <a href='../User Registration/logout.php'>Log Out</a>
             </div>";

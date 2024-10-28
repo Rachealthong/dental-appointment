@@ -1,18 +1,8 @@
-Note from Eunice:
-
 Dentist Management: 
-
 1. Manage Booking: 
 - manage_booking_dentist.php: add CSS 
 - patient_bio.php: - add CSS
 
-Patient:
-1. Manage Booking: 
-- For rescheduling, I still think it is better to keep the old booking (and make rescheduled = 1 and free up the slot) and add a new row with the new booking.
-
-More add-ons: 
-- Store the data to be displayed in service and dentist page in database and fetch from database instead of hardcoding in the file.
-- Enable dentists to edit service and dentist details
-
+Update dentists and services details
 
 Then do a final check and touch up and it should be done!
