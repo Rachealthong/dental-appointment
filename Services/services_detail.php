@@ -65,7 +65,11 @@
                     echo "<a href='?service_id={$other_service['service_id']}'>";
                     echo "<img src='../Assets/{$other_service['service_image']}' width='400px' alt='service'>";
                     echo "<h2>{$other_service['service_type']}</h2>";
-                    echo '<p class="service-description">' . htmlspecialchars(explode('.', $other_service['service_description'])[0] . '.') . '</p>';
+                    $descriptionWords = explode(' ', strip_tags($other_service['service_description']));
+                    $shortDescription = implode(' ', array_slice($descriptionWords, 0, 18)) . ' ...';
+    
+                    echo '<p class="service-description">' . htmlspecialchars($shortDescription) . '</p>';
+                    //echo '<p class="service-description">' . htmlspecialchars(explode('.', $other_service['service_description'])[0] . '.') . '</p>';
                     echo "</a>";
                     echo "</div>";
                 }

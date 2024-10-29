@@ -126,9 +126,13 @@ $result_past = $stmt_past->get_result();
               
            
         <?php else: ?>
+            <div id="aboutus">
+                <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
+                <div class="bottom_centered"><h1>Manage Booking</h1></div>
+            </div>
             <div class="plslogin">
             <h2>Please Log In</h2>
-            <p>You need to log in to manage booked appointments. <a href="../User Registration/login.html">Log in here</a>.</p>
+            <p>You need to log in to manage booked appointments.<br> <a href="../User Registration/login.html">Log in here</a>.</p>
             </div>
         <?php endif; ?>
     </main>

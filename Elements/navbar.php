@@ -1,14 +1,49 @@
 <?php
 session_start();
+
+include '../dbconnect.php';
+
+// Fetch all service types
+$sql = "SELECT service_id, service_type FROM services";
+$result = $conn->query($sql);
+
+$sql2 = "SELECT dentist_id, dentist_name FROM dentists";
+$result2 = $conn->query($sql2);
 ?>
+
 
 <nav>
     <img src="../Assets/Minimalist Dental Teeth Medical Clinic Logo (1).png" height="80px" alt="Bright Smiles Dental">
     <ul>
         <li><a href="../Others/index.html">Home</a></li>
-        <li><a href="../Dentists/dentists.php">Dentists</a></li>
-        <li><a href="../Services/services.php">Services</a></li>
-      
+        <li class = "dropdown">
+        <a href="../Dentists/dentists.php" class="dropbtn">Dentists</a>
+            <div class="dropdown-content">
+            <?php
+                if ($result2->num_rows > 0) {
+                    while ($row = $result2->fetch_assoc()) {
+                        echo '<a href="../Dentists/dentist_bio.php?dentist_id=' . htmlspecialchars($row['dentist_id']) . '">' . htmlspecialchars($row['dentist_name']) . '</a>';
+                    }
+                } else {
+                    echo '<p>No services available</p>';
+                }
+            ?>
+            </div>
+        </li>
+        <li class = "dropdown">
+        <a href="../Services/services.php" class="dropbtn">Services</a>
+            <div class="dropdown-content">
+            <?php
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<a href="../Services/services_detail.php?service_id=' . htmlspecialchars($row['service_id']) . '">' . htmlspecialchars($row['service_type']) . '</a>';
+                    }
+                } else {
+                    echo '<p>No services available</p>';
+                }
+                ?>
+            </div>
+        </li>
         <li><a href="../Booking Appointment/book_appointment.php">Book Appointment</a></li>
         <li><a href="../Manage Booking/manage_booking.php">Manage Booking</a></li>
         <li><a href="../Others/contact.html">Contact</a></li>

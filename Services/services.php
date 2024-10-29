@@ -32,7 +32,11 @@
                 echo '<a href="services_detail.php?service_id=' . htmlspecialchars($row['service_id']) . '">';
                 echo '<img src="../Assets/' . htmlspecialchars($row['service_image']) . '" width="400px" alt="' . htmlspecialchars($row['service_type']) . '"><br>';
                 echo '<h2>' . htmlspecialchars($row['service_type']) . '</h2>';
-                echo '<p class="service-description">' . htmlspecialchars(explode('.', $row['service_description'])[0] . '.') . '</p>';
+
+                $descriptionWords = explode(' ', strip_tags($row['service_description']));
+                $shortDescription = implode(' ', array_slice($descriptionWords, 0, 18)) . ' ...';
+
+                echo '<p class="service-description">' . htmlspecialchars($shortDescription) . '</p>';
                 echo '</a>';
                 echo '</div>';
             }

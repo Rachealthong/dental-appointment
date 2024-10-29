@@ -60,9 +60,59 @@ nav ul li a {
 
 
 nav a {text-decoration: none;  
+  color: black;
 }
 
 
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: black;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+.dropdown:hover .dropbtn {
+  background-color:#f2f2f2;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 
 
 #login_nav {
@@ -118,10 +168,10 @@ background-color: #386da1;
   padding: 5px;
   margin: 20px 5px;
   overflow: hidden;
-  text-align: center;
+  text-align: justify;
   width: calc(33.33% - 10px); /* Adjust width to fit 3 boxes per row, accounting for margin */
   box-sizing: border-box; /* Ensures padding and margin are included in the width calculation */
-  height: 460px;
+  height: 450px;
   display:block;
   
 }
@@ -131,7 +181,12 @@ background-color: #386da1;
   color: #001F3F;
 }
 
-.box h2 {
+.box h2{
+  margin: 10px;
+  text-align: left;
+}
+
+.box h3{
   margin: 10px;
   text-align: left;
 }
@@ -151,6 +206,49 @@ background-color: #386da1;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Shadow deepens on hover */
   transform: translateY(-5px); /* Lift effect on hover */
 }
+
+.box-dentist {
+  padding: 5px;
+  margin: 20px 5px;
+  overflow: hidden;
+  text-align: justify;
+  width: calc(33.33% - 10px); /* Adjust width to fit 3 boxes per row, accounting for margin */
+  box-sizing: border-box; /* Ensures padding and margin are included in the width calculation */
+  height: 500px;
+  display:block;
+  
+}
+.box-dentist a {
+  text-decoration: none;
+  color: #001F3F;
+}
+
+.box-dentist h2{
+  margin: 10px;
+  text-align: left;
+}
+
+.box-dentist h3{
+  margin: 10px;
+  text-align: left;
+}
+
+.box-dentist p {
+  margin: 10px;
+  text-align: justify;
+}
+
+.box-dentist img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px; 
+}
+
+.box-dentist img:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Shadow deepens on hover */
+  transform: translateY(-5px); /* Lift effect on hover */
+}
+
 
 #details_header {
   background-color: #9fa8c0;
@@ -178,11 +276,29 @@ background-color: #386da1;
   -webkit-box-orient: vertical; /* For WebKit */
   overflow: hidden; /* Hide overflow */
   line-clamp: 3; /* Limit to 3 lines */
-  max-height: 4.5em; /* Ensure enough height for 3 lines */
+  max-height:4.5em; /* Ensure enough height for 3 lines */
   text-overflow: ellipsis; /* Add ellipsis at the end */
   margin: 15px 20px; /* Space between title and description */
   color: #000000; /* Change text color */
   text-align: left; /* Align text to the left */
+}
+.dentist-desc {
+  
+  display: -webkit-box; /* For WebKit browsers (Chrome, Safari) */
+  display: flex; /* Fallback for other browsers */
+  -webkit-box-orient: vertical; /* For WebKit */
+  overflow: hidden; /* Hide overflow */
+  line-clamp: 3; /* Limit to 3 lines */
+  max-height:10em; /* Ensure enough height for 3 lines */
+  text-overflow: ellipsis; /* Add ellipsis at the end */
+  margin: 2px 0px; /* Space between title and description */
+  color: #000000; /* Change text color */
+  text-align: left; /* Align text to the left */
+  height: 120px;
+}
+
+#service_detail {
+  text-align: justify;
 }
 
 footer {
@@ -284,7 +400,7 @@ footer a {
   margin: auto;
   margin-top: 80px;
   
-  width: 300px;
+  width:20%;
   display: flex; /* Use flexbox for centering */
     justify-content: center; /*Center horizontally*/ 
     align-items: center; 
@@ -299,7 +415,7 @@ footer a {
   margin-top: 10px; 
   display: block;
   padding: 5px;
-  width: 200px;
+  width: 100%;
   }
 
 #login button {
@@ -310,6 +426,7 @@ footer a {
   border: none;
   font-family: "Poppins";
   font-size: 15px;
+  background-color: #CCCCCC;
 }
 
 #service_image {
@@ -521,9 +638,11 @@ background-color: #ded9c4;
 .plslogin
 {
   padding: 20px;
-  margin: 20px auto; 
-  width: 50%;
-  display: block;
+  margin: 20px auto;
+  width: 80%;
+  max-width: 500px; /* Optional: limits width for a centered look */
+  text-align: left;
+ 
 }
 
 .search-container {

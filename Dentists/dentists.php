@@ -27,14 +27,31 @@
         // Fetch services from the database
         $sql = "SELECT dentist_id, dentist_name, dentist_image, dentist_description FROM dentists";
         $result = $conn->query($sql);
+        
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo '<div class="box">';
+            $description = $row['dentist_description'];
+
+            // Extract content within the first <h3> tag
+            preg_match('/<h3>(.*?)<\/h3>/', $description, $matches);
+            $title = $matches[1] ?? '';
+
+            // Remove the <h3> section from the description to focus on bio content
+            $bio = preg_replace('/<h3>.*?<\/h3>/', '', $description);
+
+            // Extract few words
+            $words = explode(' ', strip_tags($bio));
+            $bioPreview = implode(' ', array_slice($words, 0, 20)) . ' ...';
+                echo '<div class="box-dentist">';
                 echo '<a href="dentist_bio.php?dentist_id=' . htmlspecialchars($row['dentist_id']) . '">';
                 echo '<img src="../Assets/' . htmlspecialchars($row['dentist_image']) . '" width="400px" alt="' . htmlspecialchars($row['dentist_name']) . '"><br>';
                 echo '<h2>' . htmlspecialchars($row['dentist_name']) . '</h2>';
-                echo '<p class="service-description">' . htmlspecialchars($row['dentist_description']) . '</p>'; 
+                echo "<h3>$title</h3>";
+                echo '<div class="dentist-desc">' ;//. htmlspecialchars_decode($row['dentist_description']) . '</div>'; 
+                
+                echo "<p>$bioPreview</p>";
+                echo '</div>';
                 echo '</a>';
                 echo '</div>';
             }

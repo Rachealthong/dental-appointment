@@ -81,6 +81,10 @@ $is_logged_in = isset($_SESSION['patient_id']);
             </form>
             </div>
         <?php else: ?>
+            <div id="aboutus">
+                <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
+                <div class="bottom_centered"><h1>Request an Appointment</h1></div>
+            </div>
             <div class="plslogin">
             <h2>Please Log In</h2>
             <p>You need to log in to book an appointment. <a href="../User Registration/login.html">Log in here</a>.</p>
