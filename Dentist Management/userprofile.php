@@ -22,33 +22,6 @@ if ($dentist_id) {
     $stmt->close();
 }
 
-// Update dentist data
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dentist_id) {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = $_POST['password']; // This is the new password field (if provided)
-    $description = $_POST['description'];
-
-    // Check if a new password is provided
-    if (!empty($password)) {
-        $hashed_password = md5($password);
-
-        // If a new password is provided, update it along with other fields
-        $stmt = $conn->prepare("UPDATE dentists SET dentist_name = ?, dentist_email = ?, dentist_password = ?, dentist_description = ? WHERE dentist_id = ?");
-        $stmt->bind_param("ssssi", $name, $email, $hashed_password, $description, $dentist_id);
-    } else {
-        // If no new password is provided, update other fields except password
-        $stmt = $conn->prepare("UPDATE dentists SET dentist_name = ?, dentist_email = ?, dentist_description = ? WHERE dentist_id = ?");
-        $stmt->bind_param("sssi", $name, $email, $description, $dentist_id);
-    }
-
-    $stmt->execute();
-    $stmt->close();
-
-    // Refresh to see updated details
-    header("Location: userprofile.php");
-    exit();
-}
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dentist_id) {
     <div id="userprofile">
         <h2>My Profile</h2>
         <?php if ($dentist_data): ?>
-            <form id="userprofile_form" method="post">
+            <form id="userprofile_form" method="post" action="update_profile.php">
                 <div class="userprofile_row">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($dentist_data['dentist_name']); ?>" required>

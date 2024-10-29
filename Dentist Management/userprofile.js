@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('No changes made to the profile.');
         }
 
-       
+        document.getElementById('userprofile_form').submit();
     }
     document.getElementById('userprofile_form').addEventListener('submit', handleSubmit);
 });
