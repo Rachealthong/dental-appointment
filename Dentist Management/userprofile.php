@@ -27,19 +27,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dentist_id) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password']; // This is the new password field (if provided)
-    $description = $_POST['description'];
 
     // Check if a new password is provided
     if (!empty($password)) {
         $hashed_password = md5($password);
 
         // If a new password is provided, update it along with other fields
-        $stmt = $conn->prepare("UPDATE dentists SET dentist_name = ?, dentist_email = ?, dentist_password = ?, dentist_description = ? WHERE dentist_id = ?");
-        $stmt->bind_param("ssssi", $name, $email, $hashed_password, $description, $dentist_id);
+        $stmt = $conn->prepare("UPDATE dentists SET dentist_name = ?, dentist_email = ?, dentist_password = ? WHERE dentist_id = ?");
+        $stmt->bind_param("ssssi", $name, $email, $hashed_password, $dentist_id);
     } else {
         // If no new password is provided, update other fields except password
-        $stmt = $conn->prepare("UPDATE dentists SET dentist_name = ?, dentist_email = ?, dentist_description = ? WHERE dentist_id = ?");
-        $stmt->bind_param("sssi", $name, $email, $description, $dentist_id);
+        $stmt = $conn->prepare("UPDATE dentists SET dentist_name = ?, dentist_email = ? WHERE dentist_id = ?");
+        $stmt->bind_param("sssi", $name, $email, $dentist_id);
     }
 
     $stmt->execute();
@@ -64,7 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dentist_id) {
         let originalData = {
         name: "<?php echo htmlspecialchars($dentist_data['dentist_name']); ?>",
         email: "<?php echo htmlspecialchars($dentist_data['dentist_email']); ?>",
-        description: "<?php echo htmlspecialchars($dentist_data['dentist_description']); ?>",
         passwordChanged: false // Track if a new password is provided
     };
 
@@ -76,7 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dentist_id) {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmpw').value;
-            const description = document.getElementById('description').value;
 
             var namePattern = /^[A-Za-z\s]+$/;
             if (!namePattern.test(name)) {
@@ -153,11 +150,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dentist_id) {
                 <div class="userprofile_row">
                 <label for="confirmpw">Confirm Password:</label>
                  <input type="password" id="confirmpw" name="confirmpw" value="" placeholder="Confirm new password">
-                </div>
-
-                <div class="userprofile_row">
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description" rows="10" cols="50" style="width: 100%;"><?php echo htmlspecialchars($dentist_data['dentist_description']); ?></textarea>
                 </div>
 
                 <div class="button_container">

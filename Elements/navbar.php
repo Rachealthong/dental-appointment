@@ -13,7 +13,7 @@ $result2 = $conn->query($sql2);
 
 
 <nav>
-    <img src="../Assets/Minimalist Dental Teeth Medical Clinic Logo (1).png" height="80px" alt="Bright Smiles Dental">
+    <a href="../Others/index.html"><img src="../Assets/Minimalist Dental Teeth Medical Clinic Logo (1).png" height="80px" alt="Bright Smiles Dental"></a>
     <ul>
         <li><a href="../Others/index.html">Home</a></li>
         <li class = "dropdown">
