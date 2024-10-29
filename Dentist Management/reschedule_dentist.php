@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p><strong>Original Date:</strong> <?php echo htmlspecialchars($appointment['available_date']); ?></p>
             <?php
             $minDate = date('Y-m-d', strtotime('+1 day'));
-            $maxDate = date('Y-m-d', strtotime('+14 days')); // two weeks from today
+            $maxDate = date('Y-m-d', strtotime('+28 days')); // four weeks from today
             ?>
             <input type="date" id="date" name="date" min="<?php echo $minDate; ?>" max="<?php echo $maxDate; ?>" required>
             <br>

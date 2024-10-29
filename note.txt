@@ -1,9 +1,3 @@
-1. Update the pages with actual content.
-
-2. Flush schedule to infinite date (a few months date) with duration of 30 minutes. 
-Slight modification needed for update_availability.php (dentist)
-Allow patients to book appointment 1 month in advance (instead of two weeks)
-
-4. add more stuff under book appointment and manage appointment (without patient_login)
+Add more stuff under book appointment and manage appointment (without patient_login)
 
 Then do a final check and touch up and it should be done!

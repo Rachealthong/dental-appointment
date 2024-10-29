@@ -70,14 +70,12 @@ $dentist_id = $_SESSION['dentist_id'];
                         alert('This slot is unavailable and cannot be toggled.');
                     }
                 },
-                slotDuration: '01:00:00',
+                slotDuration: '00:30:00', 
                 businessHours: {
                     daysOfWeek: [1, 2, 3, 4, 5],
                     startTime: '09:00',
                     endTime: '18:00',
                 },
-                minTime: '09:00:00', 
-                maxTime: '18:00:00',
                 slotMinTime: '09:00:00', 
                 slotMaxTime: '18:00:00',
                 height: 'auto',
@@ -143,6 +141,7 @@ $dentist_id = $_SESSION['dentist_id'];
                             slots.push({
                                 title: '',
                                 start: `${dates[i]}T${times[i]}:00`,
+                                end: `${dates[i]}T${add30Minutes(times[i])}`,
                                 backgroundColor: statuses[i] === '1' ? 'green' : 'red',
                                 textColor: 'white',
                                 extendedProps: { availabilityStatus: statuses[i] === '1' }
@@ -154,7 +153,13 @@ $dentist_id = $_SESSION['dentist_id'];
                     .catch(error => failureCallback(error));
             }
 
-
+            function add30Minutes(time) {
+                const [hours, minutes] = time.split(':').map(Number);
+                const date = new Date();
+                date.setHours(hours);
+                date.setMinutes(minutes + 30);
+                return date.toTimeString().slice(0, 5);
+            }
             function updateMultipleSlots(dentist_id, slots) {
                 return new Promise((resolve, reject) => {
                     const xhr = new XMLHttpRequest();
