@@ -34,11 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dentist_id) {
 
         // If a new password is provided, update it along with other fields
         $stmt = $conn->prepare("UPDATE dentists SET dentist_name = ?, dentist_email = ?, dentist_password = ? WHERE dentist_id = ?");
-        $stmt->bind_param("ssssi", $name, $email, $hashed_password, $dentist_id);
+        $stmt->bind_param("sssi", $name, $email, $hashed_password, $dentist_id);
     } else {
         // If no new password is provided, update other fields except password
         $stmt = $conn->prepare("UPDATE dentists SET dentist_name = ?, dentist_email = ? WHERE dentist_id = ?");
-        $stmt->bind_param("sssi", $name, $email, $dentist_id);
+        $stmt->bind_param("ssi", $name, $email, $dentist_id);
     }
 
     $stmt->execute();
