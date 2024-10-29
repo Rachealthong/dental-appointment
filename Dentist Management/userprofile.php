@@ -60,70 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dentist_id) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
-    <script>
-        let originalData = {
-        name: "<?php echo htmlspecialchars($dentist_data['dentist_name']); ?>",
-        email: "<?php echo htmlspecialchars($dentist_data['dentist_email']); ?>",
-        description: "<?php echo htmlspecialchars($dentist_data['dentist_description']); ?>",
-        passwordChanged: false // Track if a new password is provided
-    };
-
-        function handleSubmit(event) {
-
-            event.preventDefault();
-
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmpw').value;
-            const description = document.getElementById('description').value;
-
-            var namePattern = /^[A-Za-z\s]+$/;
-            if (!namePattern.test(name)) {
-                alert("Name must contain only alphabet characters and spaces.");
-                return false;
-            }
-
-            var emailPattern =  /^[\w.-]+@([\w-]+\.)+[A-Za-z]{2,}$/;
-            if (!emailPattern.test(email)) {
-                alert("Please enter a valid email address.");
-                return false;
-            }
-
-             
-            // Validate Password if it was provided (only if user attempts to change it)
-            var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-            if (password !== "" || confirmPassword !== "") {
-                if (!passwordPattern.test(password)) {
-                    alert("Password should be at least 8 characters long and contain one special character !@#$%^&*, one lowercase letter, one uppercase letter, and one digit.");
-                    return false;
-                }
-
-                // Validate Confirm Password
-                if (password !== confirmPassword) {
-                    alert("Passwords do not match.");
-                    return false;
-                }
-                originalData.passwordChanged = true; // Mark as changed if valid
-            }
-
-            // Check if any value has changed
-            if (
-            name !== originalData.name || 
-            email !== originalData.email || 
-            description !== originalData.description || 
-            originalData.passwordChanged // Only flag for change if the password was updated
-            ) {
-                alert('Profile updated!');
-            } else {
-                // Prevent form submission if no changes were made
-                event.preventDefault();
-                alert('No changes made to the profile.');
-            }
-
-            document.getElementById('userprofile_form').submit();
-        }
-    </script>
+    <script src="userprofile.js" defer></script>
 </head>
 <body>
 <div id="wrapper">
@@ -134,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dentist_id) {
     <div id="userprofile">
         <h2>My Profile</h2>
         <?php if ($dentist_data): ?>
-            <form id="userprofile_form" method="post" onsubmit="handleSubmit(event)">
+            <form id="userprofile_form" method="post" onsubmit="handleSubmit()">
                 <div class="userprofile_row">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($dentist_data['dentist_name']); ?>" required>

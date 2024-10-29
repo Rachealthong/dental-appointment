@@ -20,17 +20,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 $appointment = $result->fetch_assoc();
 
-$to = 'f32ee@localhost'; // Change to patient_email
-$subject = "Appointment Cancellation Confirmation";
-$message = "Dear Patient,\n\nYour appointment with Dr. " . $appointment['dentist_name'] . " for " . $appointment['service_type'] . " on " . $appointment['available_date'] . " at " . $appointment['available_time'] . " has been successfully cancelled.\n\nRegards,\nDental Clinic";
-$headers = "From: f31ee@localhost\r\n" . // Change to your sender email
-        "Reply-To: f31ee@localhost\r\n" .
-        "X-Mailer: PHP/" . phpversion();
-
-// Send the email
-mail($to, $subject, $message, $headers);
-
-
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +41,7 @@ mail($to, $subject, $message, $headers);
         </header>
         <div id="booking_confirmation">
             <h2>Appointment Cancelled Successfully</h2>
-            <p>An email confirmation has been sent to your registered email address.The details of cancelled appointment is listed below:</p>
+            <p>An email confirmation has been sent to your registered email address.<br> The details of cancelled appointment is listed below:</p>
             <?php if ($appointment): ?>
                 <div class="appointment_details">
                     <ul style="list-style-type: none; padding: 0;">

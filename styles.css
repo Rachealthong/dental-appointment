@@ -517,7 +517,6 @@ footer a {
 
 #booking_confirmation {
 margin:0px;
-
 padding: 10px 5px 10px 5px;
 display: flex;
 flex:1;
@@ -525,6 +524,11 @@ flex-direction: column;
 align-items: center;
 background-color: #ded9c4;
 }
+
+#booking_confirmation p {
+  margin: 10px;
+  text-align: center;
+  }
 
 .edit_booking {
   border: 1px solid #ccc;
