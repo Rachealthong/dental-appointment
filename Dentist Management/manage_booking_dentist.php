@@ -68,19 +68,19 @@ session_start();
                 <thead>
                     <tr>
                         <th>Select</th>
-                        <th>Patient's Name</th>
-                        <th>Service</th>
                         <th>Appointment Date</th>
                         <th>Appointment Time</th>
+                        <th>Patient's Name</th>
+                        <th>Service</th>
                         <th>Remarks</th>
                         <th>Cancelled or Rescheduled</th>
                     </tr>
                     <tr>
                         <th></th>
-                        <th><input type="text" class="search-input" placeholder="Search Patient"></th>
-                        <th><input type="text" class="search-input" placeholder="Search Service"></th>
                         <th><input type="text" class="search-input" placeholder="Search Date"></th>
                         <th><input type="text" class="search-input" placeholder="Search Time"></th>
+                        <th><input type="text" class="search-input" placeholder="Search Patient"></th>
+                        <th><input type="text" class="search-input" placeholder="Search Service"></th>
                         <th><input type="text" class="search-input" placeholder="Search Remarks"></th>
                         <th><input type="text" class="search-input" placeholder="Search Cancelled/Rescheduled"></th>
                     </tr>
@@ -99,10 +99,10 @@ session_start();
                             <input type="radio" name="selected_appointment" value="<?php echo htmlspecialchars($row['appointment_id']); ?>" required>
                         <?php endif; ?>
                     </td>
-                    <td><a href="patient_bio.php?patient_id=<?php echo htmlspecialchars($row['patient_id']); ?>"><?php echo htmlspecialchars($row['patient_name']); ?></td>
-                    <td><?php echo htmlspecialchars($row['service_type']); ?></td>
                     <td><?php echo htmlspecialchars($row['available_date']); ?></td>
                     <td><?php echo htmlspecialchars($row['available_time']); ?></td>
+                    <td><a href="patient_bio.php?patient_id=<?php echo htmlspecialchars($row['patient_id']); ?>"><?php echo htmlspecialchars($row['patient_name']); ?></td>
+                    <td><?php echo htmlspecialchars($row['service_type']); ?></td>
                     <td><?php echo htmlspecialchars($row['remarks']); ?></td>
                     <td><?php echo $is_cancelled_or_rescheduled ? ($row['cancelled'] ? 'Cancelled' : 'Rescheduled') : ''; ?></td>
                 </tr>

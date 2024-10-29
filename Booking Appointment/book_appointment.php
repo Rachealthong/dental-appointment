@@ -62,7 +62,7 @@ $is_logged_in = isset($_SESSION['patient_id']);
                 <label for="date">Preferred Date:</label>
                 <?php
                 $minDate = date('Y-m-d', strtotime('+1 day'));
-                $maxDate = date('Y-m-d', strtotime('+14 days')); // two weeks from today
+                $maxDate = date('Y-m-d', strtotime('+28 days')); // four weeks from today
                 ?>
                 <input type="date" id="date" name="date" min="<?php echo $minDate; ?>" max="<?php echo $maxDate; ?>" required>
                 <br>

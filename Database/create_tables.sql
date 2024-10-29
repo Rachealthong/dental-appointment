@@ -24,7 +24,7 @@ CREATE TABLE Dentists (
 
 CREATE TABLE Services (
     service_id INT PRIMARY KEY AUTO_INCREMENT,
-    service_type VARCHAR(64)
+    service_type VARCHAR(64),
     service_description TEXT,
     service_image VARCHAR(64)
 );
