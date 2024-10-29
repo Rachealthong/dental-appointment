@@ -27,18 +27,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dentist_id) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password']; // This is the new password field (if provided)
+    $description = $_POST['description'];
 
     // Check if a new password is provided
     if (!empty($password)) {
         $hashed_password = md5($password);
 
         // If a new password is provided, update it along with other fields
-        $stmt = $conn->prepare("UPDATE dentists SET dentist_name = ?, dentist_email = ?, dentist_password = ? WHERE dentist_id = ?");
-        $stmt->bind_param("sssi", $name, $email, $hashed_password, $dentist_id);
+        $stmt = $conn->prepare("UPDATE dentists SET dentist_name = ?, dentist_email = ?, dentist_password = ?, dentist_description = ? WHERE dentist_id = ?");
+        $stmt->bind_param("ssssi", $name, $email, $hashed_password, $description, $dentist_id);
     } else {
         // If no new password is provided, update other fields except password
-        $stmt = $conn->prepare("UPDATE dentists SET dentist_name = ?, dentist_email = ? WHERE dentist_id = ?");
-        $stmt->bind_param("ssi", $name, $email, $dentist_id);
+        $stmt = $conn->prepare("UPDATE dentists SET dentist_name = ?, dentist_email = ?, dentist_description = ? WHERE dentist_id = ?");
+        $stmt->bind_param("sssi", $name, $email, $description, $dentist_id);
     }
 
     $stmt->execute();
@@ -70,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dentist_id) {
     <div id="userprofile">
         <h2>My Profile</h2>
         <?php if ($dentist_data): ?>
-            <form id="userprofile_form" method="post" onsubmit="handleSubmit()">
+            <form id="userprofile_form" method="post">
                 <div class="userprofile_row">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($dentist_data['dentist_name']); ?>" required>
@@ -89,6 +90,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dentist_id) {
                 <div class="userprofile_row">
                 <label for="confirmpw">Confirm Password:</label>
                  <input type="password" id="confirmpw" name="confirmpw" value="" placeholder="Confirm new password">
+                </div>
+
+                <div class="userprofile_row">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="10" cols="50" style="width: 100%;"><?php echo htmlspecialchars($dentist_data['dentist_description']); ?></textarea>
                 </div>
 
                 <div class="button_container">

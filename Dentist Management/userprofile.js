@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         passwordChanged: false // Track if a new password is provided
     };
 
-    function handleSubmit() {
+    function handleSubmit(event) {
         event.preventDefault();
 
         const name = document.getElementById('name').value;
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('No changes made to the profile.');
         }
 
-        document.getElementById('userprofile_form').submit();
+       
     }
-
+    document.getElementById('userprofile_form').addEventListener('submit', handleSubmit);
 });

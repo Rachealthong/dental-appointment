@@ -22,7 +22,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     } 
 
     // Check in Dentists table
-    $sql_dentist = "SELECT * FROM Dentists WHERE dentist_email = '$email' AND dentist_password = '$hashed_password'"; 
+    $sql_dentist = "SELECT * FROM Dentists WHERE dentist_email = '$email' AND dentist_password = '$password'"; 
     $result_dentist = $conn->query($sql_dentist);
     
     if ($result_dentist->num_rows > 0) {
