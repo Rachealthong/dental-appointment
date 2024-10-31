@@ -7,7 +7,7 @@ $is_logged_in = isset($_SESSION['patient_id']);
 if ($is_logged_in) {
     $patient_id = $_SESSION['patient_id'];
 // Prepare the SQL query to fetch appointment data
-$sql = "SELECT a.appointment_id, d.dentist_name, s.service_type, 
+$sql = "SELECT a.appointment_id, d.dentist_name, s.service_type, s.service_image,
                sch.available_date, sch.available_time, a.remarks 
         FROM appointments a
         JOIN schedule sch ON a.schedule_id = sch.schedule_id
@@ -24,7 +24,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 // Prepare the SQL query to fetch past appointments
-$sql_past = "SELECT a.appointment_id, d.dentist_name, s.service_type, 
+$sql_past = "SELECT a.appointment_id, d.dentist_name, s.service_type, s.service_image,
                      sch.available_date, sch.available_time, a.remarks 
               FROM appointments a
               JOIN schedule sch ON a.schedule_id = sch.schedule_id
@@ -38,6 +38,23 @@ $stmt_past = $conn->prepare($sql_past);
 $stmt_past->bind_param("i", $patient_id);  // Bind the patient ID to the query
 $stmt_past->execute();
 $result_past = $stmt_past->get_result();
+
+// fetch cancelled appointments
+$sql_cancel = "SELECT a.appointment_id, d.dentist_name, s.service_type, s.service_image,
+                     sch.available_date, sch.available_time, a.remarks 
+              FROM appointments a
+              JOIN schedule sch ON a.schedule_id = sch.schedule_id
+              JOIN dentists d ON sch.dentist_id = d.dentist_id
+              JOIN services s ON a.service_id = s.service_id
+              WHERE a.patient_id = ? AND a.cancelled = 1 AND a.rescheduled = 0 AND sch.available_date < NOW()  -- Ensure we get past appointments
+              ORDER BY sch.available_date DESC, sch.available_time DESC";  // Order by date and time
+
+// Prepare and execute the statement for past appointments
+$stmt_cancel = $conn->prepare($sql_cancel);
+$stmt_cancel->bind_param("i", $patient_id);  // Bind the patient ID to the query
+$stmt_cancel->execute();
+$result_cancel = $stmt_cancel->get_result();
+
 
 }
 ?>
@@ -64,29 +81,39 @@ $result_past = $stmt_past->get_result();
                 <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
                 <div class="bottom_centered"><h1>Manage Booking</h1></div>
             </div>
+            <div id="tabs">
+                <button class="tablink" onclick="openTab(event, 'upcoming')">Upcoming Appointments</button>
+                <button class="tablink" onclick="openTab(event, 'past')">Past Appointments</button>
+                <button class="tablink" onclick="openTab(event, 'cancelled')">Cancelled Appointments</button>
+            </div>
+
             <div id="all_booking">
-            <h2>Upcoming Appointment</h2>
+            <div id="upcoming" class="tabcontent">
+            <h2>Upcoming Appointments</h2>
            
             <?php
                 if ($result->num_rows > 0) {
                     while ($appointment = $result->fetch_assoc()) { 
                         ?>
                         <div class="edit_booking">
-                        
-                            <form id="appointment_<?php echo htmlspecialchars($appointment['appointment_id']); ?>" method="post">
+                            <div class="form_image">
+                                <img src="../Assets/<?php echo htmlspecialchars($appointment['service_image']); ?>" alt="<?php echo htmlspecialchars($appointment['service_type']); ?>">
+                            </div>
+                            <form class="manage_form" id="appointment_<?php echo htmlspecialchars($appointment['appointment_id']); ?>" method="post">
                                 <ul style="list-style-type: none; padding: 0;">
-                                    <li>Appointment ID: <?php echo htmlspecialchars($appointment['appointment_id']); ?></li>
-                                    <li>Dentist: <?php echo htmlspecialchars($appointment['dentist_name']); ?></li>
-                                    <li>Service: <?php echo htmlspecialchars($appointment['service_type']); ?></li>
-                                    <li>Date: <?php echo htmlspecialchars($appointment['available_date']); ?></li>
-                                    <li>Time: <?php echo htmlspecialchars($appointment['available_time']); ?></li>
+                                   
+                                    <li><h3><?php echo htmlspecialchars($appointment['service_type']); ?></h3></li>
+                                    <li><?php echo (new DateTime($appointment['available_date']))->format('d M Y, l'); ?></li>
+                                    <li><?php echo (new DateTime($appointment['available_time']))->format('H:i'); ?></li>
+                                    <li><?php echo htmlspecialchars($appointment['dentist_name']); ?></li>
                                     <li>Remarks: <?php echo htmlspecialchars($appointment['remarks']); ?></li>
                                 </ul>
                                 <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']); ?>">
                                 
                                 <!-- Use JavaScript to dynamically set the form's action -->
-                                <button type="button" onclick="setFormAction('cancel.php', <?php echo htmlspecialchars($appointment['appointment_id']); ?>)">Cancel Appointment</button>
-                                <button type="button" onclick="setFormAction('reschedule.php', <?php echo htmlspecialchars($appointment['appointment_id']); ?>)">Reschedule Appointment</button>
+                                <button type="button" class="tablink" onclick="setFormAction('cancel.php', <?php echo htmlspecialchars($appointment['appointment_id']); ?>)">Cancel Appointment</button>
+                                &nbsp;
+                                <button type="button" class="tablink" onclick="setFormAction('reschedule.php', <?php echo htmlspecialchars($appointment['appointment_id']); ?>)">Reschedule Appointment</button>
                             </form>
                         </div>
                         <?php 
@@ -95,7 +122,8 @@ $result_past = $stmt_past->get_result();
                     echo "<p>No upcoming booking.</p>";
                 }
                 ?>
-            
+            </div>
+            <div id="past" class="tabcontent" style="display:none;">
       
                 <h2>Past Appointments</h2>
                     
@@ -104,16 +132,16 @@ $result_past = $stmt_past->get_result();
                         // Loop through and display each past appointment
                         while ($appointment = $result_past->fetch_assoc()) {
                             ?>
-                            <div class="edit_booking">
-                            <ul style="list-style-type: none; padding: 0; ">
-                            <li>
-                                <strong>Appointment ID:</strong> <?php echo htmlspecialchars($appointment['appointment_id']); ?><br>
-                                <strong>Dentist:</strong> <?php echo htmlspecialchars($appointment['dentist_name']); ?><br>
-                                <strong>Service:</strong> <?php echo htmlspecialchars($appointment['service_type']); ?><br>
-                                <strong>Date:</strong> <?php echo htmlspecialchars($appointment['available_date']); ?><br>
-                                <strong>Time:</strong> <?php echo htmlspecialchars($appointment['available_time']); ?><br>
-                                <strong>Remarks:</strong> <?php echo htmlspecialchars($appointment['remarks']); ?><br>
-                            </li>
+                            <div class="past_booking">
+                            <div class="form_image">
+                                <img src="../Assets/<?php echo htmlspecialchars($appointment['service_image']); ?>" alt="<?php echo htmlspecialchars($appointment['service_type']); ?>">
+                            </div>
+                            <ul style="list-style-type: none; padding: 0;">
+                                <li><h3><?php echo htmlspecialchars($appointment['service_type']); ?></h3></li>
+                                <li><?php echo (new DateTime($appointment['available_date']))->format('d M Y, l'); ?></li>
+                                <li><?php echo (new DateTime($appointment['available_time']))->format('H:i'); ?></li>
+                                <li><?php echo htmlspecialchars($appointment['dentist_name']); ?></li>
+                                <li>Remarks: <?php echo htmlspecialchars($appointment['remarks']); ?></li>
                             </ul>
                             </div>
                             <?php
@@ -122,6 +150,34 @@ $result_past = $stmt_past->get_result();
                         echo "<p>No past appointments found.</p>";
                     }
                     ?>
+                </div>
+                <div id="cancelled" class="tabcontent" style="display:none;">
+                    <h2>Cancelled Appointments</h2>
+                    
+                    <?php
+                    if ($result_cancel->num_rows > 0) {
+                        // Loop through and display each past appointment
+                        while ($appointment = $result_cancel->fetch_assoc()) {
+                            ?>
+                            <div class="past_booking">
+                            <div class="form_image">
+                                <img src="../Assets/<?php echo htmlspecialchars($appointment['service_image']); ?>" alt="<?php echo htmlspecialchars($appointment['service_type']); ?>">
+                            </div>
+                            <ul style="list-style-type: none; padding: 0;">
+                                <li><h3><?php echo htmlspecialchars($appointment['service_type']); ?></h3></li>
+                                <li><?php echo (new DateTime($appointment['available_date']))->format('d M Y, l'); ?></li>
+                                <li><?php echo (new DateTime($appointment['available_time']))->format('H:i'); ?></li>
+                                <li><?php echo htmlspecialchars($appointment['dentist_name']); ?></li>
+                                <li>Remarks: <?php echo htmlspecialchars($appointment['remarks']); ?></li>
+                            </ul>
+                            </div>
+                            <?php
+                        }
+                    } else {
+                        echo "<p>No cancelled appointments found.</p>";
+                    }
+                    ?>
+                </div>
              </div>    
               
            

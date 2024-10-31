@@ -11,6 +11,11 @@ h2 {
   margin-block-start: 0.2em;
   margin-block-end: 0.2em;
 }
+
+h3 {
+  margin-block-start: 0.2em;
+  margin-block-end: 0.2em;
+}
 #wrapper { background-color:#FFFFFF; 
   
     min-width:850px;
@@ -164,6 +169,12 @@ background-color: #386da1;
   align-items: flex-start; /* Aligns items to the top of the container */
 }
 
+
+.box,
+.box-dentist {
+    height: auto; /* Allow the height to adjust based on content */
+}
+
 .box {
   padding: 5px;
   margin: 20px 5px;
@@ -171,7 +182,7 @@ background-color: #386da1;
   text-align: justify;
   width: calc(33.33% - 10px); /* Adjust width to fit 3 boxes per row, accounting for margin */
   box-sizing: border-box; /* Ensures padding and margin are included in the width calculation */
-  height: 450px;
+  
   display:block;
   
 }
@@ -214,7 +225,7 @@ background-color: #386da1;
   text-align: justify;
   width: calc(33.33% - 10px); /* Adjust width to fit 3 boxes per row, accounting for margin */
   box-sizing: border-box; /* Ensures padding and margin are included in the width calculation */
-  height: 500px;
+
   display:block;
   
 }
@@ -274,6 +285,8 @@ background-color: #386da1;
   display: -webkit-box; /* For WebKit browsers (Chrome, Safari) */
   display: flex; /* Fallback for other browsers */
   -webkit-box-orient: vertical; /* For WebKit */
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  line-clamp: 3; /* Limit to 3 lines */
   overflow: hidden; /* Hide overflow */
   line-clamp: 3; /* Limit to 3 lines */
   max-height:4.5em; /* Ensure enough height for 3 lines */
@@ -466,7 +479,7 @@ footer a {
   padding : 20px;
   display: flex;
   justify-content: center;
-  width: 80%;
+  width: 70%;
   margin: auto;
   align-items: center;
 }
@@ -535,24 +548,53 @@ background-color: #ded9c4;
   margin: 20px auto;
   border-radius: 5px; 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding:20px;
   display: flex;
   width: 100%;
-  flex-direction: column;
+  height: 250px;
+  align-items: stretch;
 
+}
+
+.past_booking {
+  border: 1px solid #ccc;
+  margin: 20px auto;
+  border-radius: 5px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  width: 100%;
+  height: 200px;
+}
+
+.form_image {
+  height: 100%; /* Ensure it takes the full height of .edit_booking */
+  margin-right: 20px;
+  object-fit: cover ;
+}
+
+.form_image img {
+  width: auto ;  /* Adjust based on your preferred size */
+  max-height:100%;
+  margin-right: 20px;
+  object-fit: cover ;
+  border-radius: 5px 0px 0px 5px;
 }
 
 #all_booking {
   padding: 20px;
   margin: 20px auto; 
-  width: 50%;
+  width: 60%;
   display: block;
 
 }
 
-#all_booking h2 {
-  text-align: left;
+.manage_form
+{ 
+  margin-top: 10px;
+  flex: 1;
 }
+
+
+
 
 #userprofile {
   padding: 20px;
@@ -670,7 +712,6 @@ background-color: #ded9c4;
 
 .button {
   display: block;
-  margin: 20px auto;
   padding: 10px 20px;
   background-color: #007bff;
   color: white;
@@ -700,6 +741,36 @@ th, td {
 th {
   background-color: #f2f2f2;
 }
+
+
+.tablink {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  background-color: #e5e3e3;
+  color: #333;
+  transition: background-color 0.3s;
+  font-family: "Poppins";
+ 
+}
+
+.tablink:hover {
+  background-color: #d3d3d3;
+}
+
+.tablink.active {
+  background-color: #007BFF;
+  color: white;
+}
+
+#tabs {
+  display: flex;
+  justify-content: center; /* Center the tabs horizontally */
+  gap: 10px; /* Space between tabs */
+  margin-top: 20px;
+
+}
+
 
 .poppins-thin {
     font-family: "Poppins", sans-serif;
