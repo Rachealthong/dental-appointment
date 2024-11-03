@@ -1,3 +1,4 @@
+
 <?php
 include '../dbconnect.php';
 session_start();
@@ -56,9 +57,9 @@ session_start();
         
             
         <div id="tabs">
-            <button class="tablink" onclick="openTab(event, 'upcoming')">Upcoming Appointments</button>
+            <button class="tablink active" onclick="openTab(event, 'upcoming')">Upcoming Appointments</button>
             <button class="tablink" onclick="openTab(event, 'past')">Past Appointments</button>
-            <button class="tablink" onclick="openTab(event, 'cancelled')">Cancelled Appointments</button>
+            <button class="tablink" onclick="openTab(event, 'cancelled')">Cancelled/Rescheduled Appointments</button>
         </div>
         
         <div class="container">
@@ -127,9 +128,10 @@ session_start();
         .then(response => response.text())
         .then(data => document.getElementById('navbar').innerHTML = data);
     fetch('footer_dentist.html')
-    .then(response => response.text())
-    .then(data => document.getElementById('footer').innerHTML = data);
+        .then(response => response.text())
+        .then(data => document.getElementById('footer').innerHTML = data);
 
+    // Search filter functionality
     document.querySelectorAll('.search-input').forEach(input => {
         input.addEventListener('keyup', function() {
             const filter = this.value.toLowerCase();
@@ -145,31 +147,33 @@ session_start();
     });
 
     function openTab(event, filter) {
-    const rows = document.querySelectorAll('#appointmentsTable tbody tr');
+        const rows = document.querySelectorAll('#appointmentsTable tbody tr');
 
-    rows.forEach(row => {
-        if (filter === 'upcoming' && row.classList.contains('upcoming')) {
-            row.style.display = '';
-        } else if (filter === 'past' && row.classList.contains('past')) {
-            row.style.display = '';
-        } else if (filter === 'cancelled' && row.classList.contains('cancelled-rescheduled')) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
+        rows.forEach(row => {
+            if (filter === 'upcoming' && row.classList.contains('upcoming')) {
+                row.style.display = '';
+            } else if (filter === 'past' && row.classList.contains('past')) {
+                row.style.display = '';
+            } else if (filter === 'cancelled' && row.classList.contains('cancelled-rescheduled')) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Remove active class from all buttons
+        document.querySelectorAll('.tablink').forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        // Add active class to the clicked button
+        event.currentTarget.classList.add('active');
+    }
+
+    // Set default tab to "Upcoming Appointments" on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        openTab({ currentTarget: document.querySelector('.tablink.active') }, 'upcoming');
     });
-
-    // Remove active class from all buttons
-    document.querySelectorAll('.tablink').forEach(tab => {
-        tab.classList.remove('active');
-    });
-
-    // Add active class to the clicked button
-    event.currentTarget.classList.add('active');
-}
-
-    // Trigger the change event on page load to apply the default filter
-    document.querySelector('input[name="filter"]:checked').dispatchEvent(new Event('change'));
 </script>
 </body>
 </html>
