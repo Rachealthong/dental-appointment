@@ -41,12 +41,12 @@ $result_past = $stmt_past->get_result();
 
 // fetch cancelled appointments
 $sql_cancel = "SELECT a.appointment_id, d.dentist_name, s.service_type, s.service_image,
-                     sch.available_date, sch.available_time, a.remarks 
+                     sch.available_date, sch.available_time, a.cancelled, a.rescheduled, a.remarks 
               FROM appointments a
               JOIN schedule sch ON a.schedule_id = sch.schedule_id
               JOIN dentists d ON sch.dentist_id = d.dentist_id
               JOIN services s ON a.service_id = s.service_id
-              WHERE a.patient_id = ? AND a.cancelled = 1 AND a.rescheduled = 0 AND sch.available_date < NOW()  -- Ensure we get past appointments
+              WHERE a.patient_id = ? AND a.cancelled = 1 OR a.rescheduled = 1
               ORDER BY sch.available_date DESC, sch.available_time DESC";  // Order by date and time
 
 // Prepare and execute the statement for past appointments
@@ -84,7 +84,7 @@ $result_cancel = $stmt_cancel->get_result();
             <div id="tabs">
                 <button class="tablink" onclick="openTab(event, 'upcoming')">Upcoming Appointments</button>
                 <button class="tablink" onclick="openTab(event, 'past')">Past Appointments</button>
-                <button class="tablink" onclick="openTab(event, 'cancelled')">Cancelled Appointments</button>
+                <button class="tablink" onclick="openTab(event, 'cancelled')">Cancelled/Rescheduled Appointments</button>
             </div>
 
             <div id="all_booking">
@@ -152,12 +152,13 @@ $result_cancel = $stmt_cancel->get_result();
                     ?>
                 </div>
                 <div id="cancelled" class="tabcontent" style="display:none;">
-                    <h2>Cancelled Appointments</h2>
+                    <h2>Cancelled/Rescheduled Appointments</h2>
                     
                     <?php
                     if ($result_cancel->num_rows > 0) {
                         // Loop through and display each past appointment
                         while ($appointment = $result_cancel->fetch_assoc()) {
+                            $is_cancelled_or_rescheduled = $appointment['cancelled'] || $appointment['rescheduled'];
                             ?>
                             <div class="past_booking">
                             <div class="form_image">
@@ -169,12 +170,13 @@ $result_cancel = $stmt_cancel->get_result();
                                 <li><?php echo (new DateTime($appointment['available_time']))->format('H:i'); ?></li>
                                 <li><?php echo htmlspecialchars($appointment['dentist_name']); ?></li>
                                 <li>Remarks: <?php echo htmlspecialchars($appointment['remarks']); ?></li>
+                                <li>Status: <?php echo $is_cancelled_or_rescheduled ? ($appointment['cancelled'] ? 'Cancelled' : 'Rescheduled') : ''; ?></li>
                             </ul>
                             </div>
                             <?php
                         }
                     } else {
-                        echo "<p>No cancelled appointments found.</p>";
+                        echo "<p>No cancelled or rescheduled appointments found.</p>";
                     }
                     ?>
                 </div>
