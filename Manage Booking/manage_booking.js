@@ -6,16 +6,21 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.text())
         .then(data => document.getElementById('footer').innerHTML = data);
 
-    window.setFormAction = function(actionUrl, appointmentId) {
-        const form = document.getElementById('appointment_' + appointmentId);
-        if (form) {
-            form.action = actionUrl;
-            form.submit();
-        } else {
-            console.error('Form with ID "appointment_' + appointmentId + '" not found.');
-        }
-    };
-
+        window.confirmCancel = function(actionUrl, appointmentId) {
+            if (confirm("Do you want to cancel this appointment?")) {
+                setFormAction(actionUrl, appointmentId);
+            }
+        };
+        
+        window.setFormAction = function(actionUrl, appointmentId) {
+            const form = document.getElementById('appointment_' + appointmentId);
+            if (form) {
+                form.action = actionUrl;
+                form.submit();
+            } else {
+                console.error('Form with ID "appointment_' + appointmentId + '" not found.');
+            }
+        };
     // Open tab function
     window.openTab = function(evt, tabName) {
         var i, tabcontent, tablinks;

@@ -111,10 +111,10 @@ $result_cancel = $stmt_cancel->get_result();
                                 <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']); ?>">
                                 
                                 <!-- Use JavaScript to dynamically set the form's action -->
-                                <button type="button" class="tablink" onclick="setFormAction('cancel.php', <?php echo htmlspecialchars($appointment['appointment_id']); ?>)">Cancel Appointment</button>
+                                <button type="button" class="tablink" onclick="confirmCancel('cancel.php', <?php echo htmlspecialchars($appointment['appointment_id']); ?>)">Cancel Appointment</button>
                                 &nbsp;
                                 <button type="button" class="tablink" onclick="setFormAction('reschedule.php', <?php echo htmlspecialchars($appointment['appointment_id']); ?>)">Reschedule Appointment</button>
-                            </form>
+                                </form>
                         </div>
                         <?php 
                     }

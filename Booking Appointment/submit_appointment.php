@@ -78,12 +78,13 @@ if ($stmt->execute()) {
     
     $to = 'f32ee@localhost'; // Change to patient_email
     $subject = "Appointment Confirmation";
-    $message = "Your appointment has been booked successfully!\n\n" .
+    $message = "Dear $patient_name, \n\nYour appointment has been booked successfully!\n\n" .
             "Dentist: $dentist_name\n" .
             "Service: $service_type\n" .
             "Date: $preferred_date\n" .
             "Time: $preferred_time\n\n" .
-            "We are looking forward to your visit.";
+            "We are looking forward to your visit.".
+            "Regards, \n\nBright Smiles Dental.";
     $headers = "From: f31ee@localhost\r\n" . // Change to your sender email
             "Reply-To: f31ee@localhost\r\n" .
             "X-Mailer: PHP/" . phpversion();

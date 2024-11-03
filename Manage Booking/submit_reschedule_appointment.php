@@ -29,6 +29,17 @@ if (!$patient_id) {
     die("Patient not found.");
 }
 
+$stmt = $conn->prepare("SELECT patient_name FROM patients WHERE patient_id= ?");
+$stmt->bind_param("s", $patient_id);
+$stmt->execute();
+$stmt->bind_result($patient_name);
+$stmt->fetch();
+$stmt->close();
+
+if (!$patient_id) {
+    die("Patient not found.");
+}
+
 // Fetch dentist_id
 $stmt = $conn->prepare("SELECT dentist_id FROM dentists WHERE dentist_name = ?");
 $stmt->bind_param("s", $dentist_name);
@@ -122,14 +133,29 @@ try {
     $stmt->close();
 
     // Prepare the confirmation email
-    $to = $patient_email;
+    $to = 'f32ee@localhost'; //assume patient email
     $subject = "Appointment Reschedule Confirmation";
-    $message = "Your appointment has been rescheduled successfully!\n\n" .
+    $message = "Dear $patient_name, \n\nYour appointment has been rescheduled successfully!\n\n" .
                "Dentist: $dentist_name\n" .
                "Service: $service_type\n" .
                "Date: $preferred_date\n" .
                "Time: $preferred_time\n\n" .
-               "We are looking forward to your visit.";
+               "Regards, \n\nBright Smiles Dental.";
+    $headers = "From: f31ee@localhost\r\n" . // Change to your sender email
+               "Reply-To: f31ee@localhost\r\n" .
+               "X-Mailer: PHP/" . phpversion();
+
+    // Send the email
+    mail($to, $subject, $message, $headers);
+
+    $to = 'f31ee@localhost'; //assume dentist email
+    $subject = "Appointment Reschedule Confirmation";
+    $message = "Dear $dentist_name, \n\nYour appointment has been rescheduled by $patient_name. Please check the new appointment details below.\n\n" .
+               "Patient: $patient_name\n".
+               "Service: $service_type\n" .
+               "Date: $preferred_date\n" .
+               "Time: $preferred_time\n\n" .
+               "Regards, \n\nBright Smiles Dental.";
     $headers = "From: f31ee@localhost\r\n" . // Change to your sender email
                "Reply-To: f31ee@localhost\r\n" .
                "X-Mailer: PHP/" . phpversion();
