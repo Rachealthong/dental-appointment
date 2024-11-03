@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Fetch the existing appointment details
         $sql = "SELECT a.appointment_id, p.patient_name, d.dentist_name, s.service_type, 
-                       sch.available_date, sch.available_time, a.remarks 
+                       sch.available_date, sch.available_time, a.remarks
                 FROM appointments a
                 JOIN dentists d ON a.dentist_id = d.dentist_id
                 JOIN schedule sch ON a.schedule_id = sch.schedule_id
@@ -60,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <form id="reschedule_form" method="post" action="../Manage Booking/submit_reschedule_appointment.php">
             <label for="patient">Patient's Name: </label>
             <input type="text" id="patient" name="patient" value="<?php echo htmlspecialchars($appointment['patient_name']); ?>" readonly>
+           
             <br>
             <label for="dentist">Requested an Appointment with: </label>
             <input type="text" id="dentist" name="dentist" value="<?php echo htmlspecialchars($appointment['dentist_name']); ?>" readonly>

@@ -53,14 +53,14 @@ session_start();
             <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
             <div class="bottom_centered"><h1>Manage Booking</h1></div>
         </div>
-        <div class="search-container">
-            <div>
-                Select type of appointment to view: <br>
-                <label><input type="radio" name="filter" value="upcoming" checked> Upcoming</label>
-                <label><input type="radio" name="filter" value="past"> Past</label>
-                <label><input type="radio" name="filter" value="cancelled-rescheduled"> Cancelled/Rescheduled</label>
-            </div>
+        
+            
+        <div id="tabs">
+            <button class="tablink" onclick="openTab(event, 'upcoming')">Upcoming Appointments</button>
+            <button class="tablink" onclick="openTab(event, 'past')">Past Appointments</button>
+            <button class="tablink" onclick="openTab(event, 'cancelled')">Cancelled Appointments</button>
         </div>
+        
         <div class="container">
         <?php if ($result->num_rows > 0): ?>
             <form id="reschedule_form" method="post" action="reschedule_dentist.php">
@@ -109,6 +109,7 @@ session_start();
                 <?php endwhile; ?>
                 </tbody>
             </table>
+            <br>
             <button class='button' type="submit">Reschedule</button>
             </form>
         <?php else: ?>
@@ -143,24 +144,29 @@ session_start();
         });
     });
 
-    document.querySelectorAll('input[name="filter"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            const filter = this.value;
-            const rows = document.querySelectorAll('#appointmentsTable tbody tr');
+    function openTab(event, filter) {
+    const rows = document.querySelectorAll('#appointmentsTable tbody tr');
 
-            rows.forEach(row => {
-                if (filter === 'upcoming' && row.classList.contains('upcoming')) {
-                    row.style.display = '';
-                } else if (filter === 'past' && row.classList.contains('past')) {
-                    row.style.display = '';
-                } else if (filter === 'cancelled-rescheduled' && row.classList.contains('cancelled-rescheduled')) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
+    rows.forEach(row => {
+        if (filter === 'upcoming' && row.classList.contains('upcoming')) {
+            row.style.display = '';
+        } else if (filter === 'past' && row.classList.contains('past')) {
+            row.style.display = '';
+        } else if (filter === 'cancelled' && row.classList.contains('cancelled-rescheduled')) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
     });
+
+    // Remove active class from all buttons
+    document.querySelectorAll('.tablink').forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    // Add active class to the clicked button
+    event.currentTarget.classList.add('active');
+}
 
     // Trigger the change event on page load to apply the default filter
     document.querySelector('input[name="filter"]:checked').dispatchEvent(new Event('change'));

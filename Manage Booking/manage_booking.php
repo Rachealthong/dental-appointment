@@ -46,7 +46,7 @@ $sql_cancel = "SELECT a.appointment_id, d.dentist_name, s.service_type, s.servic
               JOIN schedule sch ON a.schedule_id = sch.schedule_id
               JOIN dentists d ON sch.dentist_id = d.dentist_id
               JOIN services s ON a.service_id = s.service_id
-              WHERE a.patient_id = ? AND a.cancelled = 1 AND a.rescheduled = 0 AND sch.available_date < NOW()  -- Ensure we get past appointments
+              WHERE a.patient_id = ? AND a.cancelled = 1 AND a.rescheduled = 0
               ORDER BY sch.available_date DESC, sch.available_time DESC";  // Order by date and time
 
 // Prepare and execute the statement for past appointments
@@ -111,10 +111,10 @@ $result_cancel = $stmt_cancel->get_result();
                                 <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']); ?>">
                                 
                                 <!-- Use JavaScript to dynamically set the form's action -->
-                                <button type="button" class="tablink" onclick="setFormAction('cancel.php', <?php echo htmlspecialchars($appointment['appointment_id']); ?>)">Cancel Appointment</button>
+                                <button type="button" class="tablink" onclick="confirmCancel('cancel.php', <?php echo htmlspecialchars($appointment['appointment_id']); ?>)">Cancel Appointment</button>
                                 &nbsp;
                                 <button type="button" class="tablink" onclick="setFormAction('reschedule.php', <?php echo htmlspecialchars($appointment['appointment_id']); ?>)">Reschedule Appointment</button>
-                            </form>
+                                </form>
                         </div>
                         <?php 
                     }

@@ -23,7 +23,7 @@ $stmt2->execute();
 
 // Fetch appointment details for email
 $sql = "SELECT a.appointment_id, d.dentist_name, s.service_type, 
-               sch.available_date, sch.available_time, a.remarks, p.patient_email 
+               sch.available_date, sch.available_time, a.remarks, p.patient_email, p.patient_name
         FROM appointments a
         JOIN schedule sch ON a.schedule_id = sch.schedule_id
         JOIN dentists d ON sch.dentist_id = d.dentist_id
@@ -37,9 +37,9 @@ $stmt->execute();
 $result = $stmt->get_result();
 $appointment = $result->fetch_assoc();
 
-$to = 'f32ee@localhost'; // Change to patient_email
+$to = 'f32ee@localhost'; 
 $subject = "Appointment Cancellation Confirmation";
-$message = "Dear Patient,\n\nYour appointment with Dr. " . $appointment['dentist_name'] . " for " . $appointment['service_type'] . " on " . $appointment['available_date'] . " at " . $appointment['available_time'] . " has been successfully cancelled.\n\nRegards,\nDental Clinic";
+$message = "Dear ". $appointment['patient_name'] .",\n\nYour appointment with " . $appointment['dentist_name'] . " for " . $appointment['service_type'] . " on " . $appointment['available_date'] . " at " . $appointment['available_time'] . " has been successfully cancelled.\n\nRegards,\nBright Smiles Dental";
 $headers = "From: f31ee@localhost\r\n" . // Change to your sender email
         "Reply-To: f31ee@localhost\r\n" .
         "X-Mailer: PHP/" . phpversion();
@@ -47,5 +47,18 @@ $headers = "From: f31ee@localhost\r\n" . // Change to your sender email
 // Send the email
 mail($to, $subject, $message, $headers);
 
+$to = 'f31ee@localhost'; //assume dentist email
+$subject = "Appointment Cancellation Confirmation";
+$message = "Dear ". $appointment['dentist_name'].",\n\n Your appointment with ". $appointment['patient_name']." has been cancelled. Please check the details below.\n\n" .
+           "Appointment ID:". $appointment['appointment_id']."\n" .
+           "Patient:". $appointment['paitent_name']."\n".
+           "Service:". $appointment['service_type']."\n".
+           "Date:". $appointment['available_date']."\n".
+           "Time:". $appointment['available_time']."\n".
+           "Regards, \n\nBright Smiles Dental.";
+$headers = "From: f31ee@localhost\r\n" . // Change to your sender email
+           "Reply-To: f31ee@localhost\r\n" .
+           "X-Mailer: PHP/" . phpversion();
+mail($to, $subject, $message, $headers);
 header("Location: cancel_confirmation.php?appointment_id=" . $appointment_id);
 exit();
