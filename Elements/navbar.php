@@ -15,7 +15,7 @@ $result2 = $conn->query($sql2);
 <nav>
     <a href="../Others/index.html"><img src="../Assets/Minimalist Dental Teeth Medical Clinic Logo (1).png" height="80px" alt="Bright Smiles Dental"></a>
     <ul>
-        <li><a href="../Others/index.html">Home</a></li>
+        <li class = "dropdown"><a class="dropbtn" href="../Others/index.html">Home</a></li>
         <li class = "dropdown">
         <a href="../Dentists/dentists.php" class="dropbtn">Dentists</a>
             <div class="dropdown-content">
@@ -44,9 +44,9 @@ $result2 = $conn->query($sql2);
                 ?>
             </div>
         </li>
-        <li><a href="../Booking Appointment/book_appointment.php">Book Appointment</a></li>
-        <li><a href="../Manage Booking/manage_booking.php">Manage Booking</a></li>
-        <li><a href="../Others/contact.html">Contact</a></li>
+        <li class = "dropdown"><a class="dropbtn" href="../Booking Appointment/book_appointment.php">Book Appointment</a></li>
+        <li class = "dropdown"><a class="dropbtn" href="../Manage Booking/manage_booking.php">Manage Booking</a></li>
+        <li class = "dropdown"><a class="dropbtn" href="../Others/contact.html">Contact</a></li>
     </ul> 
     <?php 
     if (isset($_SESSION['patient_id'])){
