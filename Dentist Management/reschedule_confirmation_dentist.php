@@ -44,10 +44,10 @@ $time = $_GET['time'] ?? 'Unknown Time';
     <div id="footer"></div>
 </div>
 <script>
-    fetch('../Elements/navbar.php')
+    fetch('navbar_dentist.php')
         .then(response => response.text())
         .then(data => document.getElementById('navbar').innerHTML = data);
-    fetch('../Elements/footer.html')
+    fetch('footer_dentist.html')
     .then(response => response.text())
     .then(data => document.getElementById('footer').innerHTML = data);
 </script>
