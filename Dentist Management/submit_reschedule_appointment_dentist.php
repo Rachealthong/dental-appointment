@@ -104,7 +104,7 @@ try {
     // Prepare the confirmation email to patient
     $to = 'f32ee@localhost'; // assume patient email
     $subject = "Appointment Reschedule Confirmation";
-    $message = "Your appointment has been rescheduled by $dentist_name.\n\n" .
+    $message = "Dear $patient_name, \n\nYour appointment has been rescheduled by $dentist_name. Please check the new appointment details below.\n\n" .
                "Patient: $patient_name\n" .
                "Dentist: $dentist_name\n" .
                "Service: $service_type\n" .
@@ -121,7 +121,7 @@ try {
     // Prepare the confirmation email to dentist
     $to = 'f31ee@localhost'; // assume dentist email
     $subject = "Appointment Reschedule Confirmation";
-    $message = "$patient_name's appointment has been rescheduled successfully!\n\n" .
+    $message = "Dear $dentist_name, \n\n$patient_name's appointment has been rescheduled successfully. Please check the new appointment details below.\n\n" .
                "Patient: $patient_name\n" .
                "Dentist: $dentist_name\n" .
                "Service: $service_type\n" .

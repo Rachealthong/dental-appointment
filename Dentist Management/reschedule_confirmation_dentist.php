@@ -29,7 +29,8 @@ $time = $_GET['time'] ?? 'Unknown Time';
     
     <div id="booking_confirmation">
     <h2>Appointment rescheduled successfully!</h2>
-    <p><?php echo htmlspecialchars($patient); ?>'s booking details are rescheduled as follow:</p>
+    <p>Dear <?php echo htmlspecialchars($dentist); ?>, <br><br>
+    <?php echo htmlspecialchars($patient); ?>'s appointment has been rescheduled successfully. Please check the new appointment details below.</p>
     <ul>
         <li><strong>Patient:</strong> <?php echo htmlspecialchars($patient); ?></li>
         <li><strong>Dentist:</strong> <?php echo htmlspecialchars($dentist); ?></li>
