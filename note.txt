@@ -1,3 +1,0 @@
-Add more stuff under book appointment and manage appointment (without patient_login)
-
-Then do a final check and touch up and it should be done!

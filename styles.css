@@ -142,8 +142,10 @@ background-color: #386da1;
 }
 
 #aboutus {
-  display: block;
+  display: flex;
   position: relative;
+  height:500px;
+  overflow: hidden;
 }
 
 #aboutus_text h1 {
@@ -153,7 +155,8 @@ background-color: #386da1;
 #aboutus_text {
   /*background-color: rgba(255, 255, 255, 0.7);*/
   position: absolute;
-  top: 180px;
+  top: 50%;
+  transform: translateY(-50%);
   left: 50px;
   width: 40%;
   padding: 20px 50px 20px 50px;
