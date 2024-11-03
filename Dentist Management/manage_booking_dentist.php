@@ -111,7 +111,9 @@ session_start();
                 </tbody>
             </table>
             <br>
+            <div class="button_centered">
             <button class='button' type="submit">Reschedule</button>
+            </div>
             </form>
         <?php else: ?>
             <p>No appointments found.</p>

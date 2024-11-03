@@ -49,7 +49,7 @@ mail($to, $subject, $message, $headers);
 
 $to = 'f31ee@localhost'; //assume dentist email
 $subject = "Appointment Cancellation Confirmation";
-$message = "Dear ". $appointment['dentist_name'].",\n\n Your appointment with ". $appointment['patient_name']." has been cancelled. Please check the details below.\n\n" .
+$message = "Dear ". $appointment['dentist_name'].",\n\nYour appointment with ". $appointment['patient_name']." has been cancelled. Please check the details below.\n\n" .
            "Appointment ID:". $appointment['appointment_id']."\n" .
            "Patient:". $appointment['paitent_name']."\n".
            "Service:". $appointment['service_type']."\n".

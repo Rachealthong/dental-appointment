@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
             <div class="bottom_centered"><h1>Reschedule an Appointment</h1></div>
         </div>
-        <div class="container">
+        <div id="appointment_form">
         <?php if ($appointment): ?> 
             <form id="reschedule_form" method="post" action="submit_reschedule_appointment_dentist.php">
             <label for="patient">Patient's Name: </label>

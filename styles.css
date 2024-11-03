@@ -431,16 +431,11 @@ footer a {
   width: 100%;
   }
 
-#login button {
-  justify-content: center;
-  padding:5px 15px 5px 15px;
-  margin-right: 20px;
-  border-radius: 2px;
-  border: none;
-  font-family: "Poppins";
-  font-size: 15px;
-  background-color: #CCCCCC;
+#login_form button {
+  display: block;
+  margin-top: 10px; /* Space above the button */
 }
+
 
 #service_image {
   width: 60%;
@@ -771,7 +766,22 @@ th {
 
 }
 
+.button_centered{
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  margin: auto; 
+  text-align: center;
+}
 
+.consent-container {
+  display: flex;
+  align-items: center;
+}
+.consent-container input[type="checkbox"] {
+  margin-right: 10px;
+}
 
 .poppins-thin {
     font-family: "Poppins", sans-serif;

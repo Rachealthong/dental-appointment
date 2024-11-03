@@ -25,9 +25,10 @@ $dentist_id = $_SESSION['dentist_id'];
     <h1 style="text-align: center;">Dentist's Schedule</h1>
     <?php echo "<input type='hidden' id='dentist_id' value='$dentist_id'>"; ?>
     <div id="calendar"></div>
-    <input class='button' type='reset' value='Reset' onclick='window.location.reload();'>
-    <button class = 'button' id="submit-button">Submit Unavailable Slots</button>
-
+    <div class="button_centered">
+    <input class='button' type='reset' value='Reset' onclick='window.location.reload();'> <br>
+    <button class = 'button' id="submit-button">Submit Unavailable Slots</button> <br>
+    </div>
     <div id="footer"></div>
 
     <script>

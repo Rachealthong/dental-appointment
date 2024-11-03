@@ -3,6 +3,7 @@
 session_start();
 
 // Get appointment details from URL parameters
+$appointment_id = $_GET['appointment_id'] ?? 'Unknown Appointment ID';
 $dentist = $_GET['dentist'] ?? 'Unknown Dentist';
 $service = $_GET['service'] ?? 'Unknown Service';
 $date = $_GET['date'] ?? 'Unknown Date';
@@ -30,6 +31,7 @@ $time = $_GET['time'] ?? 'Unknown Time';
     <h2>Appointment rescheduled successfully!</h2>
     <p>Your booking details are rescheduled as follow:</p>
     <ul>
+        <li><strong>Appointment ID:</strong> <?php echo htmlspecialchars($appointment_id); ?></li>
         <li><strong>Dentist:</strong> <?php echo htmlspecialchars($dentist); ?></li>
         <li><strong>Service:</strong> <?php echo htmlspecialchars($service); ?></li>
         <li><strong>Date:</strong> <?php echo htmlspecialchars($date); ?></li>

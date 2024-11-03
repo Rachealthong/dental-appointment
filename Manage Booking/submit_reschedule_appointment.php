@@ -114,6 +114,8 @@ try {
     $insert_stmt->execute();
     $insert_stmt->close();
 
+    $appointment_id = $conn->insert_id;
+
     // Set availability of the new schedule_id to 0
     $update_new_sql = "UPDATE schedule SET availability_status = 0 WHERE schedule_id = ?";
     $new_schedule_stmt = $conn->prepare($update_new_sql);
@@ -136,6 +138,7 @@ try {
     $to = 'f32ee@localhost'; //assume patient email
     $subject = "Appointment Reschedule Confirmation";
     $message = "Dear $patient_name, \n\nYour appointment has been rescheduled successfully!\n\n" .
+               "Appointment ID: $appointment_id\n" .           
                "Dentist: $dentist_name\n" .
                "Service: $service_type\n" .
                "Date: $preferred_date\n" .
@@ -151,7 +154,9 @@ try {
     $to = 'f31ee@localhost'; //assume dentist email
     $subject = "Appointment Reschedule Confirmation";
     $message = "Dear $dentist_name, \n\nYour appointment has been rescheduled by $patient_name. Please check the new appointment details below.\n\n" .
+               "Appointment ID: $appointment_id\n" .               
                "Patient: $patient_name\n".
+               "Dentist: $dentist_name\n" .
                "Service: $service_type\n" .
                "Date: $preferred_date\n" .
                "Time: $preferred_time\n\n" .
@@ -167,7 +172,8 @@ try {
     header("Location: reschedule_confirmation.php?dentist=" . urlencode($dentist_name) . 
            "&service=" . urlencode($service_type) . 
            "&date=" . urlencode($preferred_date) . 
-           "&time=" . urlencode($preferred_time));
+           "&time=" . urlencode($preferred_time) .
+           "&appointment_id=" . urlencode($appointment_id));
     exit();
 } catch (Exception $e) {
     // Rollback the transaction on error

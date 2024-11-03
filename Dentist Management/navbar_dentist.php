@@ -5,8 +5,8 @@ session_start();
 <nav>
     <img src="../Assets/Minimalist Dental Teeth Medical Clinic Logo (1).png" height="80px" alt="Bright Smiles Dental">
     <ul>
-        <li><a href="manage_booking_dentist.php">Manage Booking</a></li>
-        <li><a href="update_availability.php">Update Availability</a></li>
+        <li class="dropdown"><a class="dropbtn" href="manage_booking_dentist.php">Manage Booking</a></li>
+        <li class="dropdown"><a class="dropbtn" href="update_availability.php">Update Availability</a></li>
     </ul> 
     <?php 
     if (isset($_SESSION['dentist_id'])){
