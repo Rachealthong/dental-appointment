@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <div class="container">
         <?php if ($appointment): ?> 
-            <form id="reschedule_form" method="post" action="../Manage Booking/submit_reschedule_appointment.php">
+            <form id="reschedule_form" method="post" action="submit_reschedule_appointment_dentist.php">
             <label for="patient">Patient's Name: </label>
             <input type="text" id="patient" name="patient" value="<?php echo htmlspecialchars($appointment['patient_name']); ?>" readonly>
             <br>
