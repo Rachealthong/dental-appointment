@@ -32,7 +32,8 @@ session_start();
                     sch.available_time, 
                     a.remarks,
                     a.cancelled,
-                    a.rescheduled
+                    a.rescheduled,
+                    a.attendance
                 FROM 
                     appointments a
                 JOIN 
@@ -75,6 +76,7 @@ session_start();
                         <th>Service</th>
                         <th>Remarks</th>
                         <th>Cancelled or Rescheduled</th>
+                        <th id="attendanceHeader" style="display: none;">Attendance</th> <!-- Attendance column header, initially hidden -->
                     </tr>
                     <tr>
                         <th></th>
@@ -84,16 +86,33 @@ session_start();
                         <th><input type="text" class="search-input" placeholder="Search Service"></th>
                         <th><input type="text" class="search-input" placeholder="Search Remarks"></th>
                         <th><input type="text" class="search-input" placeholder="Search Cancelled/Rescheduled"></th>
+                        <th id="attendanceSearchHeader" style="display: none;"><input type="text" class="search-input" placeholder="Search Attendance"></th> <!-- Attendance search input column, initially hidden -->
                     </tr>
                 </thead>
                 <tbody>
                 <?php 
+                    date_default_timezone_set('Asia/Singapore');
                     $current_date = date('Y-m-d');
                     $current_time = date("H:i:s");
+
+
                     while ($row = $result->fetch_assoc()): 
-                        $is_upcoming = $row['available_date'] >= $current_date && $row['available_time'] >= $current_time;
+                        $appointment_date = $row['available_date'];
+                        $appointment_time = $row['available_time'];
+
+                    
+                        // Determine if the appointment is upcoming
+                        if ($appointment_date > $current_date) {
+                            $is_upcoming = true; // Appointment is in a future date
+                        } elseif ($appointment_date == $current_date && $appointment_time > $current_time) {
+                            $is_upcoming = true; // Appointment is today, but still in the future
+                        } else {
+                            $is_upcoming = false; // Appointment is either in the past or earlier today
+                        }
+                    
                         $is_cancelled_or_rescheduled = $row['cancelled'] || $row['rescheduled'];
-                        $is_selectable = $is_upcoming && !$row['cancelled'] && !$row['rescheduled'];
+                        $is_selectable = !$row['cancelled'] && !$row['rescheduled'];
+                    
                 ?>
                 <tr class="<?php echo $is_cancelled_or_rescheduled ? 'cancelled-rescheduled' : ($is_upcoming ? 'upcoming' : 'past'); ?>">
                     <td>
@@ -107,6 +126,15 @@ session_start();
                     <td><?php echo htmlspecialchars($row['service_type']); ?></td>
                     <td><?php echo htmlspecialchars($row['remarks']); ?></td>
                     <td><?php echo $is_cancelled_or_rescheduled ? ($row['cancelled'] ? 'Cancelled' : 'Rescheduled') : ''; ?></td>
+                    <td class="attendanceCell" style="display: none;">
+                        <?php if (!$is_upcoming): ?>
+                            <select name="attendance[<?php echo htmlspecialchars($row['appointment_id']); ?>]">
+                                <option value="" <?php echo (is_null($row['attendance']) ? 'selected' : ''); ?>>Select</option>
+                                <option value="1" <?php echo ($row['attendance'] == 1 ? 'selected' : ''); ?>>Attended</option>
+                                <option value="0" <?php echo ($row['attendance'] === 0 ? 'selected' : ''); ?>>No Show</option>
+                            </select>
+                        <?php endif; ?>
+                    </td>
                 </tr>
                 <?php endwhile; ?>
                 </tbody>
@@ -114,6 +142,10 @@ session_start();
             <br>
             <div class="button_centered">
             <button class='button' type="submit">Reschedule</button>
+            </div>
+             <!-- Update Attendance Button -->
+             <div id="updateAttendanceButton" style="display: none; align-items: center;" class="button_centered">
+                <button class="button" type="submit" formaction="update_attendance.php" formmethod="post">Update Attendance</button>
             </div>
             </form>
         <?php else: ?>
@@ -152,6 +184,7 @@ session_start();
     function openTab(event, filter) {
         const rows = document.querySelectorAll('#appointmentsTable tbody tr');
         const isUpcomingTab = filter === 'upcoming';
+        const isSelectable = filter === 'upcoming' || filter === 'past';
         
         // Show or hide rows based on selected tab
         rows.forEach(row => {
@@ -173,19 +206,37 @@ session_start();
         
         // Toggle visibility of the "Select" column header, search input column, and cells
         if (selectHeader) {
-            selectHeader.style.display = isUpcomingTab ? '' : 'none';
+            selectHeader.style.display = isSelectable ? '' : 'none';
         }
         if (selectSearchHeader) {
-            selectSearchHeader.style.display = isUpcomingTab ? '' : 'none';
+            selectSearchHeader.style.display = isSelectable ? '' : 'none';
         }
         selectCells.forEach(cell => {
-            cell.style.display = isUpcomingTab ? '' : 'none';
+            cell.style.display = isSelectable ? '' : 'none';
         });
 
         // Enable or disable the reschedule button
         const rescheduleButton = document.querySelector('#reschedule_form button[type="submit"]');
         if (rescheduleButton) {
             rescheduleButton.style.display = isUpcomingTab ? '' : 'none';
+        }
+
+        // Show the attendance header and cells only for Past Appointments tab
+        const attendanceHeader = document.getElementById('attendanceHeader');
+        const attendanceCells = document.querySelectorAll('.attendanceCell');
+        const updateAttendanceButton = document.getElementById('updateAttendanceButton');
+        const attendanceSearchHeader = document.getElementById('attendanceSearchHeader');
+
+        if (filter === 'past') {
+            attendanceHeader.style.display = 'table-cell';
+            attendanceSearchHeader.style.display = 'table-cell';
+            attendanceCells.forEach(cell => cell.style.display = 'table-cell');
+            updateAttendanceButton.style.display = 'flex';
+        } else {
+            attendanceHeader.style.display = 'none';
+            attendanceSearchHeader.style.display = 'none';
+            attendanceCells.forEach(cell => cell.style.display = 'none');
+            updateAttendanceButton.style.display = 'none';
         }
 
         // Remove active class from all buttons and set it to the clicked button
