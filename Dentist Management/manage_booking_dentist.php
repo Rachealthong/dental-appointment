@@ -89,8 +89,9 @@ session_start();
                 <tbody>
                 <?php 
                     $current_date = date('Y-m-d');
+                    $current_time = date("H:i:s");
                     while ($row = $result->fetch_assoc()): 
-                        $is_upcoming = $row['available_date'] >= $current_date;
+                        $is_upcoming = $row['available_date'] >= $current_date && $row['available_time'] >= $current_time;
                         $is_cancelled_or_rescheduled = $row['cancelled'] || $row['rescheduled'];
                         $is_selectable = $is_upcoming && !$row['cancelled'] && !$row['rescheduled'];
                 ?>
@@ -147,7 +148,7 @@ session_start();
             });
         });
     });
-    
+
     function openTab(event, filter) {
         const rows = document.querySelectorAll('#appointmentsTable tbody tr');
         const isUpcomingTab = filter === 'upcoming';
