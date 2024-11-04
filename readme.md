@@ -10,7 +10,7 @@
 The path is 'dental-appointment-booking\Others\index.html' <br>
 
 <h3>Dentist Credential</h3>
-Dentist email and passwords are : <br>
+Though we provided dentists their login credentials in 'dental-appointment-booking\Database\dentist_registration.php', we had changed their passwords during the testing phase of dentist profile. Hence the current dentist email and passwords are : <br>
 ('Dr Eunice Seng', 'euniceseng@example.com', '!@#123ABCabc'), <br>
 ('Dr Thong Peiyu', 'thongpeiyu@example.com', '$%^456DEFdef'), <br>
 ('Dr Ali Abu bin Akau', 'aliabu@example.com', 'defaultpassword')";
