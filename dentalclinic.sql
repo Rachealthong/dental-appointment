@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2024 at 02:27 PM
+-- Generation Time: Nov 04, 2024 at 06:27 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -36,32 +36,34 @@ CREATE TABLE `appointments` (
   `service_id` int(11) DEFAULT NULL,
   `remarks` text DEFAULT NULL,
   `cancelled` tinyint(1) DEFAULT NULL,
-  `rescheduled` tinyint(1) DEFAULT NULL
+  `rescheduled` tinyint(1) DEFAULT NULL,
+  `attendance` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`appointment_id`, `date_created`, `patient_id`, `dentist_id`, `schedule_id`, `service_id`, `remarks`, `cancelled`, `rescheduled`) VALUES
-(1, '2024-10-29 11:15:05', 1, 1, 337, 1, 'abcabc', 1, 0),
-(2, '2024-10-29 13:56:54', 2, 1, 2, 4, '', 1, 0),
-(3, '2024-10-29 14:24:32', 2, 1, 429, 2, '', 0, 1),
-(4, '2024-10-29 14:24:57', 2, 1, 189, 2, '', 0, 0),
-(5, '2024-11-03 08:22:36', 2, 2, 354, 3, 'test test', 0, 1),
-(6, '2024-11-03 08:24:03', 2, 2, 434, 3, '', 1, 0),
-(7, '2024-11-03 08:47:45', 3, 2, 273, 6, 'test', 0, 1),
-(8, '2024-11-03 09:08:08', 3, 2, 274, 6, 'test', 0, 1),
-(9, '2024-11-03 09:11:44', 3, 2, 275, 6, 'test', 0, 1),
-(10, '2024-11-03 09:53:11', 3, 2, 276, 6, 'test', 0, 1),
-(11, '2024-11-03 10:00:58', 3, 2, 539, 6, 'test', 0, 0),
-(12, '2024-11-03 10:31:52', 2, 1, 86, 2, 'my teeth needs braces', 0, 1),
-(13, '2024-11-03 10:38:47', 2, 1, 326, 3, '', 1, 0),
-(14, '2024-11-03 10:42:31', 2, 1, 99, 2, '', 0, 1),
-(15, '2024-11-03 10:50:55', 2, 1, 568, 5, '', 0, 1),
-(16, '2024-11-03 10:54:50', 2, 1, 594, 5, '', 0, 1),
-(17, '2024-11-03 10:57:31', 2, 1, 488, 5, '', 0, 0),
-(18, '2024-11-03 12:19:22', 2, 1, 500, 2, '', 0, 0);
+INSERT INTO `appointments` (`appointment_id`, `date_created`, `patient_id`, `dentist_id`, `schedule_id`, `service_id`, `remarks`, `cancelled`, `rescheduled`, `attendance`) VALUES
+(1, '2024-10-29 11:15:05', 1, 1, 337, 1, 'abcabc', 1, 0, NULL),
+(2, '2024-10-29 13:56:54', 2, 1, 2, 4, '', 1, 0, NULL),
+(3, '2024-10-29 14:24:32', 2, 1, 429, 2, '', 0, 1, NULL),
+(4, '2024-10-29 14:24:57', 2, 1, 189, 2, '', 0, 0, 0),
+(5, '2024-11-03 08:22:36', 2, 2, 354, 3, 'test test', 0, 1, NULL),
+(6, '2024-11-03 08:24:03', 2, 2, 434, 3, '', 1, 0, NULL),
+(7, '2024-11-03 08:47:45', 3, 2, 273, 6, 'test', 0, 1, NULL),
+(8, '2024-11-03 09:08:08', 3, 2, 274, 6, 'test', 0, 1, NULL),
+(9, '2024-11-03 09:11:44', 3, 2, 275, 6, 'test', 0, 1, NULL),
+(10, '2024-11-03 09:53:11', 3, 2, 276, 6, 'test', 0, 1, NULL),
+(11, '2024-11-03 10:00:58', 3, 2, 539, 6, 'test', 0, 0, NULL),
+(12, '2024-11-03 10:31:52', 2, 1, 86, 2, 'my teeth needs braces', 0, 1, NULL),
+(13, '2024-11-03 10:38:47', 2, 1, 326, 3, '', 1, 0, NULL),
+(14, '2024-11-03 10:42:31', 2, 1, 99, 2, '', 0, 1, NULL),
+(15, '2024-11-03 10:50:55', 2, 1, 568, 5, '', 0, 1, NULL),
+(16, '2024-11-03 10:54:50', 2, 1, 594, 5, '', 0, 1, NULL),
+(17, '2024-11-03 10:57:31', 2, 1, 488, 5, '', 1, 0, NULL),
+(18, '2024-11-03 12:19:22', 2, 1, 500, 2, '', 0, 0, NULL),
+(19, '2024-11-04 02:02:37', 2, 2, 453, 1, '', 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -83,7 +85,7 @@ CREATE TABLE `dentists` (
 --
 
 INSERT INTO `dentists` (`dentist_id`, `dentist_name`, `dentist_email`, `dentist_password`, `dentist_description`, `dentist_image`) VALUES
-(1, 'Dr Eunice Seng', 'euniceseng@example.com', 'a87f7090e2f1407b9a7c250ba5636e7b', '<h3>Dental Specialist in Orthodontics</h3>\r\n<h3>BDS (Singapore), MDS (Orthodontics) (Singapore), M Orth RCS (Edinburgh, UK)</h3>\r\nDr Eunice Seng is a Specialist Orthodontist registered with the Singapore Dental Council. She graduated from the National University of Singapore with a record number of 13 academic awards conferred to a graduate, winning prestigious awards like the Most Distinguished Graduate in Dentistry, the Best Clinical Student award, and the University Silver Medal for emerging First in Examination. She was also placed on the Dean’s List every year.\r\n<br><br>\r\nHer interest in braces (orthodontics) led her to pursue a full-time postgraduate program, and she graduated with a Master of Dental Surgery (Orthodontics) degree and a Membership in Orthodontics from the Royal College of Surgeons of Edinburgh. She is also a member of the Association of Orthodontists Singapore. Her research interests in orthodontic (braces) cephalometry were presented at numerous international conferences.', 'dr_eunice_seng.png'),
+(1, 'Dr Eunice Sengggg', 'euniceseng@example.com', 'a87f7090e2f1407b9a7c250ba5636e7b', '<h3>Dental Specialist in Orthodontics</h3>\r\n<h3>BDS (Singapore), MDS (Orthodontics) (Singapore), M Orth RCS (Edinburgh, UK)</h3>\r\nDr Eunice Seng is a Specialist Orthodontist registered with the Singapore Dental Council. She graduated from the National University of Singapore with a record number of 13 academic awards conferred to a graduate, winning prestigious awards like the Most Distinguished Graduate in Dentistry, the Best Clinical Student award, and the University Silver Medal for emerging First in Examination. She was also placed on the Dean’s List every year.\r\n<br><br>\r\nHer interest in braces (orthodontics) led her to pursue a full-time postgraduate program, and she graduated with a Master of Dental Surgery (Orthodontics) degree and a Membership in Orthodontics from the Royal College of Surgeons of Edinburgh. She is also a member of the Association of Orthodontists Singapore. Her research interests in orthodontic (braces) cephalometry were presented at numerous international conferences.', 'dr_eunice_seng.png'),
 (2, 'Dr Thong Peiyu', 'thongpeiyu@example.com', '55aeab4679f014562faf8a007fe93306', ' <h3>Dental Specialist in Prosthodontics</h3> <h3>BDS (Singapore)</h3> <h3>MDS (Prosthodontics) (Singapore)</h3> Dr Thong Peiyu graduated with her Bachelor in Dental Surgery degree from the National University of Singapore. She was placed on the Dean’s list and awarded a number of prestigious medals, including the FAC Oehlers Medal, Terrell Silver Medal and the Q&M Dental Surgery Medal for Operative Dentistry. <br><br> Her interest and flair in Prosthodontics led her to pursue her Masters in Dental Surgery (Prosthodontics) at the National University of Singapore. She spent three years in postgraduate training before being accredited as a Specialist in Prosthodontics registered with the Singapore Dental Council. Through the conjoint examination, she also obtained her Membership in Prosthodontics from the Royal College of Surgeons, Edinburgh. She is also a Fellow of the Academy of Medicine, Singapore. <br><br> ', 'dr_thongpeiyu.png'),
 (3, 'Dr Ali Abu bin Akau', 'aliabu@example.com', '4a094e453e6ee6a8253def63db4d1509', '\r\n<h3>Dental Specialist in Periodontics</h3>\r\n<h3>BDS (Singapore), MDS (Periodontology) (Singapore), MRD RCS (Edinburgh, UK)</h3>\r\nDr Ali Abu bin Akau graduated with a Bachelor of Dental Surgery degree from the National University of Singapore. He also received specialist training in periodontology and graduated with a Master of Dental Surgery degree. In the same year, he obtained his fellowship in periodontology from the Royal College of Surgeons of Edinburgh (United Kingdom).\r\n<br><br>\r\nDr Ali is an accredited specialist in periodontology registered with the Singapore Dental Council. He is a visiting specialist at the Singapore Armed Forces and the National University Hospital. He also teaches the undergraduate and postgraduate students in the National University of Singapore. Besides teaching in the university, Dr Ali also shares his knowledge and skills in organizations like International Dental Academy (IDA) and Singapore Academy of Oral Rehabilitation and Implantology (SAORI). And he speaks frequently in local and overseas conferences.\r\n', 'dr_aliabubinakau.png');
 
@@ -140,7 +142,7 @@ INSERT INTO `schedule` (`schedule_id`, `dentist_id`, `available_date`, `availabl
 (5, 1, '2024-11-04', '09:00:00', 1),
 (6, 1, '2024-11-05', '09:00:00', 1),
 (7, 1, '2024-11-06', '09:00:00', 1),
-(8, 1, '2024-11-07', '09:00:00', 1),
+(8, 1, '2024-11-07', '09:00:00', 0),
 (9, 1, '2024-11-08', '09:00:00', 0),
 (10, 1, '2024-11-11', '09:00:00', 1),
 (11, 1, '2024-11-12', '09:00:00', 1),
@@ -153,7 +155,7 @@ INSERT INTO `schedule` (`schedule_id`, `dentist_id`, `available_date`, `availabl
 (18, 1, '2024-11-04', '09:30:00', 1),
 (19, 1, '2024-11-05', '09:30:00', 1),
 (20, 1, '2024-11-06', '09:30:00', 1),
-(21, 1, '2024-11-07', '09:30:00', 1),
+(21, 1, '2024-11-07', '09:30:00', 0),
 (22, 1, '2024-11-08', '09:30:00', 0),
 (23, 1, '2024-11-11', '09:30:00', 1),
 (24, 1, '2024-11-12', '09:30:00', 1),
@@ -461,7 +463,7 @@ INSERT INTO `schedule` (`schedule_id`, `dentist_id`, `available_date`, `availabl
 (326, 1, '2024-11-05', '13:00:00', 1),
 (327, 1, '2024-11-06', '13:00:00', 1),
 (328, 1, '2024-11-07', '13:00:00', 1),
-(329, 1, '2024-11-08', '13:00:00', 1),
+(329, 1, '2024-11-08', '13:00:00', 0),
 (330, 1, '2024-11-11', '13:00:00', 1),
 (331, 1, '2024-11-12', '13:00:00', 1),
 (332, 1, '2024-11-13', '13:00:00', 1),
@@ -585,7 +587,7 @@ INSERT INTO `schedule` (`schedule_id`, `dentist_id`, `available_date`, `availabl
 (450, 2, '2024-11-11', '14:30:00', 1),
 (451, 2, '2024-11-12', '14:30:00', 1),
 (452, 2, '2024-11-13', '14:30:00', 1),
-(453, 2, '2024-11-14', '14:30:00', 1),
+(453, 2, '2024-11-14', '14:30:00', 0),
 (454, 2, '2024-10-29', '15:00:00', 1),
 (455, 2, '2024-10-30', '15:00:00', 1),
 (456, 2, '2024-10-31', '15:00:00', 1),
@@ -620,7 +622,7 @@ INSERT INTO `schedule` (`schedule_id`, `dentist_id`, `available_date`, `availabl
 (485, 3, '2024-11-04', '15:00:00', 1),
 (486, 3, '2024-11-05', '15:00:00', 1),
 (487, 1, '2024-11-06', '15:00:00', 1),
-(488, 1, '2024-11-07', '15:00:00', 0),
+(488, 1, '2024-11-07', '15:00:00', 1),
 (489, 1, '2024-11-08', '15:00:00', 1),
 (490, 1, '2024-11-11', '15:00:00', 1),
 (491, 1, '2024-11-12', '15:00:00', 1),
@@ -3665,7 +3667,7 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `dentists`
