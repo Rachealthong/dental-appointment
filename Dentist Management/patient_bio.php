@@ -45,7 +45,7 @@ include '../dbconnect.php';
     <div class="container">
     <?php
     $sql = "SELECT a.appointment_id, d.dentist_name, s.service_type, 
-            sch.available_date, sch.available_time, a.remarks, a.cancelled, a.rescheduled
+            sch.available_date, sch.available_time, a.remarks, a.cancelled, a.rescheduled, a.attendance
             FROM appointments a
             JOIN schedule sch ON a.schedule_id = sch.schedule_id
             JOIN dentists d ON sch.dentist_id = d.dentist_id
@@ -73,6 +73,7 @@ include '../dbconnect.php';
                 <th>Remarks</th>
                 <th>Cancelled</th>
                 <th>Rescheduled</th>
+                <th>Attendance</th>
             </tr>
         </thead>
         <tbody>
@@ -87,6 +88,17 @@ include '../dbconnect.php';
                     <td><?php echo htmlspecialchars($row['remarks']); ?></td>
                     <td><?php echo $row['cancelled'] ? 'Yes' : 'No'; ?></td>
                     <td><?php echo $row['rescheduled'] ? 'Yes' : 'No'; ?></td>
+                    <td>
+                        <?php 
+                            if (is_null($row['attendance'])) {
+                                echo 'Pending';
+                            } elseif ($row['attendance'] == 1) {
+                                echo 'Yes';
+                            } else {
+                                echo 'No';
+                            }
+                        ?>
+                    </td>
                 </tr>
             <?php endwhile; ?>
         </tbody>
