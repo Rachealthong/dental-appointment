@@ -147,28 +147,48 @@ session_start();
             });
         });
     });
-
+    
     function openTab(event, filter) {
         const rows = document.querySelectorAll('#appointmentsTable tbody tr');
-
+        const isUpcomingTab = filter === 'upcoming';
+        
+        // Show or hide rows based on selected tab
         rows.forEach(row => {
-            if (filter === 'upcoming' && row.classList.contains('upcoming')) {
+            if (isUpcomingTab && row.classList.contains('upcoming')) {
                 row.style.display = '';
-            } else if (filter === 'past' && row.classList.contains('past')) {
+            } else if (!isUpcomingTab && filter === 'past' && row.classList.contains('past')) {
                 row.style.display = '';
-            } else if (filter === 'cancelled' && row.classList.contains('cancelled-rescheduled')) {
+            } else if (!isUpcomingTab && filter === 'cancelled' && row.classList.contains('cancelled-rescheduled')) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
             }
         });
 
-        // Remove active class from all buttons
-        document.querySelectorAll('.tablink').forEach(tab => {
-            tab.classList.remove('active');
+        // Show or hide the "Select" column in header, search row, and body based on the "Upcoming" tab
+        const selectHeader = document.querySelector('#appointmentsTable thead tr:nth-child(1) th:nth-child(1)');
+        const selectSearchHeader = document.querySelector('#appointmentsTable thead tr:nth-child(2) th:nth-child(1)');
+        const selectCells = document.querySelectorAll('#appointmentsTable tbody td:nth-child(1)');
+        
+        // Toggle visibility of the "Select" column header, search input column, and cells
+        if (selectHeader) {
+            selectHeader.style.display = isUpcomingTab ? '' : 'none';
+        }
+        if (selectSearchHeader) {
+            selectSearchHeader.style.display = isUpcomingTab ? '' : 'none';
+        }
+        selectCells.forEach(cell => {
+            cell.style.display = isUpcomingTab ? '' : 'none';
         });
 
-        // Add active class to the clicked button
+        // Enable or disable the reschedule button
+        const rescheduleButton = document.querySelector('#reschedule_form button[type="submit"]');
+        if (rescheduleButton) {
+            rescheduleButton.style.display = isUpcomingTab ? '' : 'none';
+        }
+
+        // Remove active class from all buttons and set it to the clicked button
+        document.querySelectorAll('.tablink').forEach(tab => tab.classList.remove('active'));
         event.currentTarget.classList.add('active');
     }
 
@@ -176,6 +196,7 @@ session_start();
     document.addEventListener('DOMContentLoaded', function() {
         openTab({ currentTarget: document.querySelector('.tablink.active') }, 'upcoming');
     });
+
 </script>
 </body>
 </html>
