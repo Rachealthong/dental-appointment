@@ -25,7 +25,7 @@ $is_logged_in = isset($_SESSION['patient_id']);
     <main>
         <?php if ($is_logged_in): ?>
             <div id="aboutus">
-                <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
+                <img id="aboutus_img" class="img_filter" src="../Assets/booking.png">
                 <div class="bottom_centered"><h1>Request an Appointment</h1></div>
             </div> 
             <div id="appointment_form">
@@ -82,7 +82,7 @@ $is_logged_in = isset($_SESSION['patient_id']);
             </div>
         <?php else: ?>
             <div id="aboutus">
-                <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
+                <img id="aboutus_img" class="img_filter" src="../Assets/booking.png">
                 <div class="bottom_centered"><h1>Request an Appointment</h1></div>
             </div>
             <div class="plslogin">

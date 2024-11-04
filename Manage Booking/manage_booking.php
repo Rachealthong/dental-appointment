@@ -78,7 +78,7 @@ $result_cancel = $stmt_cancel->get_result();
     <main>
         <?php if ($is_logged_in): ?>
             <div id="aboutus">
-                <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
+                <img id="aboutus_img" class="img_filter" src="../Assets/booking.png">
                 <div class="bottom_centered"><h1>Manage Booking</h1></div>
             </div>
             <div id="tabs">
@@ -185,7 +185,7 @@ $result_cancel = $stmt_cancel->get_result();
            
         <?php else: ?>
             <div id="aboutus">
-                <img id="aboutus_img" class="img_filter" src="../Assets/requestappointment.webp">
+                <img id="aboutus_img" class="img_filter" src="../Assets/booking.png">
                 <div class="bottom_centered"><h1>Manage Booking</h1></div>
             </div>
             <div class="plslogin">
