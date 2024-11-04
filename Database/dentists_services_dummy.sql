@@ -12,7 +12,8 @@ Her interest in braces (orthodontics) led her to pursue a full-time postgraduate
 "
 WHERE dentist_id = 1;
 
-UPDATE dentists SET dentist_description = " <h3>Dental Specialist in Prosthodontics</h3> <h3>BDS (Singapore)</h3> <h3>MDS (Prosthodontics) (Singapore)</h3> Dr Thong Peiyu graduated with her Bachelor in Dental Surgery degree from the National University of Singapore. She was placed on the Dean’s list and awarded a number of prestigious medals, including the FAC Oehlers Medal, Terrell Silver Medal and the Q&M Dental Surgery Medal for Operative Dentistry. <br><br> Her interest and flair in Prosthodontics led her to pursue her Masters in Dental Surgery (Prosthodontics) at the National University of Singapore. She spent three years in postgraduate training before being accredited as a Specialist in Prosthodontics registered with the Singapore Dental Council. Through the conjoint examination, she also obtained her Membership in Prosthodontics from the Royal College of Surgeons, Edinburgh. She is also a Fellow of the Academy of Medicine, Singapore. <br><br> " WHERE dentist_id = 2;
+UPDATE dentists SET dentist_description = " <h3>Dental Specialist in Prosthodontics</h3> <h3>BDS (Singapore)</h3> <h3>MDS (Prosthodontics) (Singapore)</h3> Dr Thong Peiyu graduated with her Bachelor in Dental Surgery degree from the National University of Singapore. She was placed on the Dean’s list and awarded a number of prestigious medals, including the FAC Oehlers Medal, Terrell Silver Medal and the Q&M Dental Surgery Medal for Operative Dentistry. <br><br> Her interest and flair in Prosthodontics led her to pursue her Masters in Dental Surgery (Prosthodontics) at the National University of Singapore. She spent three years in postgraduate training before being accredited as a Specialist in Prosthodontics registered with the Singapore Dental Council. Through the conjoint examination, she also obtained her Membership in Prosthodontics from the Royal College of Surgeons, Edinburgh. She is also a Fellow of the Academy of Medicine, Singapore. <br><br> " 
+WHERE dentist_id = 2;
 
 update dentists
 set dentist_description = "
@@ -41,12 +42,14 @@ VALUES
 ('Dental Braces'),
 ('Scaling and Polishing');
 
+--INSERT MORE SERVICES
 INSERT INTO services (service_type, service_description, service_image) VALUES
 ('Dental Restoration', 'A procedure that restores the function and appearance of damaged teeth, including fillings, crowns, and bridges.', 'temp.png'),
 ('Root Canal/Endodontic Treatment', 'A dental procedure to treat infection at the center of a tooth, often preserving the natural tooth structure.', 'temp.png'),
 ('Bruxism and Grinding', 'Treatment options for teeth grinding and jaw clenching, which can lead to tooth wear and jaw pain.', 'temp.png'),
 ('Dental Implants and Oral Surgery', 'Surgical procedures to replace missing teeth with artificial implants and manage oral health issues.', 'temp.png');
 
+--Serrvice image
 UPDATE services
 SET service_image = CASE service_id
     WHEN 1 THEN 'general_dentistry.png'
@@ -62,6 +65,8 @@ UPDATE services
 SET service_type = 'Root Canal Treatment'
 WHERE service_id = 5;
 
+
+--Service Description
 UPDATE `services` SET `service_description` = 'Our general dentistry services include fillings, tooth extraction and custom-fitted mouth guards.\r\n\r\n<h3>Fillings</h3>\r\nFillings can help to replace tooth structure that has been lost to decay or damage. For example, if a small piece of your tooth is chipped, fillings can repair and restore it to a normal function and appearance and stop further decay by providing a barrier against bacteria.\r\n\r\n<h3>Extraction</h3>\r\nIf your teeth are affected by advanced gum disease, deep cracks, or are deeply decayed, it is likely that other treatments cannot preserve your teeth, and we may recommend having them extracted instead.\r\n\r\n' WHERE `services`.`service_id` = 1;
 UPDATE services SET service_description = "Braces are an effective orthodontic solution with metal brackets, wires, and modules. In addition to improving oral health, they also function as a cosmetic dentistry procedure by correcting issues such as crooked teeth and improving oral health. <h3>Fees</h3> Braces treatment begins at $4,033, varying with your case’s complexity. A fee of $239.80 (includes GST) will be charged for the initial consultation package where we will collect diagnostic records for an in-depth assessment of your teeth condition. <br><br> The consultation package includes: <ul> <li>Consultations</li> <li>Diagnostics records (4 X-rays, iTero scans, study models, and photos)</li> </ul> Bright Smile Dental provides 4 types of retainers – Vivera, Hawley, clear, and permanent retainers, with our dentists recommending the best type for you." WHERE service_id = 2;
 UPDATE services 
