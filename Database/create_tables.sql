@@ -64,3 +64,6 @@ CREATE TABLE Appointments (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+ALTER TABLE appointments ADD COLUMN attendance TINYINT(1) DEFAULT NULL;
+
