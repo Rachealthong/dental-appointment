@@ -50,6 +50,7 @@ CREATE TABLE Appointments (
     remarks TEXT, 
     cancelled BOOLEAN,
     rescheduled BOOLEAN,
+    attendance tinyint(1) DEFAULT NULL,
     FOREIGN KEY (patient_id) REFERENCES Patients(patient_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
