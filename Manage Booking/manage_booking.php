@@ -46,7 +46,7 @@ $sql_cancel = "SELECT a.appointment_id, d.dentist_name, s.service_type, s.servic
               JOIN schedule sch ON a.schedule_id = sch.schedule_id
               JOIN dentists d ON sch.dentist_id = d.dentist_id
               JOIN services s ON a.service_id = s.service_id
-              WHERE a.patient_id = ? AND a.cancelled = 1 OR a.rescheduled = 1
+              WHERE a.patient_id = ? AND (a.cancelled = 1 OR a.rescheduled = 1)
               ORDER BY sch.available_date DESC, sch.available_time DESC";  // Order by date and time
 
 // Prepare and execute the statement for past appointments
