@@ -51,11 +51,11 @@ $to = 'f31ee@localhost'; //assume dentist email
 $subject = "Appointment Cancellation Confirmation";
 $message = "Dear ". $appointment['dentist_name'].",\n\nYour appointment with ". $appointment['patient_name']." has been cancelled. Please check the details below.\n\n" .
            "Appointment ID:". $appointment['appointment_id']."\n" .
-           "Patient:". $appointment['paitent_name']."\n".
+           "Patient:". $appointment['patient_name']."\n".
            "Service:". $appointment['service_type']."\n".
            "Date:". $appointment['available_date']."\n".
            "Time:". $appointment['available_time']."\n".
-           "Regards, \n\nBright Smiles Dental.";
+           "\n\nRegards, \nBright Smiles Dental.";
 $headers = "From: f31ee@localhost\r\n" . // Change to your sender email
            "Reply-To: f31ee@localhost\r\n" .
            "X-Mailer: PHP/" . phpversion();
